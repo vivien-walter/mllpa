@@ -6,7 +6,7 @@ Machine Learning-assisted Lipid Phase Analysis
 
 Version : alpha
 
-Date : 22/12/2018
+Date : 20/07/2020
 
 Author : Vivien WALTER (walter.vivien@gmail.com)
 
