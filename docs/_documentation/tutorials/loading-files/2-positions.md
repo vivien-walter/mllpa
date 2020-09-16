@@ -1,6 +1,7 @@
 ---
 title: "Load from position array"
-section: "loading-simulation"
+section: "tutorials/loading-files"
+path: ""
 category:
   - tutorial
 tags:

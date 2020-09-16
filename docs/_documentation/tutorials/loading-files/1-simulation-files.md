@@ -1,6 +1,7 @@
 ---
 title: "Load from simulation files"
-section: "loading-simulation"
+section: "tutorials/loading-files"
+path: ""
 category:
   - tutorial
 tags:

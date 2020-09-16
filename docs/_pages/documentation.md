@@ -16,9 +16,9 @@ The tutorials have been organised in **different chapters** covering the main us
 
 ### Loading simulation
 
-{% assign tutorials = site.documentation | where:"section", "loading-simulation" %}
+{% assign tutorials = site.documentation | where:"section", "tutorials/loading-files" %}
 {% for item in tutorials %}
-  1. [{{ item.title }}]({{ item.url }})
+  1. [{{ item.title }}]({{ site.baseurl }}/{{ item.collection }}/{{ item.section }}/{{ item.slug }})
 {% endfor %}
 
 ### The System class
