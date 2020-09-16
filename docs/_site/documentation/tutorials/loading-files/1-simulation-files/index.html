@@ -23,7 +23,7 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:site_name" content="ML-LPA">
 <meta property="og:title" content="Load from simulation files">
-<meta property="og:url" content="http://localhost:4000/documentation/tutorials/loading-files/1-simulation-files/">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/loading-files/1-simulation-files/">
 
 
   <meta property="og:description" content="In order to analyse a simulation with ML-LPA, the simulation files should first be loaded into ML-LPA. We describe in this tutorial how to load the files.  Load the files  Single frame  This is done using the openSystem() function. To load a single frame (no trajectory), one can use directly the command below in a Python script.  import mllpa  loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)   In this example, the coordinates and structure files are respectively called test.gro and test.tpr. The molecule loaded is DPPC. See section Advanced information below for more details  All the relevant information on the DPPC molecules found in the simulation files have been extracted and stored in the variable loaded_system as an instance of the System class. More information on the System class are given in the related tutorial and in the API.  Full trajectory  To load a trajectory file as well, use the corresponding trajectory_file= keyword-arguments:  import mllpa  loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;, trajectory_file=&quot;test.xtc&quot;)   In this example, the trajectory file is called test.xtc  You can find the description of all the keyword-arguments in the API.  Advanced information  Type(s) of file  ML-LPA relies on the scientific library MDAnalysis to open the simulation files. As a consequence, ML-LPA shares the same file format support as MDAnalysis. The complete list of file formats currently supported by MDAnalysis can be found in this link.  Loading a simulation in ML-LPA requires at least two files: a coordinates file and a structure file. To load and analyse multiple frames, a trajectory file can also be loaded, but it is not required.          Coordinates file: file containing the positions of the particles (e.g. atoms) of the system.           Structure file: file containing the structure and topology, typically the bonds between atoms, of the molecules of the system.           Trajectory file: file containing the positions of the particles (e.g. atoms) of the system over time.      We provide below a list of some file formats for each of the file types required, with the associated MD software used to generate the files.                 Software       Coordinates       Structure       Trajectory                       GROMACS       .gro, .pdb       .tpr       .trr, .xtc           We only include in this table the file format that have been tested so far. Since we have not tested all the file format supported by MDAnalysis, this section will be completed over time.  Molecule type selection  Because of the calculation constraints in ML-LPA, mostly on the number of atom per molecules, only one type of molecule can be extracted from the simulation files and loaded at the time.  The name of the molecule type should match exactly the name defined in the simulation. If you are unsure about the exact name of the molecule type you want to extract, you can use the function getTypes() of ML-LPA to extract the list of molecule type names found in the files. This function only takes the coordinates file as an input.  import mllpa  molecule_types_list = mllpa.getTypes(&#39;test.gro&#39;)   The list is saved here in the variable molecule_types_list and can simply be displayed with the command print(molecule_types_list).  What is next?          Now that you know how to load a system, you can either use it prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the sytem.           If you want to know more about the System class, you either read the tutorials on it, or go   to its API.           If you need to directly load the positions from an array, you can have a read at the corresponding tutorial.      Check the API  The following elements have been used in this tutorial:          openSystem           getTypes">
@@ -35,7 +35,7 @@
   <meta name="twitter:site" content="@vwalter_rnk">
   <meta name="twitter:title" content="Load from simulation files">
   <meta name="twitter:description" content="In order to analyse a simulation with ML-LPA, the simulation files should first be loaded into ML-LPA. We describe in this tutorial how to load the files.  Load the files  Single frame  This is done using the openSystem() function. To load a single frame (no trajectory), one can use directly the command below in a Python script.  import mllpa  loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)   In this example, the coordinates and structure files are respectively called test.gro and test.tpr. The molecule loaded is DPPC. See section Advanced information below for more details  All the relevant information on the DPPC molecules found in the simulation files have been extracted and stored in the variable loaded_system as an instance of the System class. More information on the System class are given in the related tutorial and in the API.  Full trajectory  To load a trajectory file as well, use the corresponding trajectory_file= keyword-arguments:  import mllpa  loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;, trajectory_file=&quot;test.xtc&quot;)   In this example, the trajectory file is called test.xtc  You can find the description of all the keyword-arguments in the API.  Advanced information  Type(s) of file  ML-LPA relies on the scientific library MDAnalysis to open the simulation files. As a consequence, ML-LPA shares the same file format support as MDAnalysis. The complete list of file formats currently supported by MDAnalysis can be found in this link.  Loading a simulation in ML-LPA requires at least two files: a coordinates file and a structure file. To load and analyse multiple frames, a trajectory file can also be loaded, but it is not required.          Coordinates file: file containing the positions of the particles (e.g. atoms) of the system.           Structure file: file containing the structure and topology, typically the bonds between atoms, of the molecules of the system.           Trajectory file: file containing the positions of the particles (e.g. atoms) of the system over time.      We provide below a list of some file formats for each of the file types required, with the associated MD software used to generate the files.                 Software       Coordinates       Structure       Trajectory                       GROMACS       .gro, .pdb       .tpr       .trr, .xtc           We only include in this table the file format that have been tested so far. Since we have not tested all the file format supported by MDAnalysis, this section will be completed over time.  Molecule type selection  Because of the calculation constraints in ML-LPA, mostly on the number of atom per molecules, only one type of molecule can be extracted from the simulation files and loaded at the time.  The name of the molecule type should match exactly the name defined in the simulation. If you are unsure about the exact name of the molecule type you want to extract, you can use the function getTypes() of ML-LPA to extract the list of molecule type names found in the files. This function only takes the coordinates file as an input.  import mllpa  molecule_types_list = mllpa.getTypes(&#39;test.gro&#39;)   The list is saved here in the variable molecule_types_list and can simply be displayed with the command print(molecule_types_list).  What is next?          Now that you know how to load a system, you can either use it prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the sytem.           If you want to know more about the System class, you either read the tutorials on it, or go   to its API.           If you need to directly load the positions from an array, you can have a read at the corresponding tutorial.      Check the API  The following elements have been used in this tutorial:          openSystem           getTypes">
-  <meta name="twitter:url" content="http://localhost:4000/documentation/tutorials/loading-files/1-simulation-files/">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/loading-files/1-simulation-files/">
 
   
     <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
 
 
 
-  <meta property="article:published_time" content="2020-09-16T18:06:50+01:00">
+  <meta property="article:published_time" content="2020-09-16T18:12:59+01:00">
 
 
 
@@ -57,7 +57,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/documentation/tutorials/loading-files/1-simulation-files/">
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/tutorials/loading-files/1-simulation-files/">
 
 
 
@@ -68,7 +68,7 @@
     
       "@type": "Person",
       "name": "ML-LPA",
-      "url": "http://localhost:4000/"
+      "url": "http://localhost:4000/mllpa/"
     
   }
 </script>
@@ -81,7 +81,7 @@
 <!-- end _includes/seo.html -->
 
 
-<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -91,7 +91,7 @@
 </script>
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
 
 <!--[if IE]>
@@ -145,20 +145,20 @@
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
         
-          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt=""></a>
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
         
-        <a class="site-title" href="/">
+        <a class="site-title" href="/mllpa/">
           ML-LPA
           <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/install/">Installation</a>
+              <a href="/mllpa/install/">Installation</a>
             </li><li class="masthead__menu-item">
-              <a href="/documentation/">Documentation</a>
+              <a href="/mllpa/documentation/">Documentation</a>
             </li><li class="masthead__menu-item">
-              <a href="/results/">Results</a>
+              <a href="/mllpa/results/">Results</a>
             </li><li class="masthead__menu-item">
-              <a href="/about-mllpa/">About ML-LPA</a>
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
             </li></ul>
         
         <button class="greedy-nav__toggle hidden" type="button">
@@ -205,9 +205,9 @@
         
         <ul>
           
-            <li><a href="/documentation/tutorials/loading-files/1-simulation-files/" class="active">Load from simulation files</a></li>
+            <li><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/" class="active">Load from simulation files</a></li>
           
-            <li><a href="/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
+            <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
           
         </ul>
         
@@ -427,11 +427,11 @@ with the command <code class="language-plaintext highlighter-rouge">print(molecu
     
       
       
-      <a href="/tags/#file-access" class="page__taxonomy-item" rel="tag">file access</a><span class="sep">, </span>
+      <a href="/mllpa/tags/#file-access" class="page__taxonomy-item" rel="tag">file access</a><span class="sep">, </span>
     
       
       
-      <a href="/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
+      <a href="/mllpa/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
     
     </span>
   </p>
@@ -452,7 +452,7 @@ with the command <code class="language-plaintext highlighter-rouge">print(molecu
     
       
       
-      <a href="/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+      <a href="/mllpa/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
     
     </span>
   </p>
@@ -470,7 +470,7 @@ with the command <code class="language-plaintext highlighter-rouge">print(molecu
       <a href="#" class="pagination--pager disabled">Previous</a>
     
     
-      <a href="/documentation/tutorials/loading-files/2-positions/" class="pagination--pager" title="Load from position array
+      <a href="/mllpa/documentation/tutorials/loading-files/2-positions/" class="pagination--pager" title="Load from position array
 ">Next</a>
     
   </nav>
@@ -516,7 +516,7 @@ with the command <code class="language-plaintext highlighter-rouge">print(molecu
       
     
 
-    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
 
   </ul>
 </div>
@@ -528,7 +528,7 @@ with the command <code class="language-plaintext highlighter-rouge">print(molecu
     </div>
 
     
-  <script src="/assets/js/main.min.js"></script>
+  <script src="/mllpa/assets/js/main.min.js"></script>
 
 
 

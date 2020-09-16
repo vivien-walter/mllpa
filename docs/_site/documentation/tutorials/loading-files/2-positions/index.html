@@ -23,7 +23,7 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:site_name" content="ML-LPA">
 <meta property="og:title" content="Load from position array">
-<meta property="og:url" content="http://localhost:4000/documentation/tutorials/loading-files/2-positions/">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/loading-files/2-positions/">
 
 
   <meta property="og:description" content="In certain cases, it could be desirable to load directly the positions and configurations not from simulation files but from position arrays, as supported by NumPy. We describe in this tutorial how to proceed.  Please be aware that loading a system from a position array can be a complicated and tedious operation. Loading from simulation files should always be preferred when possible.  Load the position array  Prepare the required material  ML-LPA always need a small collection of information on the simulation in order to be loaded.          The position array, containing the positions of all the particles of the desired molecule types in all the frames of the simulation. The position array, obviously generated using the NumPy scientific library, should have the following dimensions:      (# frames, # molecules, # atom per molecules, # dimensions)      The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.      For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 3).      The position array can only correspond to one single molecule type. See below for more details.           The name of the molecule type that you is being loaded. The name of the molecule type should match exactly the name defined in the simulation. More information can be found on this link.           A dictionary containing all the information on the molecule type. The dictionary includes critical information such as the names, ids and masses of all the atoms, but also all the bonds between in the molecule. Creating the dictionary by oneself can be quite tough (check this link to see the expected format), so it is advised to use instead the function getMolInfos()      The function getMolInfos() reads directly a structure file. Check the following link for more information on the required file format.        import mllpa    mol_infos = mllpa.getMolInfos(&#39;test.tpr&#39;, &#39;DPPC&#39;)           In this example, the structure file is called test.tpr. The molecule loaded is DPPC.           The size of the simulation box at each frame of the simulation. Similarly to the position array, dimensions should be provided in a NumPy array. The required dimensions for this array are      (# frames, # dimensions)      For example, a 10 frames should have an array of dimension (10, 3).      All these details are strictly required and ML-LPA cannot work without them.  Run the function  Once all the required information have been collected, they can be loaded in ML-LPA using the function systemFromPositions().  import mllpa  loaded_system = mllpa.systemFromPositions(position_array, &#39;DPPC&#39;, mol_infos, boxes)   All the collected information have been stored in the variable loaded_system as an instance of the System class. More information on the System class are given in the related tutorial and in the API.  In this example, all arguments provided are given in the same order than described above.  systemFromPositions() can also takes some optional keyword-arguments. You can find the description of all the keyword-arguments in the API.  What is next?          Now that you know how to load a system, you can either use it prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the sytem.           If you want to know more about the System class, you either read the tutorials on it, or go   to its API.      Check the API  The following elements have been used in this tutorial:          getMolInfos           systemFromPositions">
@@ -35,7 +35,7 @@
   <meta name="twitter:site" content="@vwalter_rnk">
   <meta name="twitter:title" content="Load from position array">
   <meta name="twitter:description" content="In certain cases, it could be desirable to load directly the positions and configurations not from simulation files but from position arrays, as supported by NumPy. We describe in this tutorial how to proceed.  Please be aware that loading a system from a position array can be a complicated and tedious operation. Loading from simulation files should always be preferred when possible.  Load the position array  Prepare the required material  ML-LPA always need a small collection of information on the simulation in order to be loaded.          The position array, containing the positions of all the particles of the desired molecule types in all the frames of the simulation. The position array, obviously generated using the NumPy scientific library, should have the following dimensions:      (# frames, # molecules, # atom per molecules, # dimensions)      The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.      For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 3).      The position array can only correspond to one single molecule type. See below for more details.           The name of the molecule type that you is being loaded. The name of the molecule type should match exactly the name defined in the simulation. More information can be found on this link.           A dictionary containing all the information on the molecule type. The dictionary includes critical information such as the names, ids and masses of all the atoms, but also all the bonds between in the molecule. Creating the dictionary by oneself can be quite tough (check this link to see the expected format), so it is advised to use instead the function getMolInfos()      The function getMolInfos() reads directly a structure file. Check the following link for more information on the required file format.        import mllpa    mol_infos = mllpa.getMolInfos(&#39;test.tpr&#39;, &#39;DPPC&#39;)           In this example, the structure file is called test.tpr. The molecule loaded is DPPC.           The size of the simulation box at each frame of the simulation. Similarly to the position array, dimensions should be provided in a NumPy array. The required dimensions for this array are      (# frames, # dimensions)      For example, a 10 frames should have an array of dimension (10, 3).      All these details are strictly required and ML-LPA cannot work without them.  Run the function  Once all the required information have been collected, they can be loaded in ML-LPA using the function systemFromPositions().  import mllpa  loaded_system = mllpa.systemFromPositions(position_array, &#39;DPPC&#39;, mol_infos, boxes)   All the collected information have been stored in the variable loaded_system as an instance of the System class. More information on the System class are given in the related tutorial and in the API.  In this example, all arguments provided are given in the same order than described above.  systemFromPositions() can also takes some optional keyword-arguments. You can find the description of all the keyword-arguments in the API.  What is next?          Now that you know how to load a system, you can either use it prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the sytem.           If you want to know more about the System class, you either read the tutorials on it, or go   to its API.      Check the API  The following elements have been used in this tutorial:          getMolInfos           systemFromPositions">
-  <meta name="twitter:url" content="http://localhost:4000/documentation/tutorials/loading-files/2-positions/">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/loading-files/2-positions/">
 
   
     <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
 
 
 
-  <meta property="article:published_time" content="2020-09-16T18:06:50+01:00">
+  <meta property="article:published_time" content="2020-09-16T18:12:59+01:00">
 
 
 
@@ -57,7 +57,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/documentation/tutorials/loading-files/2-positions/">
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/tutorials/loading-files/2-positions/">
 
 
 
@@ -68,7 +68,7 @@
     
       "@type": "Person",
       "name": "ML-LPA",
-      "url": "http://localhost:4000/"
+      "url": "http://localhost:4000/mllpa/"
     
   }
 </script>
@@ -81,7 +81,7 @@
 <!-- end _includes/seo.html -->
 
 
-<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -91,7 +91,7 @@
 </script>
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
 
 <!--[if IE]>
@@ -145,20 +145,20 @@
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
         
-          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt=""></a>
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
         
-        <a class="site-title" href="/">
+        <a class="site-title" href="/mllpa/">
           ML-LPA
           <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/install/">Installation</a>
+              <a href="/mllpa/install/">Installation</a>
             </li><li class="masthead__menu-item">
-              <a href="/documentation/">Documentation</a>
+              <a href="/mllpa/documentation/">Documentation</a>
             </li><li class="masthead__menu-item">
-              <a href="/results/">Results</a>
+              <a href="/mllpa/results/">Results</a>
             </li><li class="masthead__menu-item">
-              <a href="/about-mllpa/">About ML-LPA</a>
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
             </li></ul>
         
         <button class="greedy-nav__toggle hidden" type="button">
@@ -205,9 +205,9 @@
         
         <ul>
           
-            <li><a href="/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></li>
+            <li><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></li>
           
-            <li><a href="/documentation/tutorials/loading-files/2-positions/" class="active">Load from position array</a></li>
+            <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/" class="active">Load from position array</a></li>
           
         </ul>
         
@@ -393,11 +393,11 @@ You can find the description of all the keyword-arguments in the <a href="">API<
     
       
       
-      <a href="/tags/#file-access" class="page__taxonomy-item" rel="tag">file access</a><span class="sep">, </span>
+      <a href="/mllpa/tags/#file-access" class="page__taxonomy-item" rel="tag">file access</a><span class="sep">, </span>
     
       
       
-      <a href="/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
+      <a href="/mllpa/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
     
     </span>
   </p>
@@ -418,7 +418,7 @@ You can find the description of all the keyword-arguments in the <a href="">API<
     
       
       
-      <a href="/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+      <a href="/mllpa/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
     
     </span>
   </p>
@@ -433,7 +433,7 @@ You can find the description of all the keyword-arguments in the <a href="">API<
       
   <nav class="pagination">
     
-      <a href="/documentation/tutorials/loading-files/1-simulation-files/" class="pagination--pager" title="Load from simulation files
+      <a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/" class="pagination--pager" title="Load from simulation files
 ">Previous</a>
     
     
@@ -482,7 +482,7 @@ You can find the description of all the keyword-arguments in the <a href="">API<
       
     
 
-    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
 
   </ul>
 </div>
@@ -494,7 +494,7 @@ You can find the description of all the keyword-arguments in the <a href="">API<
     </div>
 
     
-  <script src="/assets/js/main.min.js"></script>
+  <script src="/mllpa/assets/js/main.min.js"></script>
 
 
 
