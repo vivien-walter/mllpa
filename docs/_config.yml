@@ -273,7 +273,7 @@ compress_html:
 collections:
   documentation:
     output: true
-    permalink: /:collection/:path/
+    permalink: /mllpa/:collection/:path/
   teaching:
     output: true
     permalink: /:collection/:path/
