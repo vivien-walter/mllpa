@@ -1,0 +1,99 @@
+<p>In certain cases, it could be desirable to load directly the positions and configurations not from
+simulation files but <strong>from position arrays</strong>, as supported by <a href="https://numpy.org">NumPy</a>. We describe in this
+tutorial how to proceed.</p>
+
+<p class="notice--warning">Please be aware that loading a system from a position array can be a complicated and tedious operation.
+Loading from simulation files should always be preferred when possible.</p>
+
+<h2 id="load-the-position-array">Load the position array</h2>
+
+<h3 id="prepare-the-required-material">Prepare the required material</h3>
+
+<p>ML-LPA always need a small <strong>collection of information</strong> on the simulation in order to be loaded.</p>
+
+<ul>
+  <li>
+    <p>The <strong>position array</strong>, containing the positions of all the particles of the desired molecule types in all the frames of the simulation.
+The position array, obviously generated using the NumPy scientific library, should have the following dimensions:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">(# frames, # molecules, # atom per molecules, # dimensions)</code></p>
+
+    <p class="notice--info">The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.</p>
+
+    <p class="notice--info">For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension <code class="language-plaintext highlighter-rouge">(10, 26, 130, 3)</code>.</p>
+
+    <p class="notice--warning">The position array can only correspond to one single molecule type. See below for more details.</p>
+  </li>
+  <li>
+    <p>The name of the <strong>molecule type</strong> that you is being loaded. The name of the molecule type should match exactly the <strong>name defined in the simulation</strong>.
+More information can be found on <a href="/documentation/tutorials/loading-files/1-simulation-files/#molecule-type-selection">this link</a>.</p>
+  </li>
+  <li>
+    <p>A <strong>dictionary containing all the information</strong> on the molecule type. The dictionary includes critical information such as the names, ids and masses of all the atoms, but also
+all the bonds between in the molecule. Creating the dictionary by oneself can be quite tough (check this link to see the expected format), so it is advised to use instead
+the function <em>getMolInfos()</em></p>
+
+    <p>The function <em>getMolInfos()</em> reads directly a <strong>structure file</strong>. Check <a href="/documentation/tutorials/loading-files/1-simulation-files/#types-of-file">the following link</a> for more information on the required file format.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">mllpa</span>
+
+  <span class="n">mol_infos</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">getMolInfos</span><span class="p">(</span><span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <p class="notice--info">In this example, the structure file is called <em>test.tpr</em>. The molecule loaded is <em>DPPC</em>.</p>
+  </li>
+  <li>
+    <p>The <strong>size</strong> of the simulation box at each frame of the simulation. Similarly to the position array, dimensions should be provided in a NumPy array.
+The required dimensions for this array are</p>
+
+    <p><code class="language-plaintext highlighter-rouge">(# frames, # dimensions)</code></p>
+
+    <p class="notice--info">For example, a 10 frames should have an array of dimension <code class="language-plaintext highlighter-rouge">(10, 3)</code>.</p>
+  </li>
+</ul>
+
+<p class="notice--warning">All these details are strictly required and ML-LPA cannot work without them.</p>
+
+<h3 id="run-the-function">Run the function</h3>
+
+<p>Once all the required information have been collected, they can be loaded in ML-LPA using the
+function <em>systemFromPositions()</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">systemFromPositions</span><span class="p">(</span><span class="n">position_array</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">mol_infos</span><span class="p">,</span> <span class="n">boxes</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>All the collected information have been stored in the variable <em>loaded_system</em> as
+an instance of the <strong>System</strong> class. More information on the System class are given in the <a href="">related tutorial</a> and in the <a href="">API</a>.</p>
+
+<p class="notice--info">In this example, all arguments provided are given in the same order than <a href="/documentation/tutorials/loading-files/2-positions/#prepare-the-required-material">described above</a>.</p>
+
+<p><em>systemFromPositions()</em> can also takes some optional keyword-arguments.
+You can find the description of all the keyword-arguments in the <a href="">API</a>.</p>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>
+    <p>Now that you know how to load a system, you can either use it <a href="">prepare and train a model</a> for
+  machine learning analysis, or use an existing model to predict the <a href="">phases in the sytem</a>.</p>
+  </li>
+  <li>
+    <p>If you want to know more about the System class, you either read the <a href="">tutorials on it</a>, or go
+  to its <a href="">API</a>.</p>
+  </li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>
+    <p>getMolInfos</p>
+  </li>
+  <li>
+    <p>systemFromPositions</p>
+  </li>
+</ul>

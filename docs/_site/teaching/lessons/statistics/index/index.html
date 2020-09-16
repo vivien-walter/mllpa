@@ -1,0 +1,408 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Advanced statistics - ML-LPA</title>
+<meta name="description" content="Introduction to statistics and data analysis, from simple average and variance to fit algorithms and hypothesis tests.  This lesson was made for a workshop on Python and Data Analysis that took place in 2019 at the Department of Chemistry of the King’s College London (London, UK).">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="Advanced statistics">
+<meta property="og:url" content="http://localhost:4000/teaching/lessons/statistics/index/">
+
+
+  <meta property="og:description" content="Introduction to statistics and data analysis, from simple average and variance to fit algorithms and hypothesis tests.  This lesson was made for a workshop on Python and Data Analysis that took place in 2019 at the Department of Chemistry of the King’s College London (London, UK).">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/header-teaching.png">
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="Advanced statistics">
+  <meta name="twitter:description" content="Introduction to statistics and data analysis, from simple average and variance to fit algorithms and hypothesis tests.  This lesson was made for a workshop on Python and Data Analysis that took place in 2019 at the Department of Chemistry of the King’s College London (London, UK).">
+  <meta name="twitter:url" content="http://localhost:4000/teaching/lessons/statistics/index/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/header-teaching.png">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-16T17:47:50+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/teaching/lessons/statistics/index/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/results/">Results</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/header-teaching.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Advanced statistics
+
+        
+      </h1>
+      
+        <p class="page__lead">Introduction to statistics and data analysis
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+    <span class="page__hero-caption">Source: <a href="/publications/phd-thesis/">PhD thesis cover</a>
+</span>
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Advanced statistics">
+    <meta itemprop="description" content="Introduction to statistics and data analysis, from simple average and variance tofit algorithms and hypothesis tests.This lesson was made for a workshop on Python and Data Analysis that took placein 2019 at the Department of Chemistry of theKing’s College London (London, UK).">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#content">Content</a></li>
+  <li><a href="#sources">Source(s)</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Introduction to <strong>statistics and data analysis</strong>, from simple average and variance to
+<strong>fit algorithms</strong> and <strong>hypothesis tests</strong>.</p>
+
+<p>This lesson was made for a workshop on <strong>Python and Data Analysis</strong> that took place
+in 2019 at the <a href="https://www.kcl.ac.uk/chemistry">Department of Chemistry</a> of the
+<strong>King’s College London</strong> (London, UK).</p>
+
+<!--more-->
+
+<h2 id="content">Content</h2>
+
+<ol>
+  <li><strong>Introduction</strong>
+    <ol>
+      <li><a href="/teaching/lessons/statistics/1-introduction/1-moments/">Introduction on the moments</a></li>
+      <li><a href="/teaching/lessons/statistics/1-introduction/2-errors/">Errors and Bootstrap</a></li>
+    </ol>
+  </li>
+  <li><strong>Data Fitting</strong>
+    <ol>
+      <li><a href="/teaching/lessons/statistics/2-data-fitting/1-linear-correlation/">Linear correlation and regression</a></li>
+      <li><a href="/teaching/lessons/statistics/2-data-fitting/2-algorithms/">Algorithms for data fitting</a></li>
+    </ol>
+  </li>
+  <li><strong>Hypothesis Tests</strong>
+    <ol>
+      <li><a href="/teaching/lessons/statistics/3-hypothesis-tests/1-parametric/">Parametric tests</a></li>
+      <li><a href="/teaching/lessons/statistics/3-hypothesis-tests/2-non-parametric/">Non-Parametric tests</a></li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="sources">Source(s)</h2>
+
+<ul>
+  <li>Press W H, Teukolsky S A, Vetterling W T and Flannery B P; <em>Numerical Recipes in C - The Art of Scientific Computing</em>, <strong>1992</strong>, 2nd Edition, Cambridge Press</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#lesson" class="page__taxonomy-item" rel="tag">lesson</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/categories/#statistics" class="page__taxonomy-item" rel="tag">statistics</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=vwalter_rnk&text=Advanced+statistics%20http%3A%2F%2Flocalhost%3A4000%2Fteaching%2Flessons%2Fstatistics%2Findex%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fteaching%2Flessons%2Fstatistics%2Findex%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fteaching%2Flessons%2Fstatistics%2Findex%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/teaching/lessons/statistics/3-hypothesis-tests/2-non-parametric/" class="pagination--pager" title="Non-Parametric tests
+">Previous</a>
+    
+    
+      <a href="/teaching/tutorials/labview/index/" class="pagination--pager" title="Getting started in LabVIEW
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

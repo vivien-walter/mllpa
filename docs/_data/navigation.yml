@@ -1,0 +1,79 @@
+# main links
+main:
+  - title: "Installation"
+    url: /install/
+  - title: "Documentation"
+    url: /documentation/
+  - title: "Results"
+    url: /results/
+  - title: "About ML-LPA"
+    url: /about-mllpa/
+
+# sidebar navigation list Research
+sidebar-installation:
+  - title: "From the GitHub repo"
+    url: /install/#from-the-github-repo
+    children:
+      - title: "Get the files"
+        url: /install/#get-the-files
+      - title: "Install the package"
+        url: /install/#install-the-package
+  - title: "Check the installation"
+    url: /install/#check-the-installation
+  - title: "What is next?"
+    url: /install/#what-is-next
+
+# sidebar navigation list Documentation
+sidebar-documentation:
+  - title: "Tutorials"
+    children:
+      - title: "Loading simulation"
+        url: /softwares/#python-mllpa
+      - title: "The System class"
+        url: /softwares/#python-iscan
+      - title: "Predicting phases"
+        url: /softwares/#python-mim
+  - title: "API"
+
+# sidebar navigation list Documentation - Tutorials
+sidebar-tutorials:
+  - title: "Loading simulation"
+    children:
+      - title: "Load from simulation files"
+        url: /documentation/tutorials/loading-files/1-simulation-files/
+      - title: "Load from position array"
+        url: /documentation/tutorials/loading-files/2-positions/
+  - title: "The System class"
+  - title: "Predicting phases"
+
+# sidebar navigation list Teaching
+sidebar-teaching:
+  - title: "Tutorials"
+    children:
+      - title: "Python"
+        url: /teaching/#teaching-python
+      - title: "LabVIEW"
+        url: /teaching/#teaching-labview
+  - title: "Lessons"
+    children:
+      - title: "Statistics"
+        url: /teaching/#teaching-stats
+
+
+
+# sidebar navigation list About
+sidebar-aboutme:
+  - title: "Who am I?"
+    children:
+      - title: "University Education"
+        url: /about-me/#university
+      - title: "Research Interest"
+        url: /about-me/#research
+      - title: "Hobbies and Passions"
+        url: /about-me/#hobbies
+  - title: "Resume"
+    url: /about-me/#resume
+  - title: "Contact"
+    url: /about-me/#contact
+  - title: "Outreach and Work experience"
+    url: /about-me/#outreach
