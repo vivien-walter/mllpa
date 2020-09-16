@@ -2,10 +2,10 @@
 title: "Load from simulation files"
 section: "loading-simulation"
 category:
-  - Tutorial
+  - tutorial
 tags:
   - file access
-  - System
+  - system
 toc: true
 toc_sticky: true
 sidebar:
