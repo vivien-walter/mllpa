@@ -42,14 +42,14 @@ var store = [{
         "teaser": "http://localhost:4000/assets/images/logo.png"
       },{
         "title": "Load from simulation files",
-        "excerpt":"In order to analyse a simulation with ML-LPA, the simulation files should first be loaded into ML-LPA. We describe in this tutorial how to load the files. Load the files Single frame This is done using the openSystem() function. To load a single frame (no trajectory), one can use directly...","categories": ["Tutorial"],
-        "tags": ["file access","System"],
+        "excerpt":"In order to analyse a simulation with ML-LPA, the simulation files should first be loaded into ML-LPA. We describe in this tutorial how to load the files. Load the files Single frame This is done using the openSystem() function. To load a single frame (no trajectory), one can use directly...","categories": ["tutorial"],
+        "tags": ["file access","system"],
         "url": "http://localhost:4000/documentation/tutorials/loading-files/1-simulation-files/",
         "teaser": "http://localhost:4000/assets/images/logo.png"
       },{
         "title": "Load from position array",
         "excerpt":"In certain cases, it could be desirable to load directly the positions and configurations not from simulation files but from position arrays, as supported by NumPy. We describe in this tutorial how to proceed. Please be aware that loading a system from a position array can be a complicated and...","categories": ["tutorial"],
-        "tags": ["file access","System"],
+        "tags": ["file access","system"],
         "url": "http://localhost:4000/documentation/tutorials/loading-files/2-positions/",
         "teaser": "http://localhost:4000/assets/images/logo.png"
       },{
