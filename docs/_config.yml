@@ -21,8 +21,8 @@ title_separator          : "-"
 subtitle                 : "Machine-Learning assisted Lipid Phase Analysis" # site tagline that appears below site title in masthead
 name                     : "ML-LPA"
 description              : "Python 3 library for analysing the phase compositions of lipid membranes."
-url                      : https://vivien-walter.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : "/mllpa" # the subpath of your site, e.g. "/blog"
+url                      : https://vivien-walter.github.io/mllpa/ # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+baseurl                  : "/mllpa/" # the subpath of your site, e.g. "/blog"
 repository               : "vivien-walter/mllpa" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 search                   : true
 teaser                   : "/assets/images/logo.png" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
@@ -273,7 +273,7 @@ compress_html:
 collections:
   documentation:
     output: true
-    permalink: /mllpa/:collection/:path/
+    permalink: /:collection/:path/
   teaching:
     output: true
     permalink: /:collection/:path/
