@@ -1,0 +1,580 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Attributes of the System class - ML-LPA</title>
+<meta name="description" content="In a standard quick and dirty use of ML-LPA, using or just accessing the attributes of an instance of the System class does not bear too much interest. However, it is good to know what can be found inside the class if needed. We describe in this tutorial some of the most useful attributes of the class.  If you are only interested in getting ML-LPA to work quickly, we recommend to directly move to the tutorials on phase prediction.  General description  The System class as defined in ML-LPA contains all the relevant informations on a molecule type as extracted from simulation files. In addition to the information directly extracted from the simulation, it also contains informations computed from the former.  Each instance of the System class is specific to only one molecule type. This is due to constraints on the calculations run inside the class. In a multi-molecule types simulation, it is therefore required to create one instance of the class per type.  Useful attributes  Atom positions  The first data that one might want to extract from the instance of the System class are the positions of the atom at each frame. This can be done by using the attribute .positions  import mllpa  loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)  atom_positions = loaded_system.positions   In this example, we use the openSystem() function to load the information from the simulation files. Check the related tutorial for more details.  The positions are stored in a NumPy array with the dimension  (# frames, # molecules, # atom per molecules, # dimensions)  The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.  For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 3).  Coordinates and distances  The Machine Learning algorithms used in ML-LPA to predict the phase of the lipids do not work directly with the atom positions. Instead, they use the atom coordinates in a cylindrical system of coordinates (with the Z axis aligned to the main axis of inertia of the molecule) and the intra-molecular distances at a specific neighbor rank (a pair of atoms at the neighbor rank N are separated by N-1 atoms along a chain).  Using the instance of the System class, it is possible to extract these data using the attributes .coordinates and .distances  atom_coordinates = loaded_system.coordinates molecule_distances = loaded_system.distances   The coordinates and distances are stored in a NumPy array with the respective dimensions  (# frames, # molecules, # atom per molecules, # dimensions - 1)  and  (# frames, # molecules, # distances)  The expected number of dimensions for the coordinates is 2, since the azimuth of the cylindrical system is discarded.  For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 2).  The number of distances in a molecule depends both on the number of atoms in the molecules, the shape of the molecule and the rank selected.  Molecule type information  The instance also includes an important number of information on the molecule type which was extracted from the structure file. All these information are stored in a dictionary that can be get from the attribute .infos  molecule_type_infos = loaded_system.infos   Among the several information found in this dictionary, the useful ones are (i) the atom IDs, (ii) the atom names and (iii) the atom masses. They can all be extracted using the following keys:  atom_ids = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;ids&quot;] atom_names = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;names&quot;] atom_masses = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;masses&quot;]   Both all (atoms) and non-hydrogen (heavy_atoms) atoms are listed in the dictionary, hence the first key.  You can find the list and description of all the keys in the API.  What is next?     Now that you know how what exactly is the System class, you can either use it to prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the system.   Check the API  The following elements have been used in this tutorial:          openSystem           System class">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="Attributes of the System class">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/system-class/1-description/">
+
+
+  <meta property="og:description" content="In a standard quick and dirty use of ML-LPA, using or just accessing the attributes of an instance of the System class does not bear too much interest. However, it is good to know what can be found inside the class if needed. We describe in this tutorial some of the most useful attributes of the class.  If you are only interested in getting ML-LPA to work quickly, we recommend to directly move to the tutorials on phase prediction.  General description  The System class as defined in ML-LPA contains all the relevant informations on a molecule type as extracted from simulation files. In addition to the information directly extracted from the simulation, it also contains informations computed from the former.  Each instance of the System class is specific to only one molecule type. This is due to constraints on the calculations run inside the class. In a multi-molecule types simulation, it is therefore required to create one instance of the class per type.  Useful attributes  Atom positions  The first data that one might want to extract from the instance of the System class are the positions of the atom at each frame. This can be done by using the attribute .positions  import mllpa  loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)  atom_positions = loaded_system.positions   In this example, we use the openSystem() function to load the information from the simulation files. Check the related tutorial for more details.  The positions are stored in a NumPy array with the dimension  (# frames, # molecules, # atom per molecules, # dimensions)  The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.  For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 3).  Coordinates and distances  The Machine Learning algorithms used in ML-LPA to predict the phase of the lipids do not work directly with the atom positions. Instead, they use the atom coordinates in a cylindrical system of coordinates (with the Z axis aligned to the main axis of inertia of the molecule) and the intra-molecular distances at a specific neighbor rank (a pair of atoms at the neighbor rank N are separated by N-1 atoms along a chain).  Using the instance of the System class, it is possible to extract these data using the attributes .coordinates and .distances  atom_coordinates = loaded_system.coordinates molecule_distances = loaded_system.distances   The coordinates and distances are stored in a NumPy array with the respective dimensions  (# frames, # molecules, # atom per molecules, # dimensions - 1)  and  (# frames, # molecules, # distances)  The expected number of dimensions for the coordinates is 2, since the azimuth of the cylindrical system is discarded.  For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 2).  The number of distances in a molecule depends both on the number of atoms in the molecules, the shape of the molecule and the rank selected.  Molecule type information  The instance also includes an important number of information on the molecule type which was extracted from the structure file. All these information are stored in a dictionary that can be get from the attribute .infos  molecule_type_infos = loaded_system.infos   Among the several information found in this dictionary, the useful ones are (i) the atom IDs, (ii) the atom names and (iii) the atom masses. They can all be extracted using the following keys:  atom_ids = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;ids&quot;] atom_names = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;names&quot;] atom_masses = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;masses&quot;]   Both all (atoms) and non-hydrogen (heavy_atoms) atoms are listed in the dictionary, hence the first key.  You can find the list and description of all the keys in the API.  What is next?     Now that you know how what exactly is the System class, you can either use it to prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the system.   Check the API  The following elements have been used in this tutorial:          openSystem           System class">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="Attributes of the System class">
+  <meta name="twitter:description" content="In a standard quick and dirty use of ML-LPA, using or just accessing the attributes of an instance of the System class does not bear too much interest. However, it is good to know what can be found inside the class if needed. We describe in this tutorial some of the most useful attributes of the class.  If you are only interested in getting ML-LPA to work quickly, we recommend to directly move to the tutorials on phase prediction.  General description  The System class as defined in ML-LPA contains all the relevant informations on a molecule type as extracted from simulation files. In addition to the information directly extracted from the simulation, it also contains informations computed from the former.  Each instance of the System class is specific to only one molecule type. This is due to constraints on the calculations run inside the class. In a multi-molecule types simulation, it is therefore required to create one instance of the class per type.  Useful attributes  Atom positions  The first data that one might want to extract from the instance of the System class are the positions of the atom at each frame. This can be done by using the attribute .positions  import mllpa  loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)  atom_positions = loaded_system.positions   In this example, we use the openSystem() function to load the information from the simulation files. Check the related tutorial for more details.  The positions are stored in a NumPy array with the dimension  (# frames, # molecules, # atom per molecules, # dimensions)  The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.  For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 3).  Coordinates and distances  The Machine Learning algorithms used in ML-LPA to predict the phase of the lipids do not work directly with the atom positions. Instead, they use the atom coordinates in a cylindrical system of coordinates (with the Z axis aligned to the main axis of inertia of the molecule) and the intra-molecular distances at a specific neighbor rank (a pair of atoms at the neighbor rank N are separated by N-1 atoms along a chain).  Using the instance of the System class, it is possible to extract these data using the attributes .coordinates and .distances  atom_coordinates = loaded_system.coordinates molecule_distances = loaded_system.distances   The coordinates and distances are stored in a NumPy array with the respective dimensions  (# frames, # molecules, # atom per molecules, # dimensions - 1)  and  (# frames, # molecules, # distances)  The expected number of dimensions for the coordinates is 2, since the azimuth of the cylindrical system is discarded.  For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 2).  The number of distances in a molecule depends both on the number of atoms in the molecules, the shape of the molecule and the rank selected.  Molecule type information  The instance also includes an important number of information on the molecule type which was extracted from the structure file. All these information are stored in a dictionary that can be get from the attribute .infos  molecule_type_infos = loaded_system.infos   Among the several information found in this dictionary, the useful ones are (i) the atom IDs, (ii) the atom names and (iii) the atom masses. They can all be extracted using the following keys:  atom_ids = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;ids&quot;] atom_names = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;names&quot;] atom_masses = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;masses&quot;]   Both all (atoms) and non-hydrogen (heavy_atoms) atoms are listed in the dictionary, hence the first key.  You can find the list and description of all the keys in the API.  What is next?     Now that you know how what exactly is the System class, you can either use it to prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the system.   Check the API  The following elements have been used in this tutorial:          openSystem           System class">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/system-class/1-description/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-19T11:26:17+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/tutorials/system-class/1-description/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <a href="/mllpa/documentation/tutorials/quick-and-dirty/"><span class="nav__sub-title">Quick & Dirty tutorial</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Loading simulation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">The System class</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/1-description/" class="active">Attributes of the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/2-methods/">Methods of the System class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Predicting phases</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">Machine Learning algorithms training</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/">Optimisation of the neighbour rank</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">Lipid phase prediction</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">Setting phases manually</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Local environment analysis</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">Voronoi tessellations</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/2-local-environment/">Map the environment</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/3-no-phases/">Analysis without phases</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Save the outputs</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/1-model-file/">The .lpm model file</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/2-save-system/">Save the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">Save the Tessellation class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Attributes of the System class">
+    <meta itemprop="description" content="In a standard quick and dirty use of ML-LPA, using or just accessing the attributes of an instance of the System classdoes not bear too much interest. However, it is good to know what can be found inside the class if needed.We describe in this tutorial some of the most useful attributes of the class.If you are only interested in getting ML-LPA to work quickly, we recommend to directlymove to the tutorials on phase prediction.General descriptionThe System class as defined in ML-LPA contains all the relevant informations on a molecule type as extracted from simulation files.In addition to the information directly extracted from the simulation, it also contains informations computed from the former.Each instance of the System class is specific to only one molecule type. This is due toconstraints on the calculations run inside the class. In a multi-molecule types simulation, itis therefore required to create one instance of the class per type.Useful attributesAtom positionsThe first data that one might want to extract from the instance of the System classare the positions of the atom at each frame. This can be done by using the attribute .positionsimport mllpaloaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)atom_positions = loaded_system.positionsIn this example, we use the openSystem() function to load the information fromthe simulation files. Check the related tutorial for more details.The positions are stored in a NumPy array with the dimension(# frames, # molecules, # atom per molecules, # dimensions)The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 3).Coordinates and distancesThe Machine Learning algorithms used in ML-LPA to predict the phase of the lipids do not workdirectly with the atom positions. Instead, they use the atom coordinates in a cylindricalsystem of coordinates (with the Z axis aligned to the main axis of inertia of the molecule) andthe intra-molecular distances at a specific neighbor rank (a pair of atoms at the neighbor rank Nare separated by N-1 atoms along a chain).Using the instance of the System class, it is possible to extract these data using the attributes.coordinates and .distancesatom_coordinates = loaded_system.coordinatesmolecule_distances = loaded_system.distancesThe coordinates and distances are stored in a NumPy array with the respective dimensions(# frames, # molecules, # atom per molecules, # dimensions - 1)and(# frames, # molecules, # distances)The expected number of dimensions for the coordinates is 2, since the azimuth of the cylindrical system is discarded.For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension (10, 26, 130, 2).The number of distances in a molecule depends both on the number of atoms in the molecules, the shape of the molecule and the rank selected.Molecule type informationThe instance also includes an important number of information on the molecule type which was extracted from the structure file.All these information are stored in a dictionary that can be get from the attribute .infosmolecule_type_infos = loaded_system.infosAmong the several information found in this dictionary, the useful ones are (i) the atom IDs, (ii) the atom names and (iii) the atom masses. They can allbe extracted using the following keys:atom_ids = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;ids&quot;]atom_names = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;names&quot;]atom_masses = molecule_type_infos[&quot;heavy_atoms&quot;][&quot;masses&quot;]Both all (atoms) and non-hydrogen (heavy_atoms) atoms are listed in the dictionary, hence the first key.You can find the list and description of all the keys in the API.What is next?  Now that you know how what exactly is the System class, you can either use it to prepare and train a model for  machine learning analysis, or use an existing model to predict the phases in the system.Check the APIThe following elements have been used in this tutorial:      openSystem        System class  ">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Attributes of the System class
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#general-description">General description</a></li>
+  <li><a href="#useful-attributes">Useful attributes</a>
+    <ul>
+      <li><a href="#atom-positions">Atom positions</a></li>
+      <li><a href="#coordinates-and-distances">Coordinates and distances</a></li>
+      <li><a href="#molecule-type-information">Molecule type information</a></li>
+    </ul>
+  </li>
+  <li><a href="#what-is-next">What is next?</a></li>
+  <li><a href="#check-the-api">Check the API</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>In a standard quick and dirty use of ML-LPA, using or just accessing the <strong>attributes of an instance of the System class</strong>
+does not bear too much interest. However, it is good to know what can be found inside the class if needed.
+We describe in this tutorial some of the most useful attributes of the class.</p>
+
+<p class="notice--info">If you are only interested in getting ML-LPA to work quickly, we recommend to directly
+move to the tutorials on <a href="">phase prediction</a>.</p>
+
+<h2 id="general-description">General description</h2>
+
+<p>The <strong>System class</strong> as defined in ML-LPA contains all the relevant informations on a <strong>molecule type</strong> as extracted from simulation files.
+In addition to the information <strong>directly extracted</strong> from the simulation, it also contains informations <strong>computed</strong> from the former.</p>
+
+<p>Each instance of the System class is specific to only <strong>one molecule type</strong>. This is due to
+constraints on the calculations run inside the class. In a multi-molecule types simulation, it
+is therefore required to create one instance of the class per type.</p>
+
+<h2 id="useful-attributes">Useful attributes</h2>
+
+<h3 id="atom-positions">Atom positions</h3>
+
+<p>The first data that one might want to extract from the instance of the System class
+are the <strong>positions of the atom at each frame</strong>. This can be done by using the attribute <em>.positions</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+
+<span class="n">atom_positions</span> <span class="o">=</span> <span class="n">loaded_system</span><span class="p">.</span><span class="n">positions</span>
+</code></pre></div></div>
+
+<p class="notice--info">In this example, we use the <em>openSystem()</em> function to load the information from
+the simulation files. Check the <a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">related tutorial</a> for more details.</p>
+
+<p>The positions are stored in a <strong>NumPy array</strong> with the dimension</p>
+
+<p><code class="language-plaintext highlighter-rouge">(# frames, # molecules, # atom per molecules, # dimensions)</code></p>
+
+<p class="notice--info">The expected number of dimensions is 3, since the simulation boxes are always defined in a Cartesian system of coordinates.</p>
+
+<p class="notice--info">For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension <code class="language-plaintext highlighter-rouge">(10, 26, 130, 3)</code>.</p>
+
+<h3 id="coordinates-and-distances">Coordinates and distances</h3>
+
+<p>The Machine Learning algorithms used in ML-LPA to predict the phase of the lipids do not work
+directly with the atom positions. Instead, they use the <strong>atom coordinates</strong> in a cylindrical
+system of coordinates (with the Z axis aligned to the main axis of inertia of the molecule) and
+the <strong>intra-molecular distances</strong> at a specific neighbor rank (a pair of atoms at the neighbor rank N
+are separated by N-1 atoms along a chain).</p>
+
+<p>Using the instance of the System class, it is possible to extract these data using the attributes
+<em>.coordinates</em> and <em>.distances</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">atom_coordinates</span> <span class="o">=</span> <span class="n">loaded_system</span><span class="p">.</span><span class="n">coordinates</span>
+<span class="n">molecule_distances</span> <span class="o">=</span> <span class="n">loaded_system</span><span class="p">.</span><span class="n">distances</span>
+</code></pre></div></div>
+
+<p>The coordinates and distances are stored in a <strong>NumPy array</strong> with the respective dimensions</p>
+
+<p><code class="language-plaintext highlighter-rouge">(# frames, # molecules, # atom per molecules, # dimensions - 1)</code></p>
+
+<p>and</p>
+
+<p><code class="language-plaintext highlighter-rouge">(# frames, # molecules, # distances)</code></p>
+
+<p class="notice--info">The expected number of dimensions for the coordinates is 2, since the azimuth of the cylindrical system is discarded.</p>
+
+<p class="notice--info">For example, a 10 frames simulation box with 26 DPPC molecules made of 130 atoms each should have an array of dimension <code class="language-plaintext highlighter-rouge">(10, 26, 130, 2)</code>.</p>
+
+<p class="notice--info">The number of distances in a molecule depends both on the number of atoms in the molecules, the shape of the molecule and the rank selected.</p>
+
+<h3 id="molecule-type-information">Molecule type information</h3>
+
+<p>The instance also includes an important number of <strong>information on the molecule type</strong> which was extracted from the structure file.
+All these information are stored in a dictionary that can be get from the attribute <em>.infos</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">molecule_type_infos</span> <span class="o">=</span> <span class="n">loaded_system</span><span class="p">.</span><span class="n">infos</span>
+</code></pre></div></div>
+
+<p>Among the several information found in this dictionary, the useful ones are (i) the atom IDs, (ii) the atom names and (iii) the atom masses. They can all
+be extracted using the following keys:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">atom_ids</span> <span class="o">=</span> <span class="n">molecule_type_infos</span><span class="p">[</span><span class="s">"heavy_atoms"</span><span class="p">][</span><span class="s">"ids"</span><span class="p">]</span>
+<span class="n">atom_names</span> <span class="o">=</span> <span class="n">molecule_type_infos</span><span class="p">[</span><span class="s">"heavy_atoms"</span><span class="p">][</span><span class="s">"names"</span><span class="p">]</span>
+<span class="n">atom_masses</span> <span class="o">=</span> <span class="n">molecule_type_infos</span><span class="p">[</span><span class="s">"heavy_atoms"</span><span class="p">][</span><span class="s">"masses"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Both all (<em>atoms</em>) and non-hydrogen (<em>heavy_atoms</em>) atoms are listed in the dictionary, hence the first key.</p>
+
+<p>You can find the list and description of all the keys in the <a href="">API</a>.</p>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>Now that you know how what exactly is the System class, you can either use it to <a href="">prepare and train a model</a> for
+  machine learning analysis, or use an existing model to predict the <a href="">phases in the system</a>.</li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>
+    <p>openSystem</p>
+  </li>
+  <li>
+    <p>System class</p>
+  </li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/tutorials/quick-and-dirty/" class="pagination--pager" title="Quick &amp; Dirty tutorial
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/tutorials/system-class/2-methods/" class="pagination--pager" title="Methods of the System class
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

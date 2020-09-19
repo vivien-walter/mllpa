@@ -1,0 +1,538 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Setting phases manually - ML-LPA</title>
+<meta name="description" content="Depending on the situation, some lipids - or other membrane molecules - might not undergo a phase transition during the simulations. For instance, the dioleoyl-glycerophosphocholine (DOPC) has a transition temperature of -17C, so it more than likely that it will remain in the fluid phase for all simulations run in the water (&gt; 0C). The problem of these molecules is that ML-LPA cannot be trained to predict their phases, and because of that analysis of the local environment cannot be processed.  To avoid these problem, phases can be assigned manually in ML-LPA to an instance of the System class.  Manual phase assignment  Single assignment  To assign the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class. Then, we can use the class method .setStates() to assign the phases. This method only takes as an argument the string with the name of the phase.  import mllpa  # Load the unknown system unknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DOPC&#39;)  # Assign the phases unknown_system.setStates(&quot;fluid&quot;)   ML-LPA will then process all the lipids in the system and assign to each of them the given phase. The final result can be accessed through the .states attribute of the instance of the System class as shown previously.  Molecule-by-molecule assignment  The method .setStates() can also be used to assign a whole NumPy string array to the molecules stored in the instance.  unknown_system.setStates(lipid_phases)   In this example, we call a NumPy array named lipid_phases which have been generated outside of the example script.  The NumPy string array used as input shoudl have the dimension (# frames, # molecules).  What is next?          Now you know how the phases of your unknown systems can been assigned, you can start to analyse the local environment of the lipids.           You can also store the results in a file.      Check the API  The following elements have been used in this tutorial:     System class">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="Setting phases manually">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">
+
+
+  <meta property="og:description" content="Depending on the situation, some lipids - or other membrane molecules - might not undergo a phase transition during the simulations. For instance, the dioleoyl-glycerophosphocholine (DOPC) has a transition temperature of -17C, so it more than likely that it will remain in the fluid phase for all simulations run in the water (&gt; 0C). The problem of these molecules is that ML-LPA cannot be trained to predict their phases, and because of that analysis of the local environment cannot be processed.  To avoid these problem, phases can be assigned manually in ML-LPA to an instance of the System class.  Manual phase assignment  Single assignment  To assign the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class. Then, we can use the class method .setStates() to assign the phases. This method only takes as an argument the string with the name of the phase.  import mllpa  # Load the unknown system unknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DOPC&#39;)  # Assign the phases unknown_system.setStates(&quot;fluid&quot;)   ML-LPA will then process all the lipids in the system and assign to each of them the given phase. The final result can be accessed through the .states attribute of the instance of the System class as shown previously.  Molecule-by-molecule assignment  The method .setStates() can also be used to assign a whole NumPy string array to the molecules stored in the instance.  unknown_system.setStates(lipid_phases)   In this example, we call a NumPy array named lipid_phases which have been generated outside of the example script.  The NumPy string array used as input shoudl have the dimension (# frames, # molecules).  What is next?          Now you know how the phases of your unknown systems can been assigned, you can start to analyse the local environment of the lipids.           You can also store the results in a file.      Check the API  The following elements have been used in this tutorial:     System class">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="Setting phases manually">
+  <meta name="twitter:description" content="Depending on the situation, some lipids - or other membrane molecules - might not undergo a phase transition during the simulations. For instance, the dioleoyl-glycerophosphocholine (DOPC) has a transition temperature of -17C, so it more than likely that it will remain in the fluid phase for all simulations run in the water (&gt; 0C). The problem of these molecules is that ML-LPA cannot be trained to predict their phases, and because of that analysis of the local environment cannot be processed.  To avoid these problem, phases can be assigned manually in ML-LPA to an instance of the System class.  Manual phase assignment  Single assignment  To assign the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class. Then, we can use the class method .setStates() to assign the phases. This method only takes as an argument the string with the name of the phase.  import mllpa  # Load the unknown system unknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DOPC&#39;)  # Assign the phases unknown_system.setStates(&quot;fluid&quot;)   ML-LPA will then process all the lipids in the system and assign to each of them the given phase. The final result can be accessed through the .states attribute of the instance of the System class as shown previously.  Molecule-by-molecule assignment  The method .setStates() can also be used to assign a whole NumPy string array to the molecules stored in the instance.  unknown_system.setStates(lipid_phases)   In this example, we call a NumPy array named lipid_phases which have been generated outside of the example script.  The NumPy string array used as input shoudl have the dimension (# frames, # molecules).  What is next?          Now you know how the phases of your unknown systems can been assigned, you can start to analyse the local environment of the lipids.           You can also store the results in a file.      Check the API  The following elements have been used in this tutorial:     System class">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-19T11:26:17+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <a href="/mllpa/documentation/tutorials/quick-and-dirty/"><span class="nav__sub-title">Quick & Dirty tutorial</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Loading simulation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">The System class</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/1-description/">Attributes of the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/2-methods/">Methods of the System class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Predicting phases</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">Machine Learning algorithms training</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/">Optimisation of the neighbour rank</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">Lipid phase prediction</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/" class="active">Setting phases manually</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Local environment analysis</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">Voronoi tessellations</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/2-local-environment/">Map the environment</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/3-no-phases/">Analysis without phases</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Save the outputs</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/1-model-file/">The .lpm model file</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/2-save-system/">Save the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">Save the Tessellation class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Setting phases manually">
+    <meta itemprop="description" content="Depending on the situation, some lipids - or other membrane molecules - might not undergo a phasetransition during the simulations. For instance, the dioleoyl-glycerophosphocholine (DOPC) has a transitiontemperature of -17C, so it more than likely that it will remain in the fluid phase for all simulations runin the water (&gt; 0C). The problem of these molecules is that ML-LPA cannot be trained to predict their phases, and because of thatanalysis of the local environment cannot be processed.To avoid these problem, phases can be assigned manually in ML-LPA to an instance of the System class.Manual phase assignmentSingle assignmentTo assign the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.Then, we can use the class method .setStates() to assign the phases. This method only takes as an argument the string withthe name of the phase.import mllpa# Load the unknown systemunknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DOPC&#39;)# Assign the phasesunknown_system.setStates(&quot;fluid&quot;)ML-LPA will then process all the lipids in the system and assign to each of them the given phase.The final result can be accessed through the .states attribute of the instance of the System classas shown previously.Molecule-by-molecule assignmentThe method .setStates() can also be used to assign a whole NumPy string array to the moleculesstored in the instance.unknown_system.setStates(lipid_phases)In this example, we call a NumPy array named lipid_phases which have been generatedoutside of the example script.The NumPy string array used as input shoudl have the dimension (# frames, # molecules).What is next?      Now you know how the phases of your unknown systems can been assigned, you canstart to analyse the local environment of the lipids.        You can also store the results in a file.  Check the APIThe following elements have been used in this tutorial:  System class">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Setting phases manually
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#manual-phase-assignment">Manual phase assignment</a>
+    <ul>
+      <li><a href="#single-assignment">Single assignment</a></li>
+      <li><a href="#molecule-by-molecule-assignment">Molecule-by-molecule assignment</a></li>
+    </ul>
+  </li>
+  <li><a href="#what-is-next">What is next?</a></li>
+  <li><a href="#check-the-api">Check the API</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Depending on the situation, some <em>lipids</em> - or other <em>membrane molecules</em> - might not undergo a phase
+transition during the simulations. For instance, the <em>dioleoyl-glycerophosphocholine</em> (DOPC) has a transition
+temperature of -17C, so it more than likely that it will remain in the fluid phase for all simulations run
+in the water (&gt; 0C). The problem of these molecules is that ML-LPA <strong>cannot be trained</strong> to predict their phases, and because of that
+<a href="/mllpa/documentation/#d---local-environment-analysis">analysis of the local environment</a> cannot be processed.</p>
+
+<p>To avoid these problem, <strong>phases can be assigned manually</strong> in ML-LPA to an instance of the System class.</p>
+
+<h2 id="manual-phase-assignment">Manual phase assignment</h2>
+
+<h3 id="single-assignment">Single assignment</h3>
+
+<p>To assign the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.
+Then, we can use the class method <em>.setStates()</em> to assign the phases. This method only takes as an argument the string with
+the name of the phase.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="c1"># Load the unknown system
+</span><span class="n">unknown_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'unknown.gro'</span><span class="p">,</span> <span class="s">'unknown.tpr'</span><span class="p">,</span> <span class="s">'DOPC'</span><span class="p">)</span>
+
+<span class="c1"># Assign the phases
+</span><span class="n">unknown_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="s">"fluid"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>ML-LPA will then process all the lipids in the system and assign to each of them <strong>the given phase</strong>.
+The final result can be accessed through the <em>.states</em> attribute of the instance of the System class
+<a href="/mllpa/documentation/tutorials/phase-prediction/4-ml-prediction/#from-an-lpm-file">as shown previously</a>.</p>
+
+<h3 id="molecule-by-molecule-assignment">Molecule-by-molecule assignment</h3>
+
+<p>The method <em>.setStates()</em> can also be used to <strong>assign a whole NumPy string array</strong> to the molecules
+stored in the instance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unknown_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="n">lipid_phases</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="notice--info">In this example, we call a NumPy array named <em>lipid_phases</em> which have been generated
+outside of the example script.</p>
+
+<p>The NumPy string array used as input shoudl have the dimension <code class="language-plaintext highlighter-rouge">(# frames, # molecules)</code>.</p>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>
+    <p>Now you know how the phases of your unknown systems can been assigned, you can
+start to analyse the <a href="">local environment of the lipids</a>.</p>
+  </li>
+  <li>
+    <p>You can also <a href="">store the results</a> in a file.</p>
+  </li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>System class</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#machine-learning" class="page__taxonomy-item" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/mllpa/tags/#prediction" class="page__taxonomy-item" rel="tag">prediction</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/mllpa/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/" class="pagination--pager" title="Lipid phase prediction
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/tutorials/quick-and-dirty/" class="pagination--pager" title="Quick &amp; Dirty tutorial
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

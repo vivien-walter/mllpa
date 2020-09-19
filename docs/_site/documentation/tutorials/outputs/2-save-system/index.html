@@ -1,0 +1,755 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Save the System class - ML-LPA</title>
+<meta name="description" content="Once the phases of the system have been predicted by ML-LPA - or assigned manually - it can be essential to store and save the results in a file on your computer. This tutorial will explain how it can be easily done.  Pick the file format  When an instance of the System class is saved by ML-LPA, the following data are saved in the file:          Name and index of the molecule.           Center of mass (COMs) of the molecule (X, Y, Z).           The phase in which the molecule was found.      Since both COMs and phases arrays are defined over time, they will be concatenated prior saving in a single array of dimension (# Frames, # Molecules, [X, Y, Z, Phase]).  ML-LPA can save the file even if the phases are not included in the system. It will just omit them from the output file.  To be able to save these data, the user will have to select the format to use.  Choice of file format  ML-LPA is capable of storing the instance of System class in different file formats:          Comma-separated values (.csv) files, to be easily opened in spreadsheet softwares.           Extensible markup language (.xml) files, to keep a hierarchical structure in the data saved while saving in a text file.           Hierarchical data format 5 (.h5) files, to directly save in a binary file and keep the data formats.      The choice of the output format is entirely up to the user and to what is convenient for them. By default, the format used by ML-LPA is the .csv file.  Details on the formats  The same data are being stored in the different format. Only the structure inside the file changes.  .csv files  A .csv file can only take as an input 2-D arrays. This means that the COMs + phases array, which is a 3-D array, cannot be saved directly in the file. The 3-D array will be flattened in a 2-D one, by saving each frames one after the other. The name and IDs of the molecules will also be added to the resulting array.  The typical array of N molecules saved in a .csv file is based on the following table:                 Row index       Name       Frame       Molecule ID       COM x       COM y       COM z       Phase                       0       Mol. A       0       0       x position       y position       z position       phase                 1       Mol. A       0       1       x position       y position       z position       phase                 2       Mol. B       0       2       x position       y position       z position       phase                 …       …       …       …       …       …       …       …                 N       Mol. C       0       N       x position       y position       z position       phase                 N+1       Mol. A       1       0       x position       y position       z position       phase                 N+2       Mol. A       1       1       x position       y position       z position       phase                 N+3       Mol. B       1       2       x position       y position       z position       phase                 …       …       …       …       …       …       …       …                 2N       Mol. C       1       N       x position       y position       z position       phase                 2N+1       Mol. A       2       0       x position       y position       z position       phase                 …       …       …       …       …       …       …       …           .xml files  In an .xml file, the representation of each frame of the simulation is saved in a different branch of the .xml tree. Inside the frame branch, each molecule is defined in its own sub-branch. The sub-branch of the molecule will contain: (i) its ID, (ii) its name, (iii) its phase and (iv) the X, Y and Z coordinates of its COM.  The typical .xml tree will look like  ├── frame 0 │   ├── 0, Mol. A, phase, x, y, z │   ├── 1, Mol. B, phase, x, y, z │   ... │   └── N, Mol. C, phase, x, y, z ├── frame 1 │   ├── 0, Mol. A, phase, x, y, z │   ├── 1, Mol. B, phase, x, y, z │   ... │   └── N, Mol. C, phase, x, y, z ...   .h5 files  Since the HDF5 format is a hierarchical format close to .xml format, we will typically find the same structure in this format as well. However, since more informations and different types of data can be stored in a HDF5 file, the informations one can find inside are more complete than in the .xml file.  First, the ID and names arrays are only saved once in the file, and not once per frame, to save some space.  The COMs and arrays are saved separately in two elements, since they keep their respective dimensions of (# Frames, # Molecules, [X,Y,Z]) and (# Frames, # Molecules).  The dimensions of the simulations box are also saved in another element as an array of dimension (# Frames, [X,Y,Z])  HDF5 (.h5) files can opened with softwares such as HDFView. However, we recommend to use Python to open the file again and read their content. Please use the scientific library h5py for that purpose.  Save in a file  Once your systems are ready to be saved and once you have selected your desired output format, you can save the instances of the System class using the function saveSystems().  import mllpa  mllpa.saveSystems([unknown_system], file_path=&quot;processed_system.h5&quot;)   Similarly to the function generateModel() and doVoro(), the only input data taken by saveSystems() is a list of instances. If you only want to save one instance, please convert it into a list first.  ML-LPA automatically detect the extension given in the file_path= keyword-argument to determine the format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default format can be selected by using the keyword-argument format=.  ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument. In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.  mllpa.saveSystems([unknown_system], format=&quot;.xml&quot;)   What is next?     Now that you know how to save the instances of the System class, you can check how to save the instance of the Tessellation class.   Check the API  The following elements have been used in this tutorial:     saveSystems">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="Save the System class">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/outputs/2-save-system/">
+
+
+  <meta property="og:description" content="Once the phases of the system have been predicted by ML-LPA - or assigned manually - it can be essential to store and save the results in a file on your computer. This tutorial will explain how it can be easily done.  Pick the file format  When an instance of the System class is saved by ML-LPA, the following data are saved in the file:          Name and index of the molecule.           Center of mass (COMs) of the molecule (X, Y, Z).           The phase in which the molecule was found.      Since both COMs and phases arrays are defined over time, they will be concatenated prior saving in a single array of dimension (# Frames, # Molecules, [X, Y, Z, Phase]).  ML-LPA can save the file even if the phases are not included in the system. It will just omit them from the output file.  To be able to save these data, the user will have to select the format to use.  Choice of file format  ML-LPA is capable of storing the instance of System class in different file formats:          Comma-separated values (.csv) files, to be easily opened in spreadsheet softwares.           Extensible markup language (.xml) files, to keep a hierarchical structure in the data saved while saving in a text file.           Hierarchical data format 5 (.h5) files, to directly save in a binary file and keep the data formats.      The choice of the output format is entirely up to the user and to what is convenient for them. By default, the format used by ML-LPA is the .csv file.  Details on the formats  The same data are being stored in the different format. Only the structure inside the file changes.  .csv files  A .csv file can only take as an input 2-D arrays. This means that the COMs + phases array, which is a 3-D array, cannot be saved directly in the file. The 3-D array will be flattened in a 2-D one, by saving each frames one after the other. The name and IDs of the molecules will also be added to the resulting array.  The typical array of N molecules saved in a .csv file is based on the following table:                 Row index       Name       Frame       Molecule ID       COM x       COM y       COM z       Phase                       0       Mol. A       0       0       x position       y position       z position       phase                 1       Mol. A       0       1       x position       y position       z position       phase                 2       Mol. B       0       2       x position       y position       z position       phase                 …       …       …       …       …       …       …       …                 N       Mol. C       0       N       x position       y position       z position       phase                 N+1       Mol. A       1       0       x position       y position       z position       phase                 N+2       Mol. A       1       1       x position       y position       z position       phase                 N+3       Mol. B       1       2       x position       y position       z position       phase                 …       …       …       …       …       …       …       …                 2N       Mol. C       1       N       x position       y position       z position       phase                 2N+1       Mol. A       2       0       x position       y position       z position       phase                 …       …       …       …       …       …       …       …           .xml files  In an .xml file, the representation of each frame of the simulation is saved in a different branch of the .xml tree. Inside the frame branch, each molecule is defined in its own sub-branch. The sub-branch of the molecule will contain: (i) its ID, (ii) its name, (iii) its phase and (iv) the X, Y and Z coordinates of its COM.  The typical .xml tree will look like  ├── frame 0 │   ├── 0, Mol. A, phase, x, y, z │   ├── 1, Mol. B, phase, x, y, z │   ... │   └── N, Mol. C, phase, x, y, z ├── frame 1 │   ├── 0, Mol. A, phase, x, y, z │   ├── 1, Mol. B, phase, x, y, z │   ... │   └── N, Mol. C, phase, x, y, z ...   .h5 files  Since the HDF5 format is a hierarchical format close to .xml format, we will typically find the same structure in this format as well. However, since more informations and different types of data can be stored in a HDF5 file, the informations one can find inside are more complete than in the .xml file.  First, the ID and names arrays are only saved once in the file, and not once per frame, to save some space.  The COMs and arrays are saved separately in two elements, since they keep their respective dimensions of (# Frames, # Molecules, [X,Y,Z]) and (# Frames, # Molecules).  The dimensions of the simulations box are also saved in another element as an array of dimension (# Frames, [X,Y,Z])  HDF5 (.h5) files can opened with softwares such as HDFView. However, we recommend to use Python to open the file again and read their content. Please use the scientific library h5py for that purpose.  Save in a file  Once your systems are ready to be saved and once you have selected your desired output format, you can save the instances of the System class using the function saveSystems().  import mllpa  mllpa.saveSystems([unknown_system], file_path=&quot;processed_system.h5&quot;)   Similarly to the function generateModel() and doVoro(), the only input data taken by saveSystems() is a list of instances. If you only want to save one instance, please convert it into a list first.  ML-LPA automatically detect the extension given in the file_path= keyword-argument to determine the format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default format can be selected by using the keyword-argument format=.  ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument. In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.  mllpa.saveSystems([unknown_system], format=&quot;.xml&quot;)   What is next?     Now that you know how to save the instances of the System class, you can check how to save the instance of the Tessellation class.   Check the API  The following elements have been used in this tutorial:     saveSystems">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="Save the System class">
+  <meta name="twitter:description" content="Once the phases of the system have been predicted by ML-LPA - or assigned manually - it can be essential to store and save the results in a file on your computer. This tutorial will explain how it can be easily done.  Pick the file format  When an instance of the System class is saved by ML-LPA, the following data are saved in the file:          Name and index of the molecule.           Center of mass (COMs) of the molecule (X, Y, Z).           The phase in which the molecule was found.      Since both COMs and phases arrays are defined over time, they will be concatenated prior saving in a single array of dimension (# Frames, # Molecules, [X, Y, Z, Phase]).  ML-LPA can save the file even if the phases are not included in the system. It will just omit them from the output file.  To be able to save these data, the user will have to select the format to use.  Choice of file format  ML-LPA is capable of storing the instance of System class in different file formats:          Comma-separated values (.csv) files, to be easily opened in spreadsheet softwares.           Extensible markup language (.xml) files, to keep a hierarchical structure in the data saved while saving in a text file.           Hierarchical data format 5 (.h5) files, to directly save in a binary file and keep the data formats.      The choice of the output format is entirely up to the user and to what is convenient for them. By default, the format used by ML-LPA is the .csv file.  Details on the formats  The same data are being stored in the different format. Only the structure inside the file changes.  .csv files  A .csv file can only take as an input 2-D arrays. This means that the COMs + phases array, which is a 3-D array, cannot be saved directly in the file. The 3-D array will be flattened in a 2-D one, by saving each frames one after the other. The name and IDs of the molecules will also be added to the resulting array.  The typical array of N molecules saved in a .csv file is based on the following table:                 Row index       Name       Frame       Molecule ID       COM x       COM y       COM z       Phase                       0       Mol. A       0       0       x position       y position       z position       phase                 1       Mol. A       0       1       x position       y position       z position       phase                 2       Mol. B       0       2       x position       y position       z position       phase                 …       …       …       …       …       …       …       …                 N       Mol. C       0       N       x position       y position       z position       phase                 N+1       Mol. A       1       0       x position       y position       z position       phase                 N+2       Mol. A       1       1       x position       y position       z position       phase                 N+3       Mol. B       1       2       x position       y position       z position       phase                 …       …       …       …       …       …       …       …                 2N       Mol. C       1       N       x position       y position       z position       phase                 2N+1       Mol. A       2       0       x position       y position       z position       phase                 …       …       …       …       …       …       …       …           .xml files  In an .xml file, the representation of each frame of the simulation is saved in a different branch of the .xml tree. Inside the frame branch, each molecule is defined in its own sub-branch. The sub-branch of the molecule will contain: (i) its ID, (ii) its name, (iii) its phase and (iv) the X, Y and Z coordinates of its COM.  The typical .xml tree will look like  ├── frame 0 │   ├── 0, Mol. A, phase, x, y, z │   ├── 1, Mol. B, phase, x, y, z │   ... │   └── N, Mol. C, phase, x, y, z ├── frame 1 │   ├── 0, Mol. A, phase, x, y, z │   ├── 1, Mol. B, phase, x, y, z │   ... │   └── N, Mol. C, phase, x, y, z ...   .h5 files  Since the HDF5 format is a hierarchical format close to .xml format, we will typically find the same structure in this format as well. However, since more informations and different types of data can be stored in a HDF5 file, the informations one can find inside are more complete than in the .xml file.  First, the ID and names arrays are only saved once in the file, and not once per frame, to save some space.  The COMs and arrays are saved separately in two elements, since they keep their respective dimensions of (# Frames, # Molecules, [X,Y,Z]) and (# Frames, # Molecules).  The dimensions of the simulations box are also saved in another element as an array of dimension (# Frames, [X,Y,Z])  HDF5 (.h5) files can opened with softwares such as HDFView. However, we recommend to use Python to open the file again and read their content. Please use the scientific library h5py for that purpose.  Save in a file  Once your systems are ready to be saved and once you have selected your desired output format, you can save the instances of the System class using the function saveSystems().  import mllpa  mllpa.saveSystems([unknown_system], file_path=&quot;processed_system.h5&quot;)   Similarly to the function generateModel() and doVoro(), the only input data taken by saveSystems() is a list of instances. If you only want to save one instance, please convert it into a list first.  ML-LPA automatically detect the extension given in the file_path= keyword-argument to determine the format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default format can be selected by using the keyword-argument format=.  ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument. In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.  mllpa.saveSystems([unknown_system], format=&quot;.xml&quot;)   What is next?     Now that you know how to save the instances of the System class, you can check how to save the instance of the Tessellation class.   Check the API  The following elements have been used in this tutorial:     saveSystems">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/outputs/2-save-system/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-19T11:26:17+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/tutorials/outputs/2-save-system/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <a href="/mllpa/documentation/tutorials/quick-and-dirty/"><span class="nav__sub-title">Quick & Dirty tutorial</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Loading simulation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">The System class</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/1-description/">Attributes of the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/2-methods/">Methods of the System class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Predicting phases</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">Machine Learning algorithms training</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/">Optimisation of the neighbour rank</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">Lipid phase prediction</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">Setting phases manually</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Local environment analysis</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">Voronoi tessellations</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/2-local-environment/">Map the environment</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/3-no-phases/">Analysis without phases</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Save the outputs</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/1-model-file/">The .lpm model file</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/2-save-system/" class="active">Save the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">Save the Tessellation class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Save the System class">
+    <meta itemprop="description" content="Once the phases of the system have been predicted by ML-LPA -or assigned manually -it can be essential to store and save the results in a file on your computer.This tutorial will explain how it can be easily done.Pick the file formatWhen an instance of the System class is saved by ML-LPA, the following data are saved in the file:      Name and index of the molecule.        Center of mass (COMs) of the molecule (X, Y, Z).        The phase in which the molecule was found.  Since both COMs and phases arrays are defined over time, they will be concatenated prior savingin a single array of dimension (# Frames, # Molecules, [X, Y, Z, Phase]).ML-LPA can save the file even if the phases are not included in the system. It will just omit themfrom the output file.To be able to save these data, the user will have to select the format to use.Choice of file formatML-LPA is capable of storing the instance of System class in different file formats:      Comma-separated values (.csv) files, to be easily opened in spreadsheet softwares.        Extensible markup language (.xml) files, to keep a hierarchical structure in the data saved while saving in a text file.        Hierarchical data format 5 (.h5) files, to directly save in a binary file and keep the data formats.  The choice of the output format is entirely up to the user and to what is convenient for them.By default, the format used by ML-LPA is the .csv file.Details on the formatsThe same data are being stored in the different format. Only the structure inside the file changes..csv filesA .csv file can only take as an input 2-D arrays. This means that the COMs + phases array, which is a 3-D array,cannot be saved directly in the file. The 3-D array will be flattened in a 2-D one, by saving each frames one after the other.The name and IDs of the molecules will also be added to the resulting array.The typical array of N molecules saved in a .csv file is based on the following table:            Row index      Name      Frame      Molecule ID      COM x      COM y      COM z      Phase                  0      Mol. A      0      0      x position      y position      z position      phase              1      Mol. A      0      1      x position      y position      z position      phase              2      Mol. B      0      2      x position      y position      z position      phase              …      …      …      …      …      …      …      …              N      Mol. C      0      N      x position      y position      z position      phase              N+1      Mol. A      1      0      x position      y position      z position      phase              N+2      Mol. A      1      1      x position      y position      z position      phase              N+3      Mol. B      1      2      x position      y position      z position      phase              …      …      …      …      …      …      …      …              2N      Mol. C      1      N      x position      y position      z position      phase              2N+1      Mol. A      2      0      x position      y position      z position      phase              …      …      …      …      …      …      …      …      .xml filesIn an .xml file, the representation of each frame of the simulation is saved in a different branch of the .xml tree.Inside the frame branch, each molecule is defined in its own sub-branch. The sub-branch of the molecule will contain:(i) its ID, (ii) its name, (iii) its phase and (iv) the X, Y and Z coordinates of its COM.The typical .xml tree will look like├── frame 0│   ├── 0, Mol. A, phase, x, y, z│   ├── 1, Mol. B, phase, x, y, z│   ...│   └── N, Mol. C, phase, x, y, z├── frame 1│   ├── 0, Mol. A, phase, x, y, z│   ├── 1, Mol. B, phase, x, y, z│   ...│   └── N, Mol. C, phase, x, y, z....h5 filesSince the HDF5 format is a hierarchical format close to .xml format, we will typically find the same structurein this format as well. However, since more informations and different types of data can be stored in a HDF5 file, the informations onecan find inside are more complete than in the .xml file.First, the ID and names arrays are only saved once in the file, and not once per frame, to save some space.The COMs and arrays are saved separately in two elements, since they keep their respective dimensions of (# Frames, # Molecules, [X,Y,Z])and (# Frames, # Molecules).The dimensions of the simulations box are also saved in another element as an array of dimension (# Frames, [X,Y,Z])HDF5 (.h5) files can opened with softwares such as HDFView. However, we recommend to use Pythonto open the file again and read their content. Please use the scientific library h5py for that purpose.Save in a fileOnce your systems are ready to be saved and once you have selected your desired output format, youcan save the instances of the System class using the function saveSystems().import mllpamllpa.saveSystems([unknown_system], file_path=&quot;processed_system.h5&quot;)Similarly to the function generateModel() and doVoro(), the only input data taken by saveSystems() is a list of instances.If you only want to save one instance, please convert it into a list first.ML-LPA automatically detect the extension given in the file_path= keyword-argument to determinethe format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default formatcan be selected by using the keyword-argument format=.ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument.In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.mllpa.saveSystems([unknown_system], format=&quot;.xml&quot;)What is next?  Now that you know how to save the instances of the System class, you can check how to save the instanceof the Tessellation class.Check the APIThe following elements have been used in this tutorial:  saveSystems">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Save the System class
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#pick-the-file-format">Pick the file format</a>
+    <ul>
+      <li><a href="#choice-of-file-format">Choice of file format</a></li>
+      <li><a href="#details-on-the-formats">Details on the formats</a>
+        <ul>
+          <li><a href="#csv-files">.csv files</a></li>
+          <li><a href="#xml-files">.xml files</a></li>
+          <li><a href="#h5-files">.h5 files</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#save-in-a-file">Save in a file</a></li>
+  <li><a href="#what-is-next">What is next?</a></li>
+  <li><a href="#check-the-api">Check the API</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Once the phases of the system have been <a href="">predicted by ML-LPA</a> -
+or <a href="">assigned manually</a> -
+it can be essential to store and save the results in a file on your computer.
+This tutorial will explain how it can be easily done.</p>
+
+<h2 id="pick-the-file-format">Pick the file format</h2>
+
+<p>When an instance of the System class is saved by ML-LPA, the following data are saved in the file:</p>
+
+<ul>
+  <li>
+    <p><strong>Name</strong> and <strong>index</strong> of the molecule.</p>
+  </li>
+  <li>
+    <p><strong>Center of mass (COMs)</strong> of the molecule (X, Y, Z).</p>
+  </li>
+  <li>
+    <p>The <strong>phase</strong> in which the molecule was found.</p>
+  </li>
+</ul>
+
+<p>Since both COMs and phases arrays are defined over time, they will be concatenated prior saving
+in a single array of dimension <code class="language-plaintext highlighter-rouge">(# Frames, # Molecules, [X, Y, Z, Phase])</code>.</p>
+
+<p class="notice--warning">ML-LPA can save the file even if the phases are not included in the system. It will just omit them
+from the output file.</p>
+
+<p>To be able to save these data, the user will have to select the format to use.</p>
+
+<h3 id="choice-of-file-format">Choice of file format</h3>
+
+<p>ML-LPA is capable of storing the instance of System class in different file formats:</p>
+
+<ul>
+  <li>
+    <p><strong>Comma-separated values (.csv) files</strong>, to be easily opened in spreadsheet softwares.</p>
+  </li>
+  <li>
+    <p><strong>Extensible markup language (.xml) files</strong>, to keep a hierarchical structure in the data saved while saving in a text file.</p>
+  </li>
+  <li>
+    <p><strong>Hierarchical data format 5 (.h5) files</strong>, to directly save in a binary file and keep the data formats.</p>
+  </li>
+</ul>
+
+<p class="notice--info">The choice of the output format is entirely up to the user and to what is convenient for them.
+By default, the format used by ML-LPA is the .csv file.</p>
+
+<h3 id="details-on-the-formats">Details on the formats</h3>
+
+<p>The <strong>same data</strong> are being stored in the different format. Only the structure inside the file changes.</p>
+
+<h4 id="csv-files">.csv files</h4>
+
+<p>A .csv file can only take as an input <strong>2-D arrays</strong>. This means that the COMs + phases array, which is a <strong>3-D array</strong>,
+cannot be saved directly in the file. The 3-D array will be flattened in a 2-D one, by saving each frames one after the other.
+The name and IDs of the molecules will also be added to the resulting array.</p>
+
+<p>The typical array of N molecules saved in a .csv file is based on the following table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Row index</th>
+      <th>Name</th>
+      <th>Frame</th>
+      <th>Molecule ID</th>
+      <th>COM x</th>
+      <th>COM y</th>
+      <th>COM z</th>
+      <th>Phase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Mol. A</td>
+      <td>0</td>
+      <td>0</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Mol. A</td>
+      <td>0</td>
+      <td>1</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Mol. B</td>
+      <td>0</td>
+      <td>2</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>N</td>
+      <td>Mol. C</td>
+      <td>0</td>
+      <td>N</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>N+1</td>
+      <td>Mol. A</td>
+      <td>1</td>
+      <td>0</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>N+2</td>
+      <td>Mol. A</td>
+      <td>1</td>
+      <td>1</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>N+3</td>
+      <td>Mol. B</td>
+      <td>1</td>
+      <td>2</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>2N</td>
+      <td>Mol. C</td>
+      <td>1</td>
+      <td>N</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>2N+1</td>
+      <td>Mol. A</td>
+      <td>2</td>
+      <td>0</td>
+      <td>x position</td>
+      <td>y position</td>
+      <td>z position</td>
+      <td>phase</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="xml-files">.xml files</h4>
+
+<p>In an .xml file, the representation of <strong>each frame</strong> of the simulation <strong>is saved in a different branch</strong> of the .xml tree.
+Inside the frame branch, <strong>each molecule is defined in its own sub-branch</strong>. The sub-branch of the molecule will contain:
+(i) its ID, (ii) its name, (iii) its phase and (iv) the X, Y and Z coordinates of its COM.</p>
+
+<p>The typical .xml tree will look like</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── frame 0
+│   ├── 0, Mol. A, phase, x, y, z
+│   ├── 1, Mol. B, phase, x, y, z
+│   ...
+│   └── N, Mol. C, phase, x, y, z
+├── frame 1
+│   ├── 0, Mol. A, phase, x, y, z
+│   ├── 1, Mol. B, phase, x, y, z
+│   ...
+│   └── N, Mol. C, phase, x, y, z
+...
+</code></pre></div></div>
+
+<h4 id="h5-files">.h5 files</h4>
+
+<p>Since the HDF5 format is a hierarchical format close to .xml format, we will typically find the same structure
+in this format as well. However, since more informations and different types of data can be stored in a HDF5 file, the informations one
+can find inside are more complete than in the .xml file.</p>
+
+<p>First, the ID and names arrays are only <strong>saved once in the file</strong>, and not once per frame, to save some space.</p>
+
+<p>The <strong>COMs</strong> and <strong>arrays</strong> are saved separately in two elements, since they keep their respective dimensions of <code class="language-plaintext highlighter-rouge">(# Frames, # Molecules, [X,Y,Z])</code>
+and <code class="language-plaintext highlighter-rouge">(# Frames, # Molecules)</code>.</p>
+
+<p>The <strong>dimensions of the simulations box</strong> are also saved in another element as an array of dimension <code class="language-plaintext highlighter-rouge">(# Frames, [X,Y,Z])</code></p>
+
+<p class="notice--info">HDF5 (.h5) files can opened with softwares such as HDFView. However, we recommend to use Python
+to open the file again and read their content. Please use the scientific library <a href="https://www.h5py.org">h5py</a> for that purpose.</p>
+
+<h2 id="save-in-a-file">Save in a file</h2>
+
+<p>Once your systems are ready to be saved and once you have selected your desired output format, you
+can save the instances of the System class using the function <em>saveSystems()</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">mllpa</span><span class="p">.</span><span class="n">saveSystems</span><span class="p">([</span><span class="n">unknown_system</span><span class="p">],</span> <span class="n">file_path</span><span class="o">=</span><span class="s">"processed_system.h5"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="notice--warning">Similarly to the function <em>generateModel()</em> and <em>doVoro()</em>, the only input data taken by <em>saveSystems()</em> is a list of instances.
+If you only want to save one instance, please convert it into a list first.</p>
+
+<p>ML-LPA automatically detect the extension given in the <em>file_path=</em> keyword-argument to determine
+the format to use. If no extension is found, ML-LPA will automatically use the <strong>default .csv format</strong>. The default format
+can be selected by using the keyword-argument <em>format=</em>.</p>
+
+<p>ML-LPA can also be set to generate automatically the file name. This is done by not including the <em>file_path=</em> keyword argument.
+In this case, the name generated will be the date and time of the generation, in the format <em>YYMMDD_HHMMSS</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">saveSystems</span><span class="p">([</span><span class="n">unknown_system</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s">".xml"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>Now that you know how to save the instances of the System class, you can check how to save the instance
+of the <a href="">Tessellation class</a>.</li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>saveSystems</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#file-access" class="page__taxonomy-item" rel="tag">file access</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/mllpa/tags/#output" class="page__taxonomy-item" rel="tag">output</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/mllpa/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/tutorials/outputs/1-model-file/" class="pagination--pager" title="The .lpm model file
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/" class="pagination--pager" title="Save the Tessellation class
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

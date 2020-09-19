@@ -1,0 +1,76 @@
+<p>Once the tessellation has been processed on the system and the instance of the <strong>Tessellation</strong> class generated,
+ML-LPA is ready to map the local environment of the lipids.</p>
+
+<h2 id="local-environment">Local environment</h2>
+
+<p>Inside a membrane, a lipid A is always surrounded by N lipids Bi. Each of these Bi belongs to a specific phase Pi,
+which affects its <strong>properties and configuration</strong>. The distribution of the phases Pi describes the <strong>local environment</strong> of the lipid A.</p>
+
+<center><img src="/mllpa/assets/images/tutorials/environment.png" width="200" height="200" /></center>
+<center><sub>Illustration of the local environment mapping and analysis</sub></center>
+<p><br /></p>
+
+<p>Depending on the distribution of Pi, the location of the lipid on the membrane can be determined:</p>
+
+<ul>
+  <li>
+    <p>If (almost) all Pi are equal to the same phase Pa, then the lipid is located <strong>inside the domain</strong> of the Pa</p>
+  </li>
+  <li>
+    <p>If the Pi are distributed (almost) equally between a phase Pa and another phase Pb, then the lipid is located at the <strong>frontier between the domains</strong> Pa and Pb.</p>
+  </li>
+</ul>
+
+<p>If the total number of lipids in the membrane is large enough, and if the number of lipids in each phase is similar,
+the difference between the number of lipids found inside a domain and the number of lipids at a frontier
+can be an accurate description of the <strong>state of the phase separation in the membrane</strong>.</p>
+
+<p>The mapping of the local environment can be done <strong>inside the same leaflet</strong> of the lipid A only,
+<strong>or by observing both leaflet</strong> at the same time and assuming that the phase on one leaflet is affecting
+the phase on the other leaflet. The choice between the two observation modes is done
+when selecting the <em>_3d</em> type of membrane (both leaflet) or not in the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/#the-membrane-geometry">doVoro() function</a>.</p>
+
+<h2 id="run-the-mapping">Run the mapping</h2>
+
+<p>The local environment analysis is simply run with the function <em>readNeighbors()</em>, which only takes the
+instance of the Tessellation class to process as argument.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">mllpa</span><span class="p">.</span><span class="n">readNeighbors</span><span class="p">(</span><span class="n">tessellation</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="notice--info">In this example, the variable <em>tessellation</em> is an instance of the Tessellation class generated via the
+function <em>doVoro()</em>. Check the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">related tutorial</a> for more details.</p>
+
+<p>MLLPA will automatically save the results directly inside the instance of the Tessellation class, to be used or saved later.
+However, it outputs in the same time the <strong>total phase composition of each lipid</strong>.
+These values can be stored in variable, such as</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">neighbor_phases</span><span class="p">,</span> <span class="n">states_list</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">readNeighbors</span><span class="p">(</span><span class="n">tessellation</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><em>neighbor_phases</em> is a NumPy array of dimensions <code class="language-plaintext highlighter-rouge">(# frames, # molecules, # phases)</code>. The last axis
+reads the number of neighbors found for each of the phases found in the system, e.g. <code class="language-plaintext highlighter-rouge">[3, 0, 1]</code> in a system with three phases.
+The respective name of the phases corresponding to each index of the list are returned in the variable <em>states_list</em></p>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>
+    <p>Now that the local environment has been mapped, the last step is to
+<a href="">save all the results</a> in a file.</p>
+  </li>
+  <li>
+    <p>You can also check how to analyse the local environment in a membrane
+<a href="">in terms of molecule types</a> and not of phases.</p>
+  </li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>generateModel</li>
+</ul>

@@ -1,0 +1,118 @@
+<p>The <strong>intra-molecular atom distances</strong> are a critical feature of the molecules used by ML-LPA to
+analyse and then predict the lipid phases. However, this feature is based on the given
+<strong>neighbour rank</strong>, for which the optimal value has to be determined by the user. This tutorial
+demonstrates how ML-LPA can be used to easily find the optimal neighbour rank.</p>
+
+<h2 id="definition-of-the-neighbour-rank">Definition of the neighbour rank</h2>
+
+<p>The neighbour rank in ML-LPA is defined as the <strong>relative position of an atom B from a reference atom B along a chain in the molecule</strong>.</p>
+
+<center><img src="/mllpa/assets/images/tutorials/ranks.png" width="300" height="300" /></center>
+<center><sub>Illustration of the neighbour ranks</sub></center>
+<p><br /></p>
+
+<p>In other terms, a pair formed by two atoms at the rank N are (i) <strong>on a common chain</strong> within the same molecule, and (ii) <strong>separated by N-1 atoms</strong> along that same chain.</p>
+
+<p>The neighbour rank is essential to <strong>define the pairs</strong> on which the distances between atoms should be calculated in a molecule. If the rank is too small, the variations in distances
+might not be significant enough. If the rank is too large, the statistics collected could be insufficient as not enough atoms can form pair at the given rank.</p>
+
+<h2 id="finding-the-optimal-rank">Finding the optimal rank</h2>
+
+<p>In order to find the optimal neighbour rank, we will <strong>train ML-LPA on the same simulation files</strong>, but
+we will <strong>apply different ranks</strong> each time and see how the <strong>training score</strong> is impacted.
+To avoid extracting the information from the file each time, we will instead use the method
+<em>.getDistances()</em> of the System class to only <em>compute again the distances</em> at each iteration of the loop.</p>
+
+<p>In this example, we will test all the neighbour ranks from 2 to 10. We will also need to import the
+NumPy library to analyse the data.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="code"><pre><span class="kn">import</span> <span class="nn">mllpa</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># Load the simulations files to be trained on
+</span><span class="n">gel_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'gel.gro'</span><span class="p">,</span> <span class="s">'gel.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+<span class="n">fluid_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'fluid.gro'</span><span class="p">,</span> <span class="s">'fluid.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+
+<span class="c1"># Start the processing loop
+</span><span class="n">all_ranks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">all_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">all_ranks</span><span class="p">:</span>
+
+  <span class="c1"># Re-generate the distances based on the new rank value
+</span>  <span class="n">gel_system</span><span class="p">.</span><span class="n">getDistances</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">)</span>
+  <span class="n">fluid_system</span><span class="p">.</span><span class="n">getDistances</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">)</span>
+
+  <span class="c1"># Train the model on the systems - save the model files
+</span>  <span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s">'dppc_rank='</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span><span class="o">+</span><span class="s">'.lpm'</span><span class="p">)</span>
+
+  <span class="c1"># Get the final total score with the given rank
+</span>  <span class="n">all_scores</span><span class="p">.</span><span class="n">append</span><span class="p">(</span> <span class="n">models</span><span class="p">[</span><span class="s">'scores'</span><span class="p">][</span><span class="s">'final'</span><span class="p">][</span><span class="s">'total'</span><span class="p">]</span> <span class="p">)</span>
+
+<span class="c1"># Convert the score list into an array
+</span><span class="n">all_scores</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_scores</span><span class="p">)</span>
+
+<span class="c1"># Determine the optimal rank by searching the index of the highest score
+</span><span class="n">best_rank</span> <span class="o">=</span> <span class="n">all_ranks</span><span class="p">[</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">all_scores</span><span class="p">)</span> <span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Optimal rank:'</span><span class="p">,</span> <span class="n">best_rank</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>The optimal rank should be automatically displayed when the script above is run.</p>
+
+<p class="notice--info">For indication, we have found an optimal rank equals to 6 with DPPC simulated with
+Charmm36 and 4 with DPPC simulated in Martini. This is of course based on our training
+on our own simulations, and should not be used as a rule.</p>
+
+<p class="notice--warning">The maximum rank that can be applied to the system depends on the <strong>forcefield model</strong> used in
+the simulation file. For example, an all-atom model such as Charmm36 can have ranks &gt; 20, while
+coarse-grain models (<em>e.g.</em> Martini) won’t even have any pair at rank 10 or above.</p>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>Once you have found the optimal rank for your system, you can now <a href="">prepare and train a model</a> for
+  machine learning analysis.</li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>
+    <p>openSystem</p>
+  </li>
+  <li>
+    <p>generateModel</p>
+  </li>
+  <li>
+    <p>System class</p>
+  </li>
+</ul>
