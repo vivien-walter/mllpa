@@ -147,8 +147,8 @@ include:
   - .htaccess
   - _pages
   - _documentation
-  - _teaching
-  - _aboutme
+  - _references
+  - _authors
 exclude:
   - "*.sublime-project"
   - "*.sublime-workspace"
@@ -274,10 +274,10 @@ collections:
   documentation:
     output: true
     permalink: /:collection/:path/
-  teaching:
+  references:
     output: true
     permalink: /:collection/:path/
-  aboutme:
+  authors:
     output: true
     permalink: /:collection/:path/
 
@@ -300,17 +300,17 @@ defaults:
       type: documentation
     values:
       layout: single
-  # _teaching
+  # _references
   - scope:
       path: ""
-      type: teaching
+      type: references
     values:
       layout: single
-      share: true # true
-  # _teaching
+      share: false # true
+  # _references
   - scope:
       path: ""
-      type: aboutme
+      type: authors
     values:
       layout: single
-      share: true # true
+      share: false # true

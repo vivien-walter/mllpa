@@ -98,12 +98,44 @@ sidebar-tutorials:
 sidebar-api:
   - title: "Common functions"
     children:
-      - title: "openSystem()"
-        url: /documentation/api/common/1-opensystem/
+      - title: "doVoro()"
+        url: /documentation/api/common/dovoro/
       - title: "generateModel()"
-        url: /documentation/api/common/2-generatemodel/
+        url: /documentation/api/common/generatemodel/
+      - title: "getStates()"
+        url: /documentation/api/common/getstates/
+      - title: "openSystem()"
+        url: /documentation/api/common/opensystem/
+      - title: "readNeighbors()"
+        url: /documentation/api/common/readneighbors/
+      - title: "saveSystems()"
+        url: /documentation/api/common/savesystems/
+      - title: "saveVoro()"
+        url: /documentation/api/common/savevoro/
+      - title: "setStates()"
+        url: /documentation/api/common/setstates/
   - title: "Advanced functions"
+    children:
+      - title: "extractPositions()"
+        url: /documentation/api/advanced/extractpositions/
+      - title: "getCoordinates()"
+        url: /documentation/api/advanced/getcoordinates/
+      - title: "getDistances()"
+        url: /documentation/api/advanced/getdistances/
+      - title: "getMolInfos()"
+        url: /documentation/api/advanced/getmolinfos/
+      - title: "getTypes()"
+        url: /documentation/api/advanced/gettypes/
+      - title: "predictStates()"
+        url: /documentation/api/advanced/predictstates/
+      - title: "systemFromPositions()"
+        url: /documentation/api/advanced/systemfrompositions/
   - title: "Classes"
+    children:
+      - title: "System"
+        url: /documentation/api/classes/system/
+      - title: "Tessellation"
+        url: /documentation/api/classes/tessellation/
 
 # sidebar navigation list About
 sidebar-aboutme:

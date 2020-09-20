@@ -59,13 +59,26 @@ If you are only interested in getting ML-LPA to work quickly, we recommend to sk
 
 ## API Reference
 
+The API reference lists and describes all the **functions** and **classes** implemented in ML-LPA.
+Along examples, all arguments, keyword-arguments and outputs are detailed and explained.
+
 ### Common functions
 
 {% assign api = site.documentation | where:"section", "api/common" %}
 {% for item in api %}
-  1. [{{ item.title }}]({{ site.baseurl }}/{{ item.collection }}/{{ item.section }}/{{ item.slug }})
+  * [{{ item.title }}]({{ site.baseurl }}/{{ item.collection }}/{{ item.section }}/{{ item.slug }})
 {% endfor %}
 
 ### Advanced functions
 
+{% assign api = site.documentation | where:"section", "api/advanced" %}
+{% for item in api %}
+  * [{{ item.title }}]({{ site.baseurl }}/{{ item.collection }}/{{ item.section }}/{{ item.slug }})
+{% endfor %}
+
 ### Classes
+
+{% assign api = site.documentation | where:"section", "api/classes" %}
+{% for item in api %}
+  * [{{ item.title }}]({{ site.baseurl }}/{{ item.collection }}/{{ item.section }}/{{ item.slug }})
+{% endfor %}

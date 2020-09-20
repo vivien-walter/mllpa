@@ -1,0 +1,265 @@
+<h2 id="description">Description</h2>
+
+<p>The System class is a class used to store all the information on the atoms belonging to a specific
+molecule type and required to process Machine Learning training and predictions in ML-LPA.</p>
+
+<h2 id="attributes-and-methods">Attributes and Methods</h2>
+
+<h3 id="initialisation">Initialisation</h3>
+
+<p>Instances of the System class can be generated in ML-LPA via two functions:</p>
+
+<ul>
+  <li>
+    <p><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/api/advanced/systemfrompositions/">systemFromPositions()</a></p>
+  </li>
+</ul>
+
+<p>It is recommended to use these functions to generate the instances of the class. However, if
+one wants to generate it by calling the class, the following data are required:</p>
+
+<ol>
+  <li>
+    <p>The <strong>name</strong> of the molecule type, as listed by the <a href="/mllpa/documentation/api/advanced/gettypes/">getTypes()</a> function.</p>
+  </li>
+  <li>
+    <p>The <strong>array of positions</strong> of the atom in the correct dimensions, as extracted
+by the <a href="/mllpa/documentation/api/advanced/extractpositions/">extractPositions()</a> function.</p>
+  </li>
+  <li>
+    <p>The <strong>dictionary of information</strong> of the molecule type, as extracted by the
+<a href="/mllpa/documentation/api/advanced/getmolinfos/">getMolInfos()</a> function.</p>
+  </li>
+  <li>
+    <p>The <strong>array of dimensions</strong> of the simulation box over time, in the correct dimensions, as extracted
+by the <a href="/mllpa/documentation/api/advanced/extractpositions/">extractPositions()</a> function.</p>
+  </li>
+</ol>
+
+<h3 id="attributes">Attributes</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th> Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>system.type</strong></td>
+      <td>str</td>
+      <td>Name of the molecule type stored in the instance. </td>
+    </tr>
+    <tr>
+      <td><strong>system.positions</strong></td>
+      <td>np.ndarray</td>
+      <td>Positions of all the atoms of each molecules collected.</td>
+    </tr>
+    <tr>
+      <td><strong>system.boxes</strong></td>
+      <td>np.ndarray</td>
+      <td>Dimensions of the simulation box.</td>
+    </tr>
+    <tr>
+      <td><strong>system.infos</strong></td>
+      <td>dict</td>
+      <td>Dictionary containing all relevant informations on the molecules (e.g. atom masses, bonds).</td>
+    </tr>
+    <tr>
+      <td><strong>system.coordinates</strong></td>
+      <td>np.ndarray </td>
+      <td>Coordinates of the atoms of each molecule, after centering the molecule on their centers of mass and rotation.</td>
+    </tr>
+    <tr>
+      <td><strong>system.distances</strong></td>
+      <td>np.ndarray</td>
+      <td> Distances between atoms pairs, pairs are set to a given neighbor rank.</td>
+    </tr>
+    <tr>
+      <td><strong>system.rank</strong></td>
+      <td>int</td>
+      <td>Rank used for the distance calculation.</td>
+    </tr>
+    <tr>
+      <td><strong>system.states</strong></td>
+      <td>np.ndarray</td>
+      <td>States of each molecules in the system.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="methods">Methods</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Argument(s)</th>
+      <th> Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>system.getCoordinates()</strong></td>
+      <td>&lt;ul&gt;&lt;li&gt;up=, {bool}, (Opt.) Make sure the molecule is always pointing “up”. Default is True.&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>Compute the coordinate set based on the atom positions of the system. The results are directly stored in the instance.</td>
+    </tr>
+    <tr>
+      <td><strong>system.getDistances()</strong></td>
+      <td>&lt;ul&gt;&lt;li&gt;rank=, {int}, (Opt.) Rank for the distance calculation. Default is 6.&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>Calculate the distance between atom pairs based on the atom positions of the system and the neighbor rank. The results are directly stored in the instance.</td>
+    </tr>
+    <tr>
+      <td><strong>system.getStates()</strong></td>
+      <td>&lt;ul&gt;&lt;li&gt;models, {str or dict of models}, Path to the model files or dictionary of the models to use to predict the states.&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>Predict the states of all the molecules in the system using the provided models. Return the array of states.</td>
+    </tr>
+    <tr>
+      <td><strong>system.setStates()</strong></td>
+      <td>&lt;ul&gt;&lt;li&gt;states, {str or np.ndarray}, States to apply to the molecules of the system.&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>Set manually the states of all the molecules in the system using the provided models. Return the array of states.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="initialise-an-instance-of-the-class">Initialise an instance of the class</h3>
+
+<p>The following example will initialise an instance of the System class, named here <em>loaded_system</em>,
+from the given molecule type <em>DPPC</em>, the position array <em>atom_positions</em>, the dictionary of type information
+<em>mol_infos</em>, and the array of dimensions of the simulation boxes, <em>simulation_boxes</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">mllpa.system_class</span> <span class="kn">import</span> <span class="n">System</span>
+
+<span class="n">loaded_system</span> <span class="o">=</span> <span class="n">System</span><span class="p">(</span><span class="s">"DPPC"</span><span class="p">,</span> <span class="n">position_array</span><span class="p">,</span> <span class="n">mol_infos</span><span class="p">,</span> <span class="n">simulation_boxes</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="convert-the-positions-into-coordinates">Convert the positions into coordinates</h3>
+
+<p>The following example will convert the position array inside the instance of the System class <em>loaded_system</em>
+into the array of coordinates directly stored in the instance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getCoordinates</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="convert-the-positions-into-distances">Convert the positions into distances</h3>
+
+<p>The following example will convert the position array inside the instance of the System class <em>loaded_system</em>
+into the array of distances directly stored in the instance. The conversion will use a neighbor rank equals to 6.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getDistances</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="prediction-with-a-model-file">Prediction with a model file</h3>
+
+<p>The following example will use the model file <em>new_model.lpm</em> to predict the phase of <em>loaded_system</em>,
+an instance of the System class. The output will be stored in the attributes of the instance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="s">"./new_model.lpm"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="prediction-with-a-model-dictionary">Prediction with a model dictionary</h3>
+
+<p>The following example will use the models stored in the variable <em>models</em> to predict the phase of <em>loaded_system</em>,
+an instance of the System class. The output will be stored in the instance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="assigning-a-single-phase">Assigning a single phase</h3>
+
+<p>The following example will assign the phase name <em>fluid</em> to all molecules of <em>loaded_system</em>,
+an instance of the System class. The output will be stored in the attributes of the instance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="s">"fluid"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="assigning-a-phase-array">Assigning a phase array</h3>
+
+<p>The following example will assign the array of phases <em>phase_array</em> to <em>loaded_system</em>,
+an instance of the System class. The output will be stored in the instance of the System class.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="n">phase_array</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="related-functions">Related functions</h2>
+
+<p>The following function(s) uses the System class either in their input our output:</p>
+
+<ul>
+  <li>
+    <p><strong>Common functions</strong></p>
+
+    <ul>
+      <li>
+        <p><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></p>
+      </li>
+      <li>
+        <p><a href="/mllpa/documentation/api/common/generatemodel/">generateModel()</a></p>
+      </li>
+      <li>
+        <p><a href="/mllpa/documentation/api/common/getstates/">getStates()</a></p>
+      </li>
+      <li>
+        <p><a href="/mllpa/documentation/api/common/setstates/">setStates()</a></p>
+      </li>
+      <li>
+        <p><a href="/mllpa/documentation/api/common/savesystems/">saveSystems()</a></p>
+      </li>
+      <li>
+        <p><a href="/mllpa/documentation/api/common/dovoro/">doVoro()</a></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Advanced functions</strong></p>
+
+    <ul>
+      <li><a href="/mllpa/documentation/api/advanced/systemfrompositions/">systemFromPositions()</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="related-tutorials">Related tutorials</h2>
+
+<p>The following tutorial(s) detail further the use of the <em>getStates()</em> function through the <em>.getStates()</em> method of
+the system class:</p>
+
+<ul>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/system-class/1-description/">Attributes of the System class</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/system-class/2-methods/">Methods of the System class</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">Machine Learning algorithms training</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/">Optimisation of the neighbour rank</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">Lipid phase prediction</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">Setting phases manually</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">Voronoi tessellation</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/outputs/2-save-system/">Save the System class</a></p>
+  </li>
+</ul>

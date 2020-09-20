@@ -1,14 +1,122 @@
 var store = [{
-        "title": "openSystem()",
-        "excerpt":"Description openSystem() is a function used to load the simulation files to be analysed. The function can load either single frames or whole trajectory. Only one type of molecule will be extracted from the files, since Machine Learning models can only be generated on one molecule type at the time....","categories": ["api"],
-        "tags": ["system"],
-        "url": "http://localhost:4000/mllpa/documentation/api/common/1-opensystem/",
+        "title": "1 Walter Vivien",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/mllpa/authors/1-walter-vivien/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "Olivier Benzerara",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/mllpa/authors/olivier-benzerara/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "Ruscher Celine",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/mllpa/authors/ruscher-celine/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "extractPositions()",
+        "excerpt":"Description extractPositions() is a function used to extract the position array of all the atoms of the selected molecule type, as well as the dimension of the simulation boxes. The resulting arrays are in the format and dimensions used my ML-LPA for all the standard analysis. Argument, keywords and outputs...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/extractpositions/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "getCoordinates()",
+        "excerpt":"Description getCoordinates() is a function used to transform the atom positions into coordinates by centering them around their center of masses and rotation along a common axis. The position array can be obtained using the function extractPositions(). The molecule type information dictionary can be obtained using the function getMolInfos. Argument,...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/getcoordinates/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "getDistances()",
+        "excerpt":"Description getDistances() is a function used to transform the atom positions into intra-molecular distances by measuring the distances between atom pairs at a given rank. The position array can be obtained using the function extractPositions(). The molecule type information dictionary can be obtained using the function getMolInfos. Argument, keywords and...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/getdistances/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "getMolInfos()",
+        "excerpt":"Description getMolInfos() is a function used to extract all the relevant information on the molecule type selected from a structure file. The information are returned as a dictionary. Argument, keywords and outputs Input(s) / Argument(s) Name Flag  Type Description Structure file   str Relative path to the structure file of...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/getmolinfos/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "getTypes()",
+        "excerpt":"Description getTypes() is a function used to extract and return the list of molecule types found in the simulation files. These types can be used as input for the openSystem() function. Argument, keywords and outputs Input(s) / Argument(s) Name Flag  Type Description Coordinates file   str Relative path to the...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/gettypes/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "predictStates()",
+        "excerpt":"Description predictStates() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model. It is similar to the getStates() function, however it uses coordinates and distances array instead of the instance of the System class as input. The coordinates...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/predictstates/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "systemFromPositions()",
+        "excerpt":"Description systemFromPositions() is a function similar to openSystem() used to load the simulation files to be analysed. The function will use position arrays instead of simulation files. More informations on the System class can be found in the related API reference. Similarly to the openSystem() function, systemFromPositions() can only load...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/systemfrompositions/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "System",
+        "excerpt":"Description The System class is a class used to store all the information on the atoms belonging to a specific molecule type and required to process Machine Learning training and predictions in ML-LPA. Attributes and Methods Initialisation Instances of the System class can be generated in ML-LPA via two functions:...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/classes/system/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "Tessellation",
+        "excerpt":"Description The class Tessellations is used to store all informations required to perform a Voronoi tessellation on the molecules of the system, along with all elements obtained through the tessellation. After a neighbor analysis, the information are also stored in the instance of the class. Attributes and Methods Initialisation Instances...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/classes/tessellation/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "doVoro()",
+        "excerpt":"Description doVoro() is a function used to tessellate the system. The tessellations collect the volumes (areas if 2-dimensions), vertices and neighbor lists of each molecule. The result of the tessellation and all the relevant informations are stored in an instance of the Tessellation class. More informations on the System class...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/common/dovoro/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "generateModel()",
         "excerpt":"Description generateModel() is a function used to train Machine Learning models to predict the phases of molecules based on the input systems. The models will be saved in a file unless told otherwise, and will also output the models in a variable that can be used directly. Argument, keywords and...","categories": ["api"],
         "tags": ["training"],
-        "url": "http://localhost:4000/mllpa/documentation/api/common/2-generatemodel/",
+        "url": "http://localhost:4000/mllpa/documentation/api/common/generatemodel/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "getStates()",
+        "excerpt":"Description getStates() is a function used to predict the states of the molecules from the system by using a model previously created using the function generateModel(). The function can take as input either the path to a model file, or a dictionary of models; it will both update the input...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/common/getstates/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "openSystem()",
+        "excerpt":"Description openSystem() is a function used to load the simulation files to be analysed. The function can load either single frames or whole trajectory. Only one type of molecule will be extracted from the files, since Machine Learning models can only be generated on one molecule type at the time....","categories": ["api"],
+        "tags": ["system"],
+        "url": "http://localhost:4000/mllpa/documentation/api/common/opensystem/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "readNeighbors()",
+        "excerpt":"Description readNeighbors() is a function used to read the states (as predicted through Machine Learning) of the neighbors of each molecule to list the state compositions. The neighbors list has to be collected first using the doVoro() function. The function will both update the input tessellation and output an array...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/common/readneighbors/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "saveSystems()",
+        "excerpt":"Description saveSystems() is a function that can be used to save the system in a file. The function will save the center of masses and states of all the input systems for each frame. The function can use several file format to store the data. Extensive details on the formats...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/common/savesystems/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "saveVoro()",
+        "excerpt":"Description saveVoro() is a function used to save the neighbors of each molecule and their composition in a file. The function will also save the centers of mass for each frame of the simulation. The function can use several file format to store the data. Extensive details on the formats...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/common/savevoro/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "setStates()",
+        "excerpt":"Description setStates() is a function used to assign manually the states of the molecules from the system. The function can take as input either the name of the phase, or an array of names of dimension (# Frames, # Molecules); it will both update the input system and output an...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/common/setstates/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "Load from simulation files",
@@ -100,4 +208,10 @@ var store = [{
         "tags": ["voronoi","tessellations","neighbors"],
         "url": "http://localhost:4000/mllpa/documentation/tutorials/tessellations/3-no-phases/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
-      },]
+      },{
+        "title": "A machine learning study of the two states model for lipid bilayer phase transitions",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/mllpa/references/2020-walter-thalmann/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      }]
