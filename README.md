@@ -4,7 +4,7 @@ Machine Learning-assisted Lipid Phase Analysis
 
 ![Version](https://img.shields.io/badge/version-1.0-f39f37)
 
-<button name="button" onclick="https://vivien-walter.github.io/mllpa/">Click me</button>
+[LINK TO THE PROJECT WEBSITE](https://vivien-walter.github.io/mllpa/)
 
 ## General informations
 
