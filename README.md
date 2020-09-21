@@ -44,7 +44,7 @@ The module is based on other Python modules that have also been published, namel
 
 ## Documentation
 
-### Installation
+### Installation
 
 #### **Using the GitHub repo**
 
@@ -62,6 +62,6 @@ ML-LPA can be installed directly from the source files available on our GitHub r
 
 Detailed instructions can be found on the [website of the project](https://vivien-walter.github.io/mllpa/).
 
-### Tutorials and API
+### Tutorials and API
 
 All the documentation on ML-LPA can be found on the [website of the project](https://vivien-walter.github.io/mllpa/).
