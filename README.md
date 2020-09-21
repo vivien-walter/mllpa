@@ -4,9 +4,9 @@ Machine Learning-assisted Lipid Phase Analysis
 
 ![Version](https://img.shields.io/badge/version-1.0-f39f37)
 
-## General informations
+[button url="https://vivien-walter.github.io/mllpa/"]
 
-**Version:** 1.0
+## General informations
 
 **Date:** 21/09/2020
 
@@ -32,7 +32,7 @@ and optimised to work on all-atom representation (e.g. Charmm36). However, the m
 
 ### References
 
-#### Package used
+#### Package(s) used
 
 The module is based on other Python modules that have also been published, namely:
 
@@ -43,6 +43,8 @@ The module is based on other Python modules that have also been published, namel
 #### Literature
 
 * **Cite us**
+
+If you use this package for your research, please cite the following publication:
 
 > Walter et al. A machine learning study of the two states model for lipid bilayer phase transitions, PCCP (2020), 22, 19147-19154
 
