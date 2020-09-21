@@ -37,18 +37,18 @@ an instance of the **System** class. More information on the System class are gi
 
 ### Full trajectory
 
-To load a trajectory file as well, use the corresponding *trajectory_file=* keyword-arguments:
+To load a trajectory file as well, use the corresponding *trj=* keyword-arguments:
 
 ```python
 import mllpa
 
-loaded_system = mllpa.openSystem('test.gro', 'test.tpr', 'DPPC', trajectory_file="test.xtc")
+loaded_system = mllpa.openSystem('test.gro', 'test.tpr', 'DPPC', trj="test.xtc")
 ```
 
 In this example, the trajectory file is called *test.xtc*
 {: .notice--info}
 
-You can find the description of all the keyword-arguments in the [API]().
+You can find the description of all the keyword-arguments in the [API](/mllpa/documentation/api/common/opensystem/).
 
 ## Advanced information
 
@@ -99,11 +99,11 @@ with the command ```print(molecule_types_list)```.
 
 ## What is next?
 
-* Now that you know how to load a system, you can either use it to [prepare and train a model]() for
-    machine learning analysis, or use an existing model to predict the [phases in the system]().
+* Now that you know how to load a system, you can either use it to [prepare and train a model](/mllpa/documentation/tutorials/phase-prediction/1-training/) for
+    machine learning analysis, or use an existing model to predict the [phases in the system](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/).
 
 * If you want to know more about the System class, you either read the [tutorials on it](/mllpa/documentation/tutorials/system-class/1-description/), or go
-    to its [API]().
+    to its [API](/mllpa/documentation/api/classes/system/).
 
 * If you need to directly load the positions from an array, you can have a read at the [corresponding tutorial](/mllpa/documentation/tutorials/loading-files/2-positions/).
 
@@ -111,6 +111,6 @@ with the command ```print(molecule_types_list)```.
 
 The following elements have been used in this tutorial:
 
-* openSystem
+* [openSystem()](/mllpa/documentation/api/common/opensystem/)
 
-* getTypes
+* [getTypes](/mllpa/documentation/api/advanced/gettypes/)

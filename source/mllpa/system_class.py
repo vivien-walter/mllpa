@@ -197,7 +197,7 @@ class Tessellation:
 
     # --------------------------------------------
     # Make the Voronoi tessellations on the system
-    def doVoronoi(self, geometry='bilayer', threshold=0.1):
+    def doVoronoi(self, geometry='bilayer', threshold=0.01):
 
         # Save the tessellation settings
         self.geometry = geometry

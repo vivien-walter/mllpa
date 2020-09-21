@@ -26,7 +26,7 @@ The resulting arrays are in the format and dimensions used my ML-LPA for all the
 |---|---|---|---|
 | Coordinates file | | str | Relative path to the coordinates file of the system (e.g. .gro file). |
 | Type | | str | Name of the molecule type to extract the information from. The type should be similar as the one listed in getTypes(). |
-| Trajectory file | trajectory\_file= | str | (Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file). If not provided, the function will only read the positions from the coordinates file. |
+| Trajectory file | trj= | str | (Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file). If not provided, the function will only read the positions from the coordinates file. |
 | Heavy | heavy= | bool | (Opt.) Only extract the positions of the non-hydrogen atoms. Default is True. |
 | Type info | type\_info= | dict | (Opt.) Dictionary containing all the informations on the molecule type. Can be extracted with read_simulation.getMolInfos(). If not provided, the function will read extract the required informations from the coordinates file. |
 | Begin | begin= | int | (Opt.) First frame to read in the trajectory. Cannot be lower than 0 or higher or equal than the final frame to read. Default is 0 (first frame of the trajectory). |
@@ -59,7 +59,7 @@ The following example will extract the *DPPC* molecules found in all the frames 
 and return the positions in the array *atom_positions*.
 
 ```python
-atom_positions, simulation_boxes = mllpa.extractPositions('test.gro', 'test.tpr', 'DPPC', trajectory_file='test.xtc')
+atom_positions, simulation_boxes = mllpa.extractPositions('test.gro', 'test.tpr', 'DPPC', trj='test.xtc')
 ```
 
 ### Open a selection of frames in the trajectory
@@ -68,5 +68,5 @@ The following example will extract the *DPPC* molecules found in all the frames 
 and return the positions in the array *atom_positions*, but will only read the frames from 100 to 500, skipping every 10 frames.
 
 ```python
-atom_positions, simulation_boxes = mllpa.extractPositions('test.gro', 'test.tpr', 'DPPC', trajectory_file='test.xtc', begin = 100, end = 500, step=10)
+atom_positions, simulation_boxes = mllpa.extractPositions('test.gro', 'test.tpr', 'DPPC', trj='test.xtc', begin = 100, end = 500, step=10)
 ```

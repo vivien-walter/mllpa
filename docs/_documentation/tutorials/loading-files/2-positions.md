@@ -18,7 +18,8 @@ simulation files but **from position arrays**, as supported by [NumPy](https://n
 tutorial how to proceed.
 
 Please be aware that loading a system from a position array can be a complicated and tedious operation.
-Loading from simulation files should always be preferred when possible.
+Loading from simulation files should always be preferred when possible. If you don't need to
+load a system from position arrays, we recommend you to skip to the next tutorial.
 {: .notice--warning}
 
 ## Load the position array
@@ -82,26 +83,26 @@ loaded_system = mllpa.systemFromPositions(position_array, 'DPPC', mol_infos, box
 ```
 
 All the collected information have been stored in the variable *loaded_system* as
-an instance of the **System** class. More information on the System class are given in the [related tutorial](/mllpa/documentation/tutorials/system-class/1-description/) and in the [API]().
+an instance of the **System** class. More information on the System class are given in the [related tutorial](/mllpa/documentation/tutorials/system-class/1-description/) and in the [API](/mllpa/documentation/api/classes/system/).
 
 In this example, all arguments provided are given in the same order than [described above](/mllpa/documentation/tutorials/loading-files/2-positions/#prepare-the-required-material).
 {: .notice--info}
 
 *systemFromPositions()* can also takes some optional keyword-arguments.
-You can find the description of all the keyword-arguments in the [API]().
+You can find the description of all the keyword-arguments in the [API](/mllpa/documentation/api/advanced/systemfrompositions/).
 
 ## What is next?
 
-* Now that you know how to load a system, you can either use it to [prepare and train a model]() for
-    machine learning analysis, or use an existing model to predict the [phases in the system]().
+* Now that you know how to load a system, you can either use it to [prepare and train a model](/mllpa/documentation/tutorials/phase-prediction/1-training/) for
+    machine learning analysis, or use an existing model to predict the [phases in the system](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/).
 
 * If you want to know more about the System class, you either read the [tutorials on it](/mllpa/documentation/tutorials/system-class/1-description/), or go
-    to its [API]().
+    to its [API](/mllpa/documentation/api/classes/system/).
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* getMolInfos
+* [getMolInfos()](/mllpa/documentation/api/advanced/getmolinfos/)
 
-* systemFromPositions
+* [systemFromPositions()](/mllpa/documentation/api/advanced/systemfrompositions/)

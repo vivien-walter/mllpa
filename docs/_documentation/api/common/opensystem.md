@@ -14,9 +14,9 @@ sidebar:
 
 ## Description
 
-openSystem() is a function used to load the simulation files to be analysed.  The function can load either single frames or whole trajectory. Only one type of molecule will be extracted from the files, since Machine Learning models can only be generated on one molecule type at the time. More informations on the System class can be found in the [related API reference]().
+openSystem() is a function used to load the simulation files to be analysed.  The function can load either single frames or whole trajectory. Only one type of molecule will be extracted from the files, since Machine Learning models can only be generated on one molecule type at the time. More informations on the System class can be found in the [related API reference](/mllpa/documentation/api/classes/system/).
 
-It is possible to load directly a position array into ML-LPA and generates an instance of the System class without using simulations files. Please refer to the function [systemFromPositions()]().
+It is possible to load directly a position array into ML-LPA and generates an instance of the System class without using simulations files. Please refer to the function [systemFromPositions()](/mllpa/documentation/api/advanced/systemfrompositions/).
 
 ## Argument, keywords and outputs
 
@@ -27,7 +27,7 @@ It is possible to load directly a position array into ML-LPA and generates an in
 | Coordinate file | | str | Relative path to the coordinates file of the system (e.g. .gro file). |
 | Structure file | | str | Relative path to the structure file of the system (e.g. .tpr file). |
 | Type | | str | Molecule type to load from the simulation file. |
-| Trajectory file | trajectory_file= | str | (Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file). If not provided, the function will only read the positions from the coordinates file. Default is None. |
+| Trajectory file | trj= | str | (Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file). If not provided, the function will only read the positions from the coordinates file. Default is None. |
 | Heavy | heavy= | bool | (Opt.) Only extract the positions of the non-hydrogen atoms. Default is True. |
 | Up | up= | bool | (Opt.) Check that the molecules are always orientated pointing "up". Default is True. |
 | Rank | rank= | int | (Opt.) Number of atoms (-1) between two neighbours along the same line used for distance calculations. At rank 1, the neighbours of an atom are all atom sharing a direct bond with it. Default is 6. |
@@ -70,7 +70,7 @@ The following example will load the *DPPC* molecules found in all the frames the
 instance of the System class *loaded_system*.
 
 ```python
-loaded_system = mllpa.openSystem('test.gro', 'test.tpr', 'DPPC', trajectory_file='test.xtc')
+loaded_system = mllpa.openSystem('test.gro', 'test.tpr', 'DPPC', trj='test.xtc')
 ```
 
 ### Open a selection of frames in the trajectory
@@ -79,7 +79,7 @@ The following example will load the *DPPC* molecules found in the files *test.gr
 instance of the System class *loaded_system*, but will only read the frames from 100 to 500, skipping every 10 frames.
 
 ```python
-loaded_system = mllpa.openSystem('test.gro', 'test.tpr', 'DPPC', trajectory_file='test.xtc', begin = 100, end = 500, step=10)
+loaded_system = mllpa.openSystem('test.gro', 'test.tpr', 'DPPC', trj='test.xtc', begin = 100, end = 500, step=10)
 ```
 
 ## Related tutorials

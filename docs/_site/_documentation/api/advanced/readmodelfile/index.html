@@ -1,0 +1,109 @@
+<h2 id="description">Description</h2>
+
+<p>readModelFile() is a function used to open a .lpm model file and extract its content. The content will be returned in
+variables, but can also be output in the Terminal.</p>
+
+<h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
+
+<h3 id="inputs--arguments">Input(s) / Argument(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flag</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model file</td>
+      <td> </td>
+      <td>str</td>
+      <td>Relative path to the model file to load and read.</td>
+    </tr>
+    <tr>
+      <td>Training sets</td>
+      <td>train_sets=</td>
+      <td>bool</td>
+      <td> (Opt.) Load the training sets (arrays) from the file too. Default is False.</td>
+    </tr>
+    <tr>
+      <td>Display</td>
+      <td>display=</td>
+      <td>bool</td>
+      <td> (Opt.) Load the training sets (arrays) from the file too. Default is False.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="outputs">Output(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Metadata</td>
+      <td>dict</td>
+      <td>Metadata used and collected during the training.</td>
+    </tr>
+    <tr>
+      <td>Coordinates</td>
+      <td>np.ndarray</td>
+      <td>(Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2). Is only returned if <em>train_sets=</em> is set to True.</td>
+    </tr>
+    <tr>
+      <td>Distances</td>
+      <td>np.ndarray</td>
+      <td>(Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances). Is only returned if <em>train_sets=</em> is set to True.</td>
+    </tr>
+    <tr>
+      <td>Phases</td>
+      <td>np.ndarray</td>
+      <td>(Opt.) Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules). Is only returned if <em>train_sets=</em> is set to True.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="extract-the-metadata-of-a-file">Extract the metadata of a file</h3>
+
+<p>The following example will open the file <em>test_model.lpm</em> and return the metadata defined inside
+it into the dictionary <em>metadata_dict</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="extract-the-metadata-and-training-sets-from-a-file">Extract the metadata and training sets from a file</h3>
+
+<p>The following example will open the file <em>test_model.lpm</em> and return the metadata defined inside
+it into the dictionary <em>metadata_dict</em>, as well as the <em>coordinates</em>, <em>distances</em> and <em>phases</em> array used to train the model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">,</span> <span class="n">distances</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">,</span> <span class="n">train_sets</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="extract-and-display-the-metadata-from-a-file">Extract and display the metadata from a file</h3>
+
+<p>The following example will open the file <em>test_model.lpm</em> and display the metadata
+in the Terminal.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="related-tutorials">Related tutorials</h2>
+
+<p>The following tutorial(s) detail further the use of the <em>readModelFile()</em> function:</p>
+
+<ul>
+  <li><a href="/mllpa/documentation/tutorials/outputs/1-model-file/">The .lpm model file</a></li>
+</ul>

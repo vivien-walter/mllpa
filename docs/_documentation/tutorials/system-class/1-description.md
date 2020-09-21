@@ -111,17 +111,17 @@ atom_masses = molecule_type_infos["heavy_atoms"]["masses"]
 
 Both all (*atoms*) and non-hydrogen (*heavy_atoms*) atoms are listed in the dictionary, hence the first key.
 
-You can find the list and description of all the keys in the [API]().
+You can find the list and description of all the keys in the [API](/mllpa/documentation/api/classes/system/).
 
 ## What is next?
 
-* Now that you know how what exactly is the System class, you can either use it to [prepare and train a model]() for
-    machine learning analysis, or use an existing model to predict the [phases in the system]().
+* Now that you know how to load a system, you can either use it to [prepare and train a model](/mllpa/documentation/tutorials/phase-prediction/1-training/) for
+    machine learning analysis, or use an existing model to predict the [phases in the system](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/).
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* openSystem
+* [openSystem()](/mllpa/documentation/api/common/opensystem/)
 
-* System class
+* [System class](/mllpa/documentation/api/classes/system/)

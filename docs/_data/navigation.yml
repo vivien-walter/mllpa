@@ -102,20 +102,20 @@ sidebar-api:
         url: /documentation/api/common/dovoro/
       - title: "generateModel()"
         url: /documentation/api/common/generatemodel/
-      - title: "getStates()"
-        url: /documentation/api/common/getstates/
+      - title: "getPhases()"
+        url: /documentation/api/common/getphases/
       - title: "openSystem()"
         url: /documentation/api/common/opensystem/
-      - title: "readNeighbors()"
-        url: /documentation/api/common/readneighbors/
       - title: "saveSystems()"
         url: /documentation/api/common/savesystems/
       - title: "saveVoro()"
         url: /documentation/api/common/savevoro/
-      - title: "setStates()"
-        url: /documentation/api/common/setstates/
+      - title: "setPhases()"
+        url: /documentation/api/common/setphases/
   - title: "Advanced functions"
     children:
+      - title: "assignLeaflets()"
+        url: /documentation/api/advanced/assignleaflets/
       - title: "extractPositions()"
         url: /documentation/api/advanced/extractpositions/
       - title: "getCoordinates()"
@@ -126,8 +126,16 @@ sidebar-api:
         url: /documentation/api/advanced/getmolinfos/
       - title: "getTypes()"
         url: /documentation/api/advanced/gettypes/
-      - title: "predictStates()"
-        url: /documentation/api/advanced/predictstates/
+      - title: "loadModels()"
+        url: /documentation/api/advanced/loadmodels/
+      - title: "predictPhases()"
+        url: /documentation/api/advanced/predictphases/
+      - title: "readModelFile()"
+        url: /documentation/api/advanced/readmodelfile/
+      - title: "readNeighbors()"
+        url: /documentation/api/advanced/readneighbors/
+      - title: "summonGhosts()"
+        url: /documentation/api/advanced/summonghosts/
       - title: "systemFromPositions()"
         url: /documentation/api/advanced/systemfrompositions/
   - title: "Classes"

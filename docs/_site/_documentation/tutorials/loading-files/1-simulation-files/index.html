@@ -20,16 +20,16 @@ an instance of the <strong>System</strong> class. More information on the System
 
 <h3 id="full-trajectory">Full trajectory</h3>
 
-<p>To load a trajectory file as well, use the corresponding <em>trajectory_file=</em> keyword-arguments:</p>
+<p>To load a trajectory file as well, use the corresponding <em>trj=</em> keyword-arguments:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
 
-<span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trajectory_file</span><span class="o">=</span><span class="s">"test.xtc"</span><span class="p">)</span>
+<span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trj</span><span class="o">=</span><span class="s">"test.xtc"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p class="notice--info">In this example, the trajectory file is called <em>test.xtc</em></p>
 
-<p>You can find the description of all the keyword-arguments in the <a href="">API</a>.</p>
+<p>You can find the description of all the keyword-arguments in the <a href="/mllpa/documentation/api/common/opensystem/">API</a>.</p>
 
 <h2 id="advanced-information">Advanced information</h2>
 
@@ -101,12 +101,12 @@ with the command <code class="language-plaintext highlighter-rouge">print(molecu
 
 <ul>
   <li>
-    <p>Now that you know how to load a system, you can either use it to <a href="">prepare and train a model</a> for
-  machine learning analysis, or use an existing model to predict the <a href="">phases in the system</a>.</p>
+    <p>Now that you know how to load a system, you can either use it to <a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">prepare and train a model</a> for
+  machine learning analysis, or use an existing model to predict the <a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">phases in the system</a>.</p>
   </li>
   <li>
     <p>If you want to know more about the System class, you either read the <a href="/mllpa/documentation/tutorials/system-class/1-description/">tutorials on it</a>, or go
-  to its <a href="">API</a>.</p>
+  to its <a href="/mllpa/documentation/api/classes/system/">API</a>.</p>
   </li>
   <li>
     <p>If you need to directly load the positions from an array, you can have a read at the <a href="/mllpa/documentation/tutorials/loading-files/2-positions/">corresponding tutorial</a>.</p>
@@ -119,9 +119,9 @@ with the command <code class="language-plaintext highlighter-rouge">print(molecu
 
 <ul>
   <li>
-    <p>openSystem</p>
+    <p><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></p>
   </li>
   <li>
-    <p>getTypes</p>
+    <p><a href="/mllpa/documentation/api/advanced/gettypes/">getTypes</a></p>
   </li>
 </ul>

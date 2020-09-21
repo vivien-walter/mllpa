@@ -69,6 +69,6 @@ types_list = mllpa.systemFromPositions(atom_positions, 'DPPC', mol_infos, simula
 
 ## Related tutorials
 
-The following tutorial(s) detail further the use of the *getTypes()* function:
+The following tutorial(s) detail further the use of the *systemFromPositions()* function:
 
 * [Load from position array](/mllpa/documentation/tutorials/loading-files/2-positions/)

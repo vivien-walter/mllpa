@@ -62,20 +62,20 @@ loaded_system.getDistances(rank=6)
 ```
 
 This method can also be used to simply update the neighbour rank used in the computation without
-reloading the whole instance from the simulation files. A detailed example is shown in the [dedicated tutorial]().
+reloading the whole instance from the simulation files. A detailed example is shown in the [dedicated tutorial](/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/).
 
-The value of the neihbor rank should be optimised by the user, based on the systems
+The value of the neighbor rank should be optimised by the user, based on the systems
 being used to train the Machine Learning algorithms. The rank equals to 6 here is
 an example.
 {: .notice--warning}
 
 ## What is next?
 
-* Now that you know how what exactly is the System class, you can either use it to [prepare and train a model]() for
-    machine learning analysis, or use an existing model to predict the [phases in the system]().
+* Now that you know how to load a system, you can either use it to [prepare and train a model](/mllpa/documentation/tutorials/phase-prediction/1-training/) for
+    machine learning analysis, or use an existing model to predict the [phases in the system](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/).
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* System class
+* [System class](/mllpa/documentation/api/classes/system/)

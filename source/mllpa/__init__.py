@@ -232,48 +232,20 @@ def doVoro(systems, geometry='bilayer', threshold=0.01, exclude_ghosts=None, rea
     if not _is_list_of(systems, type='system', check_array=True, recursive=False):
         _error_input_type('Systems', 'List of System (or single System)')
 
-    if exclude_ghosts is not None:
-        if not _is_list(exclude_ghosts):
-            exclude_ghosts = [exclude_ghosts]
-        if not _is_list_of(exclude_ghosts, type='int', check_array=True, recursive=False):
-            _error_input_type('Ghost exclusions', "List of integers")
-
     if not _is_boolean(read_neighbors):
         _error_input_type('Read neighbors', "Boolean")
 
     # Extract the information from the system(s)
     representation = _system_to_tessellation(systems)
 
-    # Assign the molecules to membrane leaflets if needed
+    # Assign the leaflets and generate the ghosts if needed
     if geometry != "solution":
 
         # Get the leaflets
         representation.getLeaflets(geometry=geometry)
 
-        # Generate the ghosts for all the systems
-        all_ghosts = []
-        for system_ID, mol_type in enumerate(systems):
-
-            # Check if the ghosts should be calculated
-            process_ghosts = True
-            if exclude_ghosts is not None:
-                if system_ID in exclude_ghosts:
-                    process_ghosts = False
-
-            # Process the system if allowed
-            if process_ghosts:
-
-                # Create the ghosts
-                mol_ghosts = generateGhosts(representation.positions, mol_type.positions, mol_type.infos['resids'], representation.leaflets, geometry=geometry)
-
-                # Append the ghosts to the list
-                all_ghosts.append(np.copy(mol_ghosts))
-
-        # Concatenate the ghosts
-        all_ghosts = np.concatenate(all_ghosts, axis=1)
-
-        # Save the ghosts in the representation
-        representation.ghosts = np.copy(all_ghosts)
+        # Generate the ghosts
+        representation.ghosts = summonGhosts(systems, geometry=geometry, exclude_ghosts=exclude_ghosts)
 
     # Make the tessellation to find the neighbors
     representation.doVoronoi(geometry=geometry, threshold=threshold)
@@ -283,27 +255,6 @@ def doVoro(systems, geometry='bilayer', threshold=0.01, exclude_ghosts=None, rea
         representation.checkNeighbors()
 
     return representation
-
-# ------------------------------------------------
-# Read the composition of the molecules neighbours
-def readNeighbors(representation):
-
-    """Compute the tessellations of the system for neighbour analysis.
-    Argument(s):
-        representation {class Tessellation} -- Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.
-    Output(s):
-        neighbors_phases {np.ndarray} -- Array of the phase of the neighbors of each molecule. Dimension(s) are in (n_frames, n_molecules, n_states).
-        phases_list {np.ndarray} -- Array listing the phases analysed and the order used for the neighbors_phases array.
-    """
-
-    # Check that the input is a Tessellation
-    if not _is_tessellation(representation):
-        _error_input_type('Tessellation', "instance of Tessellation class")
-
-    # Read the composition
-    neighbors_phases, phases_list = representation.checkNeighbors()
-
-    return neighbors_phases, phases_list
 
 # -------------------------------------------------------------
 # Save the tessellations and all related informations in a file
@@ -498,15 +449,16 @@ def readModelFile(model_file, train_sets=False, display=False):
 
     """Open the model file and extract all relevant information on the model from it.
     Argument(s):
-        model_file {str or dict of models} -- Path to the model file to load to predict the phases of the molecules.
+        model_file {str} -- Path to the model file to load to predict the phases of the molecules.
         train_sets {bool} -- (Opt.) Load the training sets (arrays) from the file too.
                              Default is False.
         display {bool} -- (Opt.) Print the metadata in the terminal using a custom formatting.
+                          Default is True.
     Output(s):
         metadata {dict of int, float & str} -- Metadata used and collected during the training.
         coordinates {np.ndarray} -- (Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2)
         distances {np.ndarray} -- (Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances).
-        phases {np.ndarray} -- (Opt.) phases {np.ndarray} -- Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules).
+        phases {np.ndarray} -- (Opt.) Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules).
     """
 
     # Check input
@@ -578,3 +530,129 @@ def predictPhases(coordinates, distances, models, final=True):
         phases = _final_decision(phases, trained_models)
 
     return phases
+
+##-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\
+## TESSELLATIONS AND PREPARATION
+##-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+# ------------------------------------
+# Assign the leaflets of the molecules
+def assignLeaflets(systems, geometry='bilayer'):
+
+    """Compute the tessellations of the system for neighbour analysis.
+    Argument(s):
+        systems {list of class System} -- Instances of the System classes containing the molecules to save in a file.
+        geometry {str} -- (Opt.) Geometry of the system to perform the tessellations on. The current geometries available are:
+                            *) bilayer - Analyse the 2D tesselations of a lipid bilayer on each leaflets.
+                            *) bilayer_3d - Analyse the 3D tessellations of a lipid bilayer. Requires ghosts to have been generated first.
+                            *) vesicle - Analyse the "2D" tessellations of a lipid vesicle by only keeping neighbours within the leaflet.
+                                         Requires ghosts to have been generated first.
+                            *) vesicle_3d - Analyse the 3D tessellations of a lipid vesicle. Requires ghosts to have been generated first.
+                          By default, the geometry is set to a (2D) bilayer.
+    Output(s):
+        leaflets {np.ndarray} -- Array of the leaflets assigned to the membrane molecules.
+    """
+
+    # Convert single system in list
+    if _is_system(systems):
+        systems = [ systems ]
+
+    # Check and convert input
+    if not _is_list_of(systems, type='system', check_array=True, recursive=False):
+        _error_input_type('Systems', 'List of System (or single System)')
+
+    # Extract the information from the system(s)
+    representation = _system_to_tessellation(systems)
+
+    # Get the leaflets
+    representation.getLeaflets(geometry=geometry)
+
+    return representation.leaflets
+
+# ----------------------------------------
+# Generate the ghost lipids from the input
+def summonGhosts(systems, geometry='bilayer', exclude_ghosts=None):
+
+    """Compute the tessellations of the system for neighbour analysis.
+    Argument(s):
+        systems {list of class System} -- Instances of the System classes containing the molecules to save in a file.
+        geometry {str} -- (Opt.) Geometry of the system to perform the tessellations on. The current geometries available are:
+                            *) bilayer - Analyse the 2D tesselations of a lipid bilayer on each leaflets.
+                            *) bilayer_3d - Analyse the 3D tessellations of a lipid bilayer. Requires ghosts to have been generated first.
+                            *) vesicle - Analyse the "2D" tessellations of a lipid vesicle by only keeping neighbours within the leaflet.
+                                         Requires ghosts to have been generated first.
+                            *) vesicle_3d - Analyse the 3D tessellations of a lipid vesicle. Requires ghosts to have been generated first.
+                          By default, the geometry is set to a (2D) bilayer.
+        exclude_ghosts {list of int} -- (Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation.
+                                        Default is None.
+    Output(s):
+        ghosts {np.ndarray} -- Position array of all the molecule ghosts generated for the Voronoi tessellation.
+    """
+
+    # Convert single system in list
+    if _is_system(systems):
+        systems = [ systems ]
+
+    # Check and convert input
+    if not _is_list_of(systems, type='system', check_array=True, recursive=False):
+        _error_input_type('Systems', 'List of System (or single System)')
+
+    if exclude_ghosts is not None:
+        if not _is_list(exclude_ghosts):
+            exclude_ghosts = [exclude_ghosts]
+        if not _is_list_of(exclude_ghosts, type='int', check_array=True, recursive=False):
+            _error_input_type('Ghost exclusions', "List of integers")
+
+    # Extract the information from the system(s)
+    representation = _system_to_tessellation(systems)
+
+    # Get the leaflets
+    representation.getLeaflets(geometry=geometry)
+
+    # Generate the ghosts for all the systems
+    all_ghosts = []
+    for system_ID, mol_type in enumerate(systems):
+
+        # Check if the ghosts should be calculated
+        process_ghosts = True
+        if exclude_ghosts is not None:
+            if system_ID in exclude_ghosts:
+                process_ghosts = False
+
+        # Process the system if allowed
+        if process_ghosts:
+
+            # Create the ghosts
+            mol_ghosts = generateGhosts(representation.positions, mol_type.positions, mol_type.infos['resids'], representation.leaflets, geometry=geometry)
+
+            # Append the ghosts to the list
+            all_ghosts.append(np.copy(mol_ghosts))
+
+    # Concatenate the ghosts
+    all_ghosts = np.concatenate(all_ghosts, axis=1)
+
+    # Save the ghosts in the representation
+    all_ghosts = np.copy(all_ghosts)
+
+    return all_ghosts
+
+# ------------------------------------------------
+# Read the composition of the molecules neighbours
+def readNeighbors(representation):
+
+    """Compute the tessellations of the system for neighbour analysis.
+    Argument(s):
+        representation {class Tessellation} -- Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.
+    Output(s):
+        neighbors_phases {np.ndarray} -- Array of the phase of the neighbors of each molecule. Dimension(s) are in (n_frames, n_molecules, n_states).
+        phases_list {np.ndarray} -- Array listing the phases analysed and the order used for the neighbors_phases array.
+    """
+
+    # Check that the input is a Tessellation
+    if not _is_tessellation(representation):
+        _error_input_type('Tessellation', "instance of Tessellation class")
+
+    # Read the composition
+    neighbors_phases, phases_list = representation.checkNeighbors()
+
+    return neighbors_phases, phases_list

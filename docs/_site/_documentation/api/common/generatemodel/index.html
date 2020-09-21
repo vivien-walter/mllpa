@@ -22,13 +22,13 @@ and will also output the models in a variable that can be used directly.</p>
       <td>Systems</td>
       <td> </td>
       <td> list of classes System</td>
-      <td>List of each instances of the System class that should be used for the training. Systems can be generated using the function openSystem(). Provide one system only per state. The types, number of molecules and neighbor ranking should be the same in each system. By default, the first system of the list should be the gel one, and the second one the fluid one. </td>
+      <td>List of each instances of the System class that should be used for the training. Systems can be generated using the function openSystem(). Provide one system only per phase. The types, number of molecules and neighbor ranking should be the same in each system. By default, the first system of the list should be the gel one, and the second one the fluid one. </td>
     </tr>
     <tr>
-      <td>States</td>
-      <td>states=</td>
+      <td>Phases</td>
+      <td>phases=</td>
       <td>list of str</td>
-      <td>(Opt.) Names of the state of each system submitted above. The order should be the same. Default is gel/fluid.</td>
+      <td>(Opt.) Names of the phase of each system submitted above. The order should be the same. Default is gel/fluid.</td>
     </tr>
     <tr>
       <td>File Path</td>
@@ -53,12 +53,6 @@ and will also output the models in a variable that can be used directly.</p>
       <td>nSplits=</td>
       <td>int</td>
       <td>(Opt.) Number of time the training should be repeated on the training set with random shuffling. Default is 10.</td>
-    </tr>
-    <tr>
-      <td> Scoring</td>
-      <td> scoring=</td>
-      <td>str</td>
-      <td>(Opt.) Type of methode used for making the scores. Value should be taken from scikit-learn available inputs. Default is accuracy.</td>
     </tr>
     <tr>
       <td>Save Model</td>
@@ -98,16 +92,16 @@ automatically be named and saved in the current folder.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
 
-<span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">system_A</span><span class="p">,</span> <span class="n">system_B</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">])</span>
+<span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">system_A</span><span class="p">,</span> <span class="n">system_B</span><span class="p">],</span> <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">])</span>
 </code></pre></div></div>
 
 <h3 id="generate-automatically-a-model-file-on-3-phases-with-a-chosen-name">Generate automatically a model file on 3 phases with a chosen name</h3>
 
 <p>The following example will use three instances of the System class, named <em>system_A</em>,  <em>system_B</em> and <em>system_C</em>, to
-train the Machine Learning algorithms to recognise phases named <em>A</em>, <em>B</em> amd <em>C</em>. The model file
+train the Machine Learning algorithms to recognise phases named <em>A</em>, <em>B</em> and <em>C</em>. The model file
 named <em>new_model.lpm</em> will be saved in the current folder.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">system_A</span><span class="p">,</span> <span class="n">system_B</span><span class="p">,</span> <span class="n">system_C</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">],</span> <span class="n">file_path</span><span class="o">=</span> <span class="s">'new_model.lpm'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">system_A</span><span class="p">,</span> <span class="n">system_B</span><span class="p">,</span> <span class="n">system_C</span><span class="p">],</span> <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">],</span> <span class="n">file_path</span><span class="o">=</span> <span class="s">'new_model.lpm'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="modify-the-training-and-scoring-methods">Modify the training and scoring methods</h3>

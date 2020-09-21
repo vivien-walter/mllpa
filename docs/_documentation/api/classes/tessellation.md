@@ -36,8 +36,12 @@ one wants to generate it by calling the class, the following data are required:
 4. The **array of dimensions** of the simulation box over time, in the correct dimensions, as extracted
 by the [extractPositions()](/mllpa/documentation/api/advanced/extractpositions/) function.
 
-5. The **array of the phases** of the molecules, as extracted by the functions [getStates()](/mllpa/documentation/api/common/getstates/)
-or [setStates()](/mllpa/documentation/api/common/setstates/).
+5. The **array of the phases** of the molecules, as extracted by the functions [getPhases()](/mllpa/documentation/api/common/getphases/)
+or [setPhases()](/mllpa/documentation/api/common/setphases/).
+
+Please be aware that ghost lipids, required for most of the membrane geometries,
+cannot be generated within the Tessellation class.
+{: .notice--warning}
 
 ### Attributes
 
@@ -47,7 +51,7 @@ or [setStates()](/mllpa/documentation/api/common/setstates/).
 | **tessellation.ids** | np.ndarray | Indices of all the molecules of the system. |
 | **tessellation.positions** | np.ndarray | 3D positions of the centers of mass of all the molecules of the system. |
 | **tessellation.boxes** | np.ndarray | Dimensions of the simulation box. |
-| **tessellation.states** | np.ndarray | States of all the molecules of the system. |
+| **tessellation.phases** | np.ndarray | Phases of all the molecules of the system. |
 | **tessellation.leaflets** | np.ndarray | Name of the leaflets in which all the molecules can be found, if applicable |
 | **tessellation.ghosts** | np.ndarray | 3D positions of the centers of mass of the ghosts of all the molecules of the system, if applicable |
 | **tessellation.volumes** | np.ndarray | Volumes - or Areas in 2D - found through the tessellation of all the molecules. |
@@ -55,17 +59,21 @@ or [setStates()](/mllpa/documentation/api/common/setstates/).
 | **tessellation.neighbors** | np.ndarray | List of the neighbors of all the molecules of the system. |
 | **tessellation.geometry** | str | Geometry selected for the tessellation during the generation. |
 | **tessellation.threshold** | float | Threshold used to remove sporious neighbors found during the tessellation. |
-| **tessellation.neighbors_states** | np.ndarray | States of the neighbors of each molecules of the system. |
+| **tessellation.neighbors_phases** | np.ndarray | Phases of the neighbors of each molecules of the system. |
+| **tessellation.phases_list** | np.ndarray | Name of the phases, in the order provided in **tessellation.neighbors_phases**. |
 
 ### Methods
 
 | Name | Argument(s) | Description |
 | --- | --- | --- |
-| **tessellation.createGhosts()** | <ul><li>positions, {nd.ndarray}, positions of all atoms in the system - not the centers of mass.</li><li>geometry=, {str}, (Opt.) geometry of the system. Default is bilayer.</li></ul> | Generate the position of the ghosts. Used for bilayer and vesicles to set the interface of the bilayer. |
 | **tessellation.getLeaflets()** | <ul><li>geometry=, {str}, (Opt.) geometry of the system. Default is bilayer.</li></ul> | Find the leaflet in which all the molecules are located. |
 | **tessellation.doVoronoi()** | <ul><li>geometry=, {str}, (Opt.) geometry of the system. Default is bilayer.</li><li>threshold=, {float}, (Opt.) threshold used to remove sporious neighbors found during the tessellation. Default is 0.01.</li></ul> | Perform the Voronoi tessellation on the system to find the individual cells of each molecules. |
 | **tessellation.checkNeighbors()** | | Determine the state of the neighbors of each molecule of the system. |
 | **tessellation.toTable()** | | Collect all the attributes of the instance and convert them into a pandas dataframe. |
+| **tessellation.save()** | <ul><li>file_path, {str}, Path and name of the file to generate.</li><li>format, {str}, File extension and format to use for the output file.</li></ul> | Save the instance of the Tessellation class in a file. |
+
+The *.save()* method uses the same argument and generates the same files than the [saveVoro()](/mllpa/documentation/api/common/savevoro/) function.
+{: .notice--info}
 
 ## Examples
 
@@ -81,17 +89,54 @@ from mllpa.system_class import Tessellation
 voronoi = Tessellation(mol_names, mol_ids, mol_positions, simulation_boxes, mol_phases)
 ```
 
-### Generate the position of ghosts
-
 ### Assign molecules to their respective leaflets
+
+The following example will assign the molecules in the instance of the Tessellation class *voronoi*
+with the leaflets they can be found in, based on the geometry *bilayer*. The results will
+be stored directly in the instance.
+
+``` python
+voronoi.getLeaflets(geometry='bilayer')
+```
 
 ### Do the tessellation
 
+The following example will tessellate the molecules in the instance of the Tessellation class *voronoi*,
+based on the geometry *bilayer_3d*, and cures the results from spurious neighbors with a threshold at
+1% (*0.01*). All the results will be stored directly in the instance.
+
+``` python
+voronoi.doVoronoi(geometry='bilayer_3d', threshold=0.01)
+```
+
 ### Analyse the local environment
+
+The following example will use a tessellation previously made in the instance of the Tessellation class *voronoi*
+to analyse the local environment. The results are both stored in the instance and returned as the
+array of the phase environment for each molecule *neighbor_phases* and the list of the phase
+names *phases_list* given in the same order than in *neighbor_phases*
+
+``` python
+neighbors_phases, phases_list = voronoi.checkNeighbors()
+```
 
 ### Convert the content into a pandas data frame
 
+The following example will convert the attributes of the instance of the Tessellation class *voronoi*
+in a pandas table-like structure *dataframe*.
 
+``` python
+dataframe = voronoi.toTable()
+```
+
+### Save the instance in a file
+
+The following example will save the content of the instance of the Tessellation class *voronoi*
+in a file *test_file.xml*
+
+``` python
+voronoi.save(file_path='test_file.xml')
+```
 
 ## Related functions
 

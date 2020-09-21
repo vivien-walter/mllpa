@@ -1,0 +1,63 @@
+<h2 id="description">Description</h2>
+
+<p>loadModels() is a function used to open a .lpm model file and load the models from it.
+The trained models are returned in a dictionary, as well as the training parameters.</p>
+
+<h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
+
+<h3 id="inputs--arguments">Input(s) / Argument(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flag</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model file</td>
+      <td> </td>
+      <td>str</td>
+      <td>Relative path to the model file to load and read.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="outputs">Output(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Models</td>
+      <td>dict</td>
+      <td>Scikit-learn models trained on the input systems for molecule classification.</td>
+    </tr>
+    <tr>
+      <td>Training Parameters</td>
+      <td>dict</td>
+      <td>Parameters used for the model training.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="load-the-model-from-a-file">Load the model from a file</h3>
+
+<p>The following example will open the file <em>test_model.lpm</em> and return the trained models defined inside
+it into the model dictionary <em>models_dict</em> as well as the training parameters <em>training_params</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">models_dict</span><span class="p">,</span> <span class="n">training_params</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">loadModels</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">)</span>
+</code></pre></div></div>

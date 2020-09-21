@@ -1,0 +1,541 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>predictPhases() - ML-LPA</title>
+<meta name="description" content="Description  predictPhases() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model. It is similar to the getPhases() function, however it uses coordinates and distances array instead of the instance of the System class as input.  The coordinates and distances arrays can be obtained using respectively the functions getCoordinates() and getDistances(). The models can be trained using the function generateModel().  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Coordinates               np.ndarray       Array of the coordinates of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, 2 * N atoms per molecule).                 Distances               np.ndarray       Array of the distances of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, N distances).                 Models               str or dict of models       Path to the model file to load or dictionary of the Scikit-Learn models to use to predict the states of the molecules.           Output(s)                 Name        Type       Description                       Phases       np.ndarray       Array of all the molecule phases predicted in the system. Dimension(s) are in (N frames, N molecules).           Examples  Predict the phases from a file  The following example will analyse the coordinates array coordinates_array and the distances array distances_array using the models pre-trained in the file new_model.lpm and return the phases of the molecules in the variable phase_array.  import mllpa  phase_array = mllpa.predictPhases(coordinates_array, distances_array, &quot;new_model.lpm&quot;)   Predict the phases from a model dictionary  The following example will analyse the coordinates array coordinates_array and the distances array distances_array using the models pre-trained in the variable models and return the phases of the molecules in the variable phase_array.  phase_array = mllpa.predictPhases(coordinates_array, distances_array, models)">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="predictPhases()">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/api/advanced/predictphases/">
+
+
+  <meta property="og:description" content="Description  predictPhases() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model. It is similar to the getPhases() function, however it uses coordinates and distances array instead of the instance of the System class as input.  The coordinates and distances arrays can be obtained using respectively the functions getCoordinates() and getDistances(). The models can be trained using the function generateModel().  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Coordinates               np.ndarray       Array of the coordinates of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, 2 * N atoms per molecule).                 Distances               np.ndarray       Array of the distances of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, N distances).                 Models               str or dict of models       Path to the model file to load or dictionary of the Scikit-Learn models to use to predict the states of the molecules.           Output(s)                 Name        Type       Description                       Phases       np.ndarray       Array of all the molecule phases predicted in the system. Dimension(s) are in (N frames, N molecules).           Examples  Predict the phases from a file  The following example will analyse the coordinates array coordinates_array and the distances array distances_array using the models pre-trained in the file new_model.lpm and return the phases of the molecules in the variable phase_array.  import mllpa  phase_array = mllpa.predictPhases(coordinates_array, distances_array, &quot;new_model.lpm&quot;)   Predict the phases from a model dictionary  The following example will analyse the coordinates array coordinates_array and the distances array distances_array using the models pre-trained in the variable models and return the phases of the molecules in the variable phase_array.  phase_array = mllpa.predictPhases(coordinates_array, distances_array, models)">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="predictPhases()">
+  <meta name="twitter:description" content="Description  predictPhases() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model. It is similar to the getPhases() function, however it uses coordinates and distances array instead of the instance of the System class as input.  The coordinates and distances arrays can be obtained using respectively the functions getCoordinates() and getDistances(). The models can be trained using the function generateModel().  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Coordinates               np.ndarray       Array of the coordinates of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, 2 * N atoms per molecule).                 Distances               np.ndarray       Array of the distances of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, N distances).                 Models               str or dict of models       Path to the model file to load or dictionary of the Scikit-Learn models to use to predict the states of the molecules.           Output(s)                 Name        Type       Description                       Phases       np.ndarray       Array of all the molecule phases predicted in the system. Dimension(s) are in (N frames, N molecules).           Examples  Predict the phases from a file  The following example will analyse the coordinates array coordinates_array and the distances array distances_array using the models pre-trained in the file new_model.lpm and return the phases of the molecules in the variable phase_array.  import mllpa  phase_array = mllpa.predictPhases(coordinates_array, distances_array, &quot;new_model.lpm&quot;)   Predict the phases from a model dictionary  The following example will analyse the coordinates array coordinates_array and the distances array distances_array using the models pre-trained in the variable models and return the phases of the molecules in the variable phase_array.  phase_array = mllpa.predictPhases(coordinates_array, distances_array, models)">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/api/advanced/predictphases/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-21T19:28:22+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/api/advanced/predictphases/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Common functions</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/common/dovoro/">doVoro()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/generatemodel/">generateModel()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/getphases/">getPhases()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/savesystems/">saveSystems()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/savevoro/">saveVoro()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/setphases/">setPhases()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Advanced functions</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/advanced/assignleaflets/">assignLeaflets()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/extractpositions/">extractPositions()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getcoordinates/">getCoordinates()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getdistances/">getDistances()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getmolinfos/">getMolInfos()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/gettypes/">getTypes()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/loadmodels/">loadModels()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/predictphases/" class="active">predictPhases()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/readmodelfile/">readModelFile()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/readneighbors/">readNeighbors()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/summonghosts/">summonGhosts()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/systemfrompositions/">systemFromPositions()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Classes</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/classes/system/">System</a></li>
+          
+            <li><a href="/mllpa/documentation/api/classes/tessellation/">Tessellation</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="predictPhases()">
+    <meta itemprop="description" content="DescriptionpredictPhases() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model.It is similar to the getPhases() function, however it uses coordinates and distances array instead of the instance of theSystem class as input.The coordinates and distances arrays can be obtained using respectively the functions getCoordinates()and getDistances().The models can be trained using the function generateModel().Argument, keywords and outputsInput(s) / Argument(s)            Name      Flag       Type      Description                  Coordinates             np.ndarray      Array of the coordinates of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, 2 * N atoms per molecule).              Distances             np.ndarray      Array of the distances of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, N distances).              Models             str or dict of models      Path to the model file to load or dictionary of the Scikit-Learn models to use to predict the states of the molecules.      Output(s)            Name       Type      Description                  Phases      np.ndarray      Array of all the molecule phases predicted in the system. Dimension(s) are in (N frames, N molecules).      ExamplesPredict the phases from a fileThe following example will analyse the coordinates array coordinates_array and the distances array distances_arrayusing the models pre-trained in the file new_model.lpm and return the phases of the molecules inthe variable phase_array.import mllpaphase_array = mllpa.predictPhases(coordinates_array, distances_array, &quot;new_model.lpm&quot;)Predict the phases from a model dictionaryThe following example will analyse the coordinates array coordinates_array and the distances array distances_arrayusing the models pre-trained in the variable models and return the phases of the molecules inthe variable phase_array.phase_array = mllpa.predictPhases(coordinates_array, distances_array, models)">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">predictPhases()
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#description">Description</a></li>
+  <li><a href="#argument-keywords-and-outputs">Argument, keywords and outputs</a>
+    <ul>
+      <li><a href="#inputs--arguments">Input(s) / Argument(s)</a></li>
+      <li><a href="#outputs">Output(s)</a></li>
+    </ul>
+  </li>
+  <li><a href="#examples">Examples</a>
+    <ul>
+      <li><a href="#predict-the-phases-from-a-file">Predict the phases from a file</a></li>
+      <li><a href="#predict-the-phases-from-a-model-dictionary">Predict the phases from a model dictionary</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="description">Description</h2>
+
+<p>predictPhases() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model.
+It is similar to the <em>getPhases()</em> function, however it uses coordinates and distances array instead of the instance of the
+System class as input.</p>
+
+<p>The coordinates and distances arrays can be obtained using respectively the functions <a href="/mllpa/documentation/api/advanced/getcoordinates/">getCoordinates()</a>
+and <a href="/mllpa/documentation/api/advanced/getdistances/">getDistances()</a>.
+The models can be trained using the function <a href="/mllpa/documentation/api/common/generatemodel/">generateModel()</a>.</p>
+
+<h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
+
+<h3 id="inputs--arguments">Input(s) / Argument(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flag</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Coordinates</td>
+      <td> </td>
+      <td>np.ndarray</td>
+      <td>Array of the coordinates of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, 2 * N atoms per molecule).</td>
+    </tr>
+    <tr>
+      <td>Distances</td>
+      <td> </td>
+      <td>np.ndarray</td>
+      <td>Array of the distances of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (N frames * N molecules, N distances).</td>
+    </tr>
+    <tr>
+      <td>Models</td>
+      <td> </td>
+      <td>str or dict of models</td>
+      <td>Path to the model file to load or dictionary of the Scikit-Learn models to use to predict the states of the molecules.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="outputs">Output(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Phases</td>
+      <td>np.ndarray</td>
+      <td>Array of all the molecule phases predicted in the system. Dimension(s) are in (N frames, N molecules).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="predict-the-phases-from-a-file">Predict the phases from a file</h3>
+
+<p>The following example will analyse the coordinates array <em>coordinates_array</em> and the distances array <em>distances_array</em>
+using the models pre-trained in the file <em>new_model.lpm</em> and return the phases of the molecules in
+the variable <em>phase_array</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">phase_array</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">predictPhases</span><span class="p">(</span><span class="n">coordinates_array</span><span class="p">,</span> <span class="n">distances_array</span><span class="p">,</span> <span class="s">"new_model.lpm"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="predict-the-phases-from-a-model-dictionary">Predict the phases from a model dictionary</h3>
+
+<p>The following example will analyse the coordinates array <em>coordinates_array</em> and the distances array <em>distances_array</em>
+using the models pre-trained in the variable <em>models</em> and return the phases of the molecules in
+the variable <em>phase_array</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">phase_array</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">predictPhases</span><span class="p">(</span><span class="n">coordinates_array</span><span class="p">,</span> <span class="n">distances_array</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#training" class="page__taxonomy-item" rel="tag">training</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#api" class="page__taxonomy-item" rel="tag">api</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/api/advanced/loadmodels/" class="pagination--pager" title="loadModels()
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/api/advanced/readmodelfile/" class="pagination--pager" title="readModelFile()
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

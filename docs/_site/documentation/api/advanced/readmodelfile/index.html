@@ -1,0 +1,567 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>readModelFile() - ML-LPA</title>
+<meta name="description" content="Description  readModelFile() is a function used to open a .lpm model file and extract its content. The content will be returned in variables, but can also be output in the Terminal.  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Model file               str       Relative path to the model file to load and read.                 Training sets       train_sets=       bool        (Opt.) Load the training sets (arrays) from the file too. Default is False.                 Display       display=       bool        (Opt.) Load the training sets (arrays) from the file too. Default is False.           Output(s)                 Name        Type       Description                       Metadata       dict       Metadata used and collected during the training.                 Coordinates       np.ndarray       (Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2). Is only returned if train_sets= is set to True.                 Distances       np.ndarray       (Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances). Is only returned if train_sets= is set to True.                 Phases       np.ndarray       (Opt.) Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules). Is only returned if train_sets= is set to True.           Examples  Extract the metadata of a file  The following example will open the file test_model.lpm and return the metadata defined inside it into the dictionary metadata_dict.  import mllpa  metadata_dict = mllpa.readModelFile(&#39;test_model.lpm&#39;)   Extract the metadata and training sets from a file  The following example will open the file test_model.lpm and return the metadata defined inside it into the dictionary metadata_dict, as well as the coordinates, distances and phases array used to train the model.  metadata_dict, coordinates, distances, phases = mllpa.readModelFile(&#39;test_model.lpm&#39;, train_sets=True)   Extract and display the metadata from a file  The following example will open the file test_model.lpm and display the metadata in the Terminal.  mllpa.readModelFile(&#39;test_model.lpm&#39;, display=True)   Related tutorials  The following tutorial(s) detail further the use of the readModelFile() function:     The .lpm model file">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="readModelFile()">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/api/advanced/readmodelfile/">
+
+
+  <meta property="og:description" content="Description  readModelFile() is a function used to open a .lpm model file and extract its content. The content will be returned in variables, but can also be output in the Terminal.  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Model file               str       Relative path to the model file to load and read.                 Training sets       train_sets=       bool        (Opt.) Load the training sets (arrays) from the file too. Default is False.                 Display       display=       bool        (Opt.) Load the training sets (arrays) from the file too. Default is False.           Output(s)                 Name        Type       Description                       Metadata       dict       Metadata used and collected during the training.                 Coordinates       np.ndarray       (Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2). Is only returned if train_sets= is set to True.                 Distances       np.ndarray       (Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances). Is only returned if train_sets= is set to True.                 Phases       np.ndarray       (Opt.) Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules). Is only returned if train_sets= is set to True.           Examples  Extract the metadata of a file  The following example will open the file test_model.lpm and return the metadata defined inside it into the dictionary metadata_dict.  import mllpa  metadata_dict = mllpa.readModelFile(&#39;test_model.lpm&#39;)   Extract the metadata and training sets from a file  The following example will open the file test_model.lpm and return the metadata defined inside it into the dictionary metadata_dict, as well as the coordinates, distances and phases array used to train the model.  metadata_dict, coordinates, distances, phases = mllpa.readModelFile(&#39;test_model.lpm&#39;, train_sets=True)   Extract and display the metadata from a file  The following example will open the file test_model.lpm and display the metadata in the Terminal.  mllpa.readModelFile(&#39;test_model.lpm&#39;, display=True)   Related tutorials  The following tutorial(s) detail further the use of the readModelFile() function:     The .lpm model file">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="readModelFile()">
+  <meta name="twitter:description" content="Description  readModelFile() is a function used to open a .lpm model file and extract its content. The content will be returned in variables, but can also be output in the Terminal.  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Model file               str       Relative path to the model file to load and read.                 Training sets       train_sets=       bool        (Opt.) Load the training sets (arrays) from the file too. Default is False.                 Display       display=       bool        (Opt.) Load the training sets (arrays) from the file too. Default is False.           Output(s)                 Name        Type       Description                       Metadata       dict       Metadata used and collected during the training.                 Coordinates       np.ndarray       (Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2). Is only returned if train_sets= is set to True.                 Distances       np.ndarray       (Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances). Is only returned if train_sets= is set to True.                 Phases       np.ndarray       (Opt.) Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules). Is only returned if train_sets= is set to True.           Examples  Extract the metadata of a file  The following example will open the file test_model.lpm and return the metadata defined inside it into the dictionary metadata_dict.  import mllpa  metadata_dict = mllpa.readModelFile(&#39;test_model.lpm&#39;)   Extract the metadata and training sets from a file  The following example will open the file test_model.lpm and return the metadata defined inside it into the dictionary metadata_dict, as well as the coordinates, distances and phases array used to train the model.  metadata_dict, coordinates, distances, phases = mllpa.readModelFile(&#39;test_model.lpm&#39;, train_sets=True)   Extract and display the metadata from a file  The following example will open the file test_model.lpm and display the metadata in the Terminal.  mllpa.readModelFile(&#39;test_model.lpm&#39;, display=True)   Related tutorials  The following tutorial(s) detail further the use of the readModelFile() function:     The .lpm model file">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/api/advanced/readmodelfile/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-21T19:28:22+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/api/advanced/readmodelfile/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Common functions</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/common/dovoro/">doVoro()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/generatemodel/">generateModel()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/getphases/">getPhases()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/savesystems/">saveSystems()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/savevoro/">saveVoro()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/setphases/">setPhases()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Advanced functions</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/advanced/assignleaflets/">assignLeaflets()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/extractpositions/">extractPositions()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getcoordinates/">getCoordinates()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getdistances/">getDistances()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getmolinfos/">getMolInfos()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/gettypes/">getTypes()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/loadmodels/">loadModels()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/predictphases/">predictPhases()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/readmodelfile/" class="active">readModelFile()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/readneighbors/">readNeighbors()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/summonghosts/">summonGhosts()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/systemfrompositions/">systemFromPositions()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Classes</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/classes/system/">System</a></li>
+          
+            <li><a href="/mllpa/documentation/api/classes/tessellation/">Tessellation</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="readModelFile()">
+    <meta itemprop="description" content="DescriptionreadModelFile() is a function used to open a .lpm model file and extract its content. The content will be returned invariables, but can also be output in the Terminal.Argument, keywords and outputsInput(s) / Argument(s)            Name      Flag       Type      Description                  Model file             str      Relative path to the model file to load and read.              Training sets      train_sets=      bool       (Opt.) Load the training sets (arrays) from the file too. Default is False.              Display      display=      bool       (Opt.) Load the training sets (arrays) from the file too. Default is False.      Output(s)            Name       Type      Description                  Metadata      dict      Metadata used and collected during the training.              Coordinates      np.ndarray      (Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2). Is only returned if train_sets= is set to True.              Distances      np.ndarray      (Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances). Is only returned if train_sets= is set to True.              Phases      np.ndarray      (Opt.) Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules). Is only returned if train_sets= is set to True.      ExamplesExtract the metadata of a fileThe following example will open the file test_model.lpm and return the metadata defined insideit into the dictionary metadata_dict.import mllpametadata_dict = mllpa.readModelFile(&#39;test_model.lpm&#39;)Extract the metadata and training sets from a fileThe following example will open the file test_model.lpm and return the metadata defined insideit into the dictionary metadata_dict, as well as the coordinates, distances and phases array used to train the model.metadata_dict, coordinates, distances, phases = mllpa.readModelFile(&#39;test_model.lpm&#39;, train_sets=True)Extract and display the metadata from a fileThe following example will open the file test_model.lpm and display the metadatain the Terminal.mllpa.readModelFile(&#39;test_model.lpm&#39;, display=True)Related tutorialsThe following tutorial(s) detail further the use of the readModelFile() function:  The .lpm model file">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">readModelFile()
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#description">Description</a></li>
+  <li><a href="#argument-keywords-and-outputs">Argument, keywords and outputs</a>
+    <ul>
+      <li><a href="#inputs--arguments">Input(s) / Argument(s)</a></li>
+      <li><a href="#outputs">Output(s)</a></li>
+    </ul>
+  </li>
+  <li><a href="#examples">Examples</a>
+    <ul>
+      <li><a href="#extract-the-metadata-of-a-file">Extract the metadata of a file</a></li>
+      <li><a href="#extract-the-metadata-and-training-sets-from-a-file">Extract the metadata and training sets from a file</a></li>
+      <li><a href="#extract-and-display-the-metadata-from-a-file">Extract and display the metadata from a file</a></li>
+    </ul>
+  </li>
+  <li><a href="#related-tutorials">Related tutorials</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="description">Description</h2>
+
+<p>readModelFile() is a function used to open a .lpm model file and extract its content. The content will be returned in
+variables, but can also be output in the Terminal.</p>
+
+<h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
+
+<h3 id="inputs--arguments">Input(s) / Argument(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flag</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model file</td>
+      <td> </td>
+      <td>str</td>
+      <td>Relative path to the model file to load and read.</td>
+    </tr>
+    <tr>
+      <td>Training sets</td>
+      <td>train_sets=</td>
+      <td>bool</td>
+      <td> (Opt.) Load the training sets (arrays) from the file too. Default is False.</td>
+    </tr>
+    <tr>
+      <td>Display</td>
+      <td>display=</td>
+      <td>bool</td>
+      <td> (Opt.) Load the training sets (arrays) from the file too. Default is False.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="outputs">Output(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Metadata</td>
+      <td>dict</td>
+      <td>Metadata used and collected during the training.</td>
+    </tr>
+    <tr>
+      <td>Coordinates</td>
+      <td>np.ndarray</td>
+      <td>(Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2). Is only returned if <em>train_sets=</em> is set to True.</td>
+    </tr>
+    <tr>
+      <td>Distances</td>
+      <td>np.ndarray</td>
+      <td>(Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances). Is only returned if <em>train_sets=</em> is set to True.</td>
+    </tr>
+    <tr>
+      <td>Phases</td>
+      <td>np.ndarray</td>
+      <td>(Opt.) Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules). Is only returned if <em>train_sets=</em> is set to True.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="extract-the-metadata-of-a-file">Extract the metadata of a file</h3>
+
+<p>The following example will open the file <em>test_model.lpm</em> and return the metadata defined inside
+it into the dictionary <em>metadata_dict</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="extract-the-metadata-and-training-sets-from-a-file">Extract the metadata and training sets from a file</h3>
+
+<p>The following example will open the file <em>test_model.lpm</em> and return the metadata defined inside
+it into the dictionary <em>metadata_dict</em>, as well as the <em>coordinates</em>, <em>distances</em> and <em>phases</em> array used to train the model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">,</span> <span class="n">distances</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">,</span> <span class="n">train_sets</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="extract-and-display-the-metadata-from-a-file">Extract and display the metadata from a file</h3>
+
+<p>The following example will open the file <em>test_model.lpm</em> and display the metadata
+in the Terminal.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="related-tutorials">Related tutorials</h2>
+
+<p>The following tutorial(s) detail further the use of the <em>readModelFile()</em> function:</p>
+
+<ul>
+  <li><a href="/mllpa/documentation/tutorials/outputs/1-model-file/">The .lpm model file</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#training" class="page__taxonomy-item" rel="tag">training</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#api" class="page__taxonomy-item" rel="tag">api</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/api/advanced/predictphases/" class="pagination--pager" title="predictPhases()
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/api/advanced/readneighbors/" class="pagination--pager" title="readNeighbors()
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

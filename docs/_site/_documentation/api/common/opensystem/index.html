@@ -1,8 +1,8 @@
 <h2 id="description">Description</h2>
 
-<p>openSystem() is a function used to load the simulation files to be analysed.  The function can load either single frames or whole trajectory. Only one type of molecule will be extracted from the files, since Machine Learning models can only be generated on one molecule type at the time. More informations on the System class can be found in the <a href="">related API reference</a>.</p>
+<p>openSystem() is a function used to load the simulation files to be analysed.  The function can load either single frames or whole trajectory. Only one type of molecule will be extracted from the files, since Machine Learning models can only be generated on one molecule type at the time. More informations on the System class can be found in the <a href="/mllpa/documentation/api/classes/system/">related API reference</a>.</p>
 
-<p>It is possible to load directly a position array into ML-LPA and generates an instance of the System class without using simulations files. Please refer to the function <a href="">systemFromPositions()</a>.</p>
+<p>It is possible to load directly a position array into ML-LPA and generates an instance of the System class without using simulations files. Please refer to the function <a href="/mllpa/documentation/api/advanced/systemfrompositions/">systemFromPositions()</a>.</p>
 
 <h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
 
@@ -38,7 +38,7 @@
     </tr>
     <tr>
       <td>Trajectory file</td>
-      <td>trajectory_file=</td>
+      <td>trj=</td>
       <td> str</td>
       <td>(Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file). If not provided, the function will only read the positions from the coordinates file. Default is None.</td>
     </tr>
@@ -126,7 +126,7 @@ for the generation of the intra-molecular distances.</p>
 <p>The following example will load the <em>DPPC</em> molecules found in all the frames the files <em>test.gro</em>, <em>test.tpr</em> and <em>test.xtc</em> into the
 instance of the System class <em>loaded_system</em>.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trajectory_file</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trj</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="open-a-selection-of-frames-in-the-trajectory">Open a selection of frames in the trajectory</h3>
@@ -134,7 +134,7 @@ instance of the System class <em>loaded_system</em>.</p>
 <p>The following example will load the <em>DPPC</em> molecules found in the files <em>test.gro</em>, <em>test.tpr</em> and <em>test.xtc</em> into the
 instance of the System class <em>loaded_system</em>, but will only read the frames from 100 to 500, skipping every 10 frames.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trajectory_file</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">,</span> <span class="n">begin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trj</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">,</span> <span class="n">begin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="related-tutorials">Related tutorials</h2>

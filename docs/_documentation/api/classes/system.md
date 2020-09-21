@@ -52,7 +52,7 @@ by the [extractPositions()](/mllpa/documentation/api/advanced/extractpositions/)
 | **system.coordinates** | np.ndarray | Coordinates of the atoms of each molecule, after centering the molecule on their centers of mass and rotation.
 | **system.distances** | np.ndarray | Distances between atoms pairs, pairs are set to a given neighbor rank. |
 | **system.rank** | int | Rank used for the distance calculation. |
-| **system.states** | np.ndarray | States of each molecules in the system. |
+| **system.phases** | np.ndarray | Phases of each molecules in the system. |
 
 ### Methods
 
@@ -60,8 +60,12 @@ by the [extractPositions()](/mllpa/documentation/api/advanced/extractpositions/)
 | --- | --- | --- |
 | **system.getCoordinates()** | <ul><li>up=, {bool}, (Opt.) Make sure the molecule is always pointing "up". Default is True.</li></ul> | Compute the coordinate set based on the atom positions of the system. The results are directly stored in the instance. |
 | **system.getDistances()** | <ul><li>rank=, {int}, (Opt.) Rank for the distance calculation. Default is 6.</li></ul> | Calculate the distance between atom pairs based on the atom positions of the system and the neighbor rank. The results are directly stored in the instance. |
-| **system.getStates()** | <ul><li>models, {str or dict of models}, Path to the model files or dictionary of the models to use to predict the states.</li></ul> | Predict the states of all the molecules in the system using the provided models. Return the array of states. |
-| **system.setStates()** | <ul><li>states, {str or np.ndarray}, States to apply to the molecules of the system.</li></ul> | Set manually the states of all the molecules in the system using the provided models. Return the array of states. |
+| **system.getPhases()** | <ul><li>models, {str or dict of models}, Path to the model files or dictionary of the models to use to predict the states.</li></ul> | Predict the phases of all the molecules in the system using the provided models. Return the array of phases. |
+| **system.setPhases()** | <ul><li>phases, {str or np.ndarray}, Phases to apply to the molecules of the system.</li></ul> | Set manually the phases of all the molecules in the system using the provided models. Return the array of phases. |
+| **system.save()** | <ul><li>file_path, {str}, Path and name of the file to generate.</li><li>format, {str}, File extension and format to use for the output file.</li></ul> | Save the instance of the System class in a file. |
+
+The *.save()* method uses the same argument and generates the same files than the [saveSystems()](/mllpa/documentation/api/common/savesystems/) function.
+{: .notice--info}
 
 ## Examples
 
@@ -101,7 +105,7 @@ The following example will use the model file *new_model.lpm* to predict the pha
 an instance of the System class. The output will be stored in the attributes of the instance.
 
 ```python
-loaded_system.getStates("./new_model.lpm")
+loaded_system.getPhases("./new_model.lpm")
 ```
 
 ### Prediction with a model dictionary
@@ -110,7 +114,7 @@ The following example will use the models stored in the variable *models* to pre
 an instance of the System class. The output will be stored in the instance.
 
 ```python
-loaded_system.getStates(models)
+loaded_system.getPhases(models)
 ```
 
 ### Assigning a single phase
@@ -119,7 +123,7 @@ The following example will assign the phase name *fluid* to all molecules of *lo
 an instance of the System class. The output will be stored in the attributes of the instance.
 
 ```python
-loaded_system.setStates("fluid")
+loaded_system.setPhases("fluid")
 ```
 
 ### Assigning a phase array
@@ -128,7 +132,16 @@ The following example will assign the array of phases *phase_array* to *loaded_s
 an instance of the System class. The output will be stored in the instance of the System class.
 
 ```python
-loaded_system.setStates(phase_array)
+loaded_system.setPhases(phase_array)
+```
+
+### Save the instance in a file
+
+The following example will save the content of the instance of the System class *loaded_system*
+in a file *test_file.xml*
+
+``` python
+loaded_system.save(file_path='test_file.xml')
 ```
 
 ## Related functions
@@ -141,9 +154,9 @@ The following function(s) uses the System class either in their input our output
 
     * [generateModel()](/mllpa/documentation/api/common/generatemodel/)
 
-    * [getStates()](/mllpa/documentation/api/common/getstates/)
+    * [getPhases()](/mllpa/documentation/api/common/getphases/)
 
-    * [setStates()](/mllpa/documentation/api/common/setstates/)
+    * [setPhases()](/mllpa/documentation/api/common/setphases/)
 
     * [saveSystems()](/mllpa/documentation/api/common/savesystems/)
 
@@ -155,8 +168,7 @@ The following function(s) uses the System class either in their input our output
 
 ## Related tutorials
 
-The following tutorial(s) detail further the use of the *getStates()* function through the *.getStates()* method of
-the system class:
+The following tutorial(s) detail further the use of the System class:
 
 * [Load from simulation files](/mllpa/documentation/tutorials/loading-files/1-simulation-files/)
 

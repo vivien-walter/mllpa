@@ -3,7 +3,8 @@ simulation files but <strong>from position arrays</strong>, as supported by <a h
 tutorial how to proceed.</p>
 
 <p class="notice--warning">Please be aware that loading a system from a position array can be a complicated and tedious operation.
-Loading from simulation files should always be preferred when possible.</p>
+Loading from simulation files should always be preferred when possible. If you don’t need to
+load a system from position arrays, we recommend you to skip to the next tutorial.</p>
 
 <h2 id="load-the-position-array">Load the position array</h2>
 
@@ -65,23 +66,23 @@ function <em>systemFromPositions()</em>.</p>
 </code></pre></div></div>
 
 <p>All the collected information have been stored in the variable <em>loaded_system</em> as
-an instance of the <strong>System</strong> class. More information on the System class are given in the <a href="/mllpa/documentation/tutorials/system-class/1-description/">related tutorial</a> and in the <a href="">API</a>.</p>
+an instance of the <strong>System</strong> class. More information on the System class are given in the <a href="/mllpa/documentation/tutorials/system-class/1-description/">related tutorial</a> and in the <a href="/mllpa/documentation/api/classes/system/">API</a>.</p>
 
 <p class="notice--info">In this example, all arguments provided are given in the same order than <a href="/mllpa/documentation/tutorials/loading-files/2-positions/#prepare-the-required-material">described above</a>.</p>
 
 <p><em>systemFromPositions()</em> can also takes some optional keyword-arguments.
-You can find the description of all the keyword-arguments in the <a href="">API</a>.</p>
+You can find the description of all the keyword-arguments in the <a href="/mllpa/documentation/api/advanced/systemfrompositions/">API</a>.</p>
 
 <h2 id="what-is-next">What is next?</h2>
 
 <ul>
   <li>
-    <p>Now that you know how to load a system, you can either use it to <a href="">prepare and train a model</a> for
-  machine learning analysis, or use an existing model to predict the <a href="">phases in the system</a>.</p>
+    <p>Now that you know how to load a system, you can either use it to <a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">prepare and train a model</a> for
+  machine learning analysis, or use an existing model to predict the <a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">phases in the system</a>.</p>
   </li>
   <li>
     <p>If you want to know more about the System class, you either read the <a href="/mllpa/documentation/tutorials/system-class/1-description/">tutorials on it</a>, or go
-  to its <a href="">API</a>.</p>
+  to its <a href="/mllpa/documentation/api/classes/system/">API</a>.</p>
   </li>
 </ul>
 
@@ -91,9 +92,9 @@ You can find the description of all the keyword-arguments in the <a href="">API<
 
 <ul>
   <li>
-    <p>getMolInfos</p>
+    <p><a href="/mllpa/documentation/api/advanced/getmolinfos/">getMolInfos()</a></p>
   </li>
   <li>
-    <p>systemFromPositions</p>
+    <p><a href="/mllpa/documentation/api/advanced/systemfrompositions/">systemFromPositions()</a></p>
   </li>
 </ul>

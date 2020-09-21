@@ -17,6 +17,12 @@ var store = [{
         "url": "http://localhost:4000/mllpa/authors/ruscher-celine/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
+        "title": "assignLeaflets()",
+        "excerpt":"Description assignLeaflets() is a function used to identify the leaflets in which the membrane molecules are found. Extensive explanations on why leaflets are essential and why membrane geometries are esential can be found in the related tutorial. During a normal use of ML-LPA, leaflets are automatically assigned if needed by...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/assignleaflets/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
         "title": "extractPositions()",
         "excerpt":"Description extractPositions() is a function used to extract the position array of all the atoms of the selected molecule type, as well as the dimension of the simulation boxes. The resulting arrays are in the format and dimensions used my ML-LPA for all the standard analysis. Argument, keywords and outputs...","categories": ["api"],
         "tags": ["training"],
@@ -47,10 +53,34 @@ var store = [{
         "url": "http://localhost:4000/mllpa/documentation/api/advanced/gettypes/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
-        "title": "predictStates()",
-        "excerpt":"Description predictStates() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model. It is similar to the getStates() function, however it uses coordinates and distances array instead of the instance of the System class as input. The coordinates...","categories": ["api"],
+        "title": "loadModels()",
+        "excerpt":"Description loadModels() is a function used to open a .lpm model file and load the models from it. The trained models are returned in a dictionary, as well as the training parameters. Argument, keywords and outputs Input(s) / Argument(s) Name Flag  Type Description Model file   str Relative path to...","categories": ["api"],
         "tags": ["training"],
-        "url": "http://localhost:4000/mllpa/documentation/api/advanced/predictstates/",
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/loadmodels/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "predictPhases()",
+        "excerpt":"Description predictPhases() is a function that reads the input dataset and makes prediction on the molecule states based on a pre-trained Machine Learning model. It is similar to the getPhases() function, however it uses coordinates and distances array instead of the instance of the System class as input. The coordinates...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/predictphases/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "readModelFile()",
+        "excerpt":"Description readModelFile() is a function used to open a .lpm model file and extract its content. The content will be returned in variables, but can also be output in the Terminal. Argument, keywords and outputs Input(s) / Argument(s) Name Flag  Type Description Model file   str Relative path to the...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/readmodelfile/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "readNeighbors()",
+        "excerpt":"Description readNeighbors() is a function used to read the states (as predicted through Machine Learning) of the neighbors of each molecule to list the state compositions. The neighbors list has to be collected first using the doVoro() function. Unless specified explicitely, this function should be automatically started by doVoro(). The...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/readneighbors/",
+        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
+      },{
+        "title": "summonGhosts()",
+        "excerpt":"Description summonGhosts() is a function used to generate the ghosts of the membrane molecules, in order to avoid spurious neighbors in the Voronoi tessellation due to the system geometry and the PBC. Extensive explanations on ghosts are provided in the related tutorial. During a normal use of ML-LPA, ghosts are...","categories": ["api"],
+        "tags": ["training"],
+        "url": "http://localhost:4000/mllpa/documentation/api/advanced/summonghosts/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "systemFromPositions()",
@@ -83,22 +113,16 @@ var store = [{
         "url": "http://localhost:4000/mllpa/documentation/api/common/generatemodel/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
-        "title": "getStates()",
-        "excerpt":"Description getStates() is a function used to predict the states of the molecules from the system by using a model previously created using the function generateModel(). The function can take as input either the path to a model file, or a dictionary of models; it will both update the input...","categories": ["api"],
+        "title": "getPhases()",
+        "excerpt":"Description getPhases() is a function used to predict the states of the molecules from the system by using a model previously created using the function generateModel(). The function can take as input either the path to a model file, or a dictionary of models; it will both update the input...","categories": ["api"],
         "tags": ["training"],
-        "url": "http://localhost:4000/mllpa/documentation/api/common/getstates/",
+        "url": "http://localhost:4000/mllpa/documentation/api/common/getphases/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "openSystem()",
         "excerpt":"Description openSystem() is a function used to load the simulation files to be analysed. The function can load either single frames or whole trajectory. Only one type of molecule will be extracted from the files, since Machine Learning models can only be generated on one molecule type at the time....","categories": ["api"],
         "tags": ["system"],
         "url": "http://localhost:4000/mllpa/documentation/api/common/opensystem/",
-        "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
-      },{
-        "title": "readNeighbors()",
-        "excerpt":"Description readNeighbors() is a function used to read the states (as predicted through Machine Learning) of the neighbors of each molecule to list the state compositions. The neighbors list has to be collected first using the doVoro() function. The function will both update the input tessellation and output an array...","categories": ["api"],
-        "tags": ["training"],
-        "url": "http://localhost:4000/mllpa/documentation/api/common/readneighbors/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "saveSystems()",
@@ -113,10 +137,10 @@ var store = [{
         "url": "http://localhost:4000/mllpa/documentation/api/common/savevoro/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
-        "title": "setStates()",
-        "excerpt":"Description setStates() is a function used to assign manually the states of the molecules from the system. The function can take as input either the name of the phase, or an array of names of dimension (# Frames, # Molecules); it will both update the input system and output an...","categories": ["api"],
+        "title": "setPhases()",
+        "excerpt":"Description setPhases() is a function used to assign manually the states of the molecules from the system. The function can take as input either the name of the phase, or an array of names of dimension (# Frames, # Molecules); it will both update the input system and output an...","categories": ["api"],
         "tags": ["training"],
-        "url": "http://localhost:4000/mllpa/documentation/api/common/setstates/",
+        "url": "http://localhost:4000/mllpa/documentation/api/common/setphases/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "Load from simulation files",

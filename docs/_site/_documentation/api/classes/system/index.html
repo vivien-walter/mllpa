@@ -86,9 +86,9 @@ by the <a href="/mllpa/documentation/api/advanced/extractpositions/">extractPosi
       <td>Rank used for the distance calculation.</td>
     </tr>
     <tr>
-      <td><strong>system.states</strong></td>
+      <td><strong>system.phases</strong></td>
       <td>np.ndarray</td>
-      <td>States of each molecules in the system.</td>
+      <td>Phases of each molecules in the system.</td>
     </tr>
   </tbody>
 </table>
@@ -115,17 +115,24 @@ by the <a href="/mllpa/documentation/api/advanced/extractpositions/">extractPosi
       <td>Calculate the distance between atom pairs based on the atom positions of the system and the neighbor rank. The results are directly stored in the instance.</td>
     </tr>
     <tr>
-      <td><strong>system.getStates()</strong></td>
+      <td><strong>system.getPhases()</strong></td>
       <td>&lt;ul&gt;&lt;li&gt;models, {str or dict of models}, Path to the model files or dictionary of the models to use to predict the states.&lt;/li&gt;&lt;/ul&gt;</td>
-      <td>Predict the states of all the molecules in the system using the provided models. Return the array of states.</td>
+      <td>Predict the phases of all the molecules in the system using the provided models. Return the array of phases.</td>
     </tr>
     <tr>
-      <td><strong>system.setStates()</strong></td>
-      <td>&lt;ul&gt;&lt;li&gt;states, {str or np.ndarray}, States to apply to the molecules of the system.&lt;/li&gt;&lt;/ul&gt;</td>
-      <td>Set manually the states of all the molecules in the system using the provided models. Return the array of states.</td>
+      <td><strong>system.setPhases()</strong></td>
+      <td>&lt;ul&gt;&lt;li&gt;phases, {str or np.ndarray}, Phases to apply to the molecules of the system.&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>Set manually the phases of all the molecules in the system using the provided models. Return the array of phases.</td>
+    </tr>
+    <tr>
+      <td><strong>system.save()</strong></td>
+      <td>&lt;ul&gt;&lt;li&gt;file_path, {str}, Path and name of the file to generate.&lt;/li&gt;&lt;li&gt;format, {str}, File extension and format to use for the output file.&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>Save the instance of the System class in a file.</td>
     </tr>
   </tbody>
 </table>
+
+<p class="notice--info">The <em>.save()</em> method uses the same argument and generates the same files than the <a href="/mllpa/documentation/api/common/savesystems/">saveSystems()</a> function.</p>
 
 <h2 id="examples">Examples</h2>
 
@@ -161,7 +168,7 @@ into the array of distances directly stored in the instance. The conversion will
 <p>The following example will use the model file <em>new_model.lpm</em> to predict the phase of <em>loaded_system</em>,
 an instance of the System class. The output will be stored in the attributes of the instance.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="s">"./new_model.lpm"</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getPhases</span><span class="p">(</span><span class="s">"./new_model.lpm"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="prediction-with-a-model-dictionary">Prediction with a model dictionary</h3>
@@ -169,7 +176,7 @@ an instance of the System class. The output will be stored in the attributes of 
 <p>The following example will use the models stored in the variable <em>models</em> to predict the phase of <em>loaded_system</em>,
 an instance of the System class. The output will be stored in the instance.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getPhases</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="assigning-a-single-phase">Assigning a single phase</h3>
@@ -177,7 +184,7 @@ an instance of the System class. The output will be stored in the instance.</p>
 <p>The following example will assign the phase name <em>fluid</em> to all molecules of <em>loaded_system</em>,
 an instance of the System class. The output will be stored in the attributes of the instance.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="s">"fluid"</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">setPhases</span><span class="p">(</span><span class="s">"fluid"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="assigning-a-phase-array">Assigning a phase array</h3>
@@ -185,7 +192,15 @@ an instance of the System class. The output will be stored in the attributes of 
 <p>The following example will assign the array of phases <em>phase_array</em> to <em>loaded_system</em>,
 an instance of the System class. The output will be stored in the instance of the System class.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="n">phase_array</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">setPhases</span><span class="p">(</span><span class="n">phase_array</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>### Save the instance in a file</p>
+
+<p>The following example will save the content of the instance of the System class <em>loaded_system</em>
+in a file <em>test_file.xml</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s">'test_file.xml'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="related-functions">Related functions</h2>
@@ -204,10 +219,10 @@ an instance of the System class. The output will be stored in the instance of th
         <p><a href="/mllpa/documentation/api/common/generatemodel/">generateModel()</a></p>
       </li>
       <li>
-        <p><a href="/mllpa/documentation/api/common/getstates/">getStates()</a></p>
+        <p><a href="/mllpa/documentation/api/common/getphases/">getPhases()</a></p>
       </li>
       <li>
-        <p><a href="/mllpa/documentation/api/common/setstates/">setStates()</a></p>
+        <p><a href="/mllpa/documentation/api/common/setphases/">setPhases()</a></p>
       </li>
       <li>
         <p><a href="/mllpa/documentation/api/common/savesystems/">saveSystems()</a></p>
@@ -228,8 +243,7 @@ an instance of the System class. The output will be stored in the instance of th
 
 <h2 id="related-tutorials">Related tutorials</h2>
 
-<p>The following tutorial(s) detail further the use of the <em>getStates()</em> function through the <em>.getStates()</em> method of
-the system class:</p>
+<p>The following tutorial(s) detail further the use of the System class:</p>
 
 <ul>
   <li>

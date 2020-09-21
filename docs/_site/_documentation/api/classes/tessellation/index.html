@@ -28,10 +28,13 @@ one wants to generate it by calling the class, the following data are required:<
 by the <a href="/mllpa/documentation/api/advanced/extractpositions/">extractPositions()</a> function.</p>
   </li>
   <li>
-    <p>The <strong>array of the phases</strong> of the molecules, as extracted by the functions <a href="/mllpa/documentation/api/common/getstates/">getStates()</a>
-or <a href="/mllpa/documentation/api/common/setstates/">setStates()</a>.</p>
+    <p>The <strong>array of the phases</strong> of the molecules, as extracted by the functions <a href="/mllpa/documentation/api/common/getphases/">getPhases()</a>
+or <a href="/mllpa/documentation/api/common/setphases/">setPhases()</a>.</p>
   </li>
 </ol>
+
+<p class="notice--warning">Please be aware that ghost lipids, required for most of the membrane geometries,
+cannot be generated within the Tessellation class.</p>
 
 <h3 id="attributes">Attributes</h3>
 
@@ -65,9 +68,9 @@ or <a href="/mllpa/documentation/api/common/setstates/">setStates()</a>.</p>
       <td>Dimensions of the simulation box.</td>
     </tr>
     <tr>
-      <td><strong>tessellation.states</strong></td>
+      <td><strong>tessellation.phases</strong></td>
       <td>np.ndarray</td>
-      <td> States of all the molecules of the system.</td>
+      <td>Phases of all the molecules of the system.</td>
     </tr>
     <tr>
       <td><strong>tessellation.leaflets</strong></td>
@@ -105,9 +108,14 @@ or <a href="/mllpa/documentation/api/common/setstates/">setStates()</a>.</p>
       <td>Threshold used to remove sporious neighbors found during the tessellation.</td>
     </tr>
     <tr>
-      <td><strong>tessellation.neighbors_states</strong></td>
+      <td><strong>tessellation.neighbors_phases</strong></td>
       <td>np.ndarray</td>
-      <td>States of the neighbors of each molecules of the system.</td>
+      <td>Phases of the neighbors of each molecules of the system.</td>
+    </tr>
+    <tr>
+      <td><strong>tessellation.phases_list</strong></td>
+      <td>np.ndarray</td>
+      <td>Name of the phases, in the order provided in <strong>tessellation.neighbors_phases</strong>.</td>
     </tr>
   </tbody>
 </table>
@@ -123,11 +131,6 @@ or <a href="/mllpa/documentation/api/common/setstates/">setStates()</a>.</p>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><strong>tessellation.createGhosts()</strong></td>
-      <td>&lt;ul&gt;&lt;li&gt;positions, {nd.ndarray}, positions of all atoms in the system - not the centers of mass.&lt;/li&gt;&lt;li&gt;geometry=, {str}, (Opt.) geometry of the system. Default is bilayer.&lt;/li&gt;&lt;/ul&gt;</td>
-      <td>Generate the position of the ghosts. Used for bilayer and vesicles to set the interface of the bilayer.</td>
-    </tr>
     <tr>
       <td><strong>tessellation.getLeaflets()</strong></td>
       <td>&lt;ul&gt;&lt;li&gt;geometry=, {str}, (Opt.) geometry of the system. Default is bilayer.&lt;/li&gt;&lt;/ul&gt; </td>
@@ -148,8 +151,15 @@ or <a href="/mllpa/documentation/api/common/setstates/">setStates()</a>.</p>
       <td> </td>
       <td>Collect all the attributes of the instance and convert them into a pandas dataframe.</td>
     </tr>
+    <tr>
+      <td><strong>tessellation.save()</strong></td>
+      <td>&lt;ul&gt;&lt;li&gt;file_path, {str}, Path and name of the file to generate.&lt;/li&gt;&lt;li&gt;format, {str}, File extension and format to use for the output file.&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>Save the instance of the Tessellation class in a file.</td>
+    </tr>
   </tbody>
 </table>
+
+<p class="notice--info">The <em>.save()</em> method uses the same argument and generates the same files than the <a href="/mllpa/documentation/api/common/savevoro/">saveVoro()</a> function.</p>
 
 <h2 id="examples">Examples</h2>
 
@@ -164,15 +174,49 @@ the array of dimensions of the simulation boxes, <em>simulation_boxes</em> and t
 <span class="n">voronoi</span> <span class="o">=</span> <span class="n">Tessellation</span><span class="p">(</span><span class="n">mol_names</span><span class="p">,</span> <span class="n">mol_ids</span><span class="p">,</span> <span class="n">mol_positions</span><span class="p">,</span> <span class="n">simulation_boxes</span><span class="p">,</span> <span class="n">mol_phases</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h3 id="generate-the-position-of-ghosts">Generate the position of ghosts</h3>
-
 <h3 id="assign-molecules-to-their-respective-leaflets">Assign molecules to their respective leaflets</h3>
+
+<p>The following example will assign the molecules in the instance of the Tessellation class <em>voronoi</em>
+with the leaflets they can be found in, based on the geometry <em>bilayer</em>. The results will
+be stored directly in the instance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">voronoi</span><span class="p">.</span><span class="n">getLeaflets</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h3 id="do-the-tessellation">Do the tessellation</h3>
 
+<p>The following example will tessellate the molecules in the instance of the Tessellation class <em>voronoi</em>,
+based on the geometry <em>bilayer_3d</em>, and cures the results from spurious neighbors with a threshold at
+1% (<em>0.01</em>). All the results will be stored directly in the instance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">voronoi</span><span class="p">.</span><span class="n">doVoronoi</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer_3d'</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div></div>
+
 <h3 id="analyse-the-local-environment">Analyse the local environment</h3>
 
+<p>The following example will use a tessellation previously made in the instance of the Tessellation class <em>voronoi</em>
+to analyse the local environment. The results are both stored in the instance and returned as the
+array of the phase environment for each molecule <em>neighbor_phases</em> and the list of the phase
+names <em>phases_list</em> given in the same order than in <em>neighbor_phases</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">neighbors_phases</span><span class="p">,</span> <span class="n">phases_list</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">.</span><span class="n">checkNeighbors</span><span class="p">()</span>
+</code></pre></div></div>
+
 <h3 id="convert-the-content-into-a-pandas-data-frame">Convert the content into a pandas data frame</h3>
+
+<p>The following example will convert the attributes of the instance of the Tessellation class <em>voronoi</em>
+in a pandas table-like structure <em>dataframe</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataframe</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">.</span><span class="n">toTable</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="save-the-instance-in-a-file">Save the instance in a file</h3>
+
+<p>The following example will save the content of the instance of the Tessellation class <em>voronoi</em>
+in a file <em>test_file.xml</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">voronoi</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s">'test_file.xml'</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h2 id="related-functions">Related functions</h2>
 

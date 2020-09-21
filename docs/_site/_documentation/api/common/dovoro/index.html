@@ -3,14 +3,10 @@
 <p>doVoro() is a function used to tessellate the system. The tessellations collect the volumes
 (areas if 2-dimensions), vertices and neighbor lists of each molecule. The result of the tessellation
 and all the relevant informations are stored in an instance of the Tessellation class.
-More informations on the System class can be found in the <a href="">related API reference</a>.</p>
+More informations on the System class can be found in the <a href="/mllpa/documentation/api/classes/system/">related API reference</a>.</p>
 
 <p>It is essential to select the correct geometry for the system to compute the relevant tessellation.
 Extensive explanations are given in the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/#defining-the-geometry">related tutorial</a>.</p>
-
-<p>It is possible to load directly a position array into MLLPA and generates an instance of the
-Tessellation class without using simulations files. Please refer to the function
-<a href="">tessellationFromPositions()</a>.</p>
 
 <h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
 
@@ -50,6 +46,12 @@ Tessellation class without using simulations files. Please refer to the function
       <td>list of int</td>
       <td>(Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation. Default is None.</td>
     </tr>
+    <tr>
+      <td>Read Neighbors</td>
+      <td>read_neighbors=</td>
+      <td>bool</td>
+      <td>(Opt.) Automatically map the local environment after the tessellation. Default is True</td>
+    </tr>
   </tbody>
 </table>
 
@@ -82,7 +84,17 @@ named <em>voronoi</em></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
 
-<span class="n">voronoi</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">([</span><span class="n">system_A</span><span class="p">],</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">)</span>
+<span class="n">voronoi</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">(</span><span class="n">system_A</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="tessellate-1-system-with-a-3d-bilayer-geometry-but-do-not-map-the-neighbors">Tessellate 1 system with a 3D bilayer geometry but do not map the neighbors</h3>
+
+<p>The following example will tessellate one instance of the System class, <em>system_A</em>,
+based on the given geometry <em>bilayer</em> and store the result in the instance of the Tessellation class
+named <em>voronoi</em>. The local environment of the molecules will not be maped by setting <em>read_neighbors=</em>
+to False.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">voronoi</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">(</span><span class="n">system_A</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer_3d'</span><span class="p">,</span> <span class="n">read_neighbors</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="tessellate-2-systems-with-a-3d-vesicle-geometry-and-a-different-threshold">Tessellate 2 systems with a 3D vesicle geometry and a different threshold</h3>

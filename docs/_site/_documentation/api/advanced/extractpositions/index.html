@@ -32,7 +32,7 @@ The resulting arrays are in the format and dimensions used my ML-LPA for all the
     </tr>
     <tr>
       <td>Trajectory file</td>
-      <td>trajectory_file=</td>
+      <td>trj=</td>
       <td>str</td>
       <td>(Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file). If not provided, the function will only read the positions from the coordinates file.</td>
     </tr>
@@ -110,7 +110,7 @@ and return the positions in the array <em>atom_positions</em>.</p>
 <p>The following example will extract the <em>DPPC</em> molecules found in all the frames the files <em>test.gro</em>, <em>test.tpr</em> and <em>test.xtc</em>
 and return the positions in the array <em>atom_positions</em>.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">atom_positions</span><span class="p">,</span> <span class="n">simulation_boxes</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">extractPositions</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trajectory_file</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">atom_positions</span><span class="p">,</span> <span class="n">simulation_boxes</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">extractPositions</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trj</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="open-a-selection-of-frames-in-the-trajectory">Open a selection of frames in the trajectory</h3>
@@ -118,5 +118,5 @@ and return the positions in the array <em>atom_positions</em>.</p>
 <p>The following example will extract the <em>DPPC</em> molecules found in all the frames the files <em>test.gro</em>, <em>test.tpr</em> and <em>test.xtc</em>
 and return the positions in the array <em>atom_positions</em>, but will only read the frames from 100 to 500, skipping every 10 frames.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">atom_positions</span><span class="p">,</span> <span class="n">simulation_boxes</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">extractPositions</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trajectory_file</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">,</span> <span class="n">begin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">atom_positions</span><span class="p">,</span> <span class="n">simulation_boxes</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">extractPositions</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">trj</span><span class="o">=</span><span class="s">'test.xtc'</span><span class="p">,</span> <span class="n">begin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </code></pre></div></div>

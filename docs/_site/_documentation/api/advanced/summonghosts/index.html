@@ -1,0 +1,82 @@
+<h2 id="description">Description</h2>
+
+<p>summonGhosts() is a function used to generate the ghosts of the membrane molecules,
+in order to avoid spurious neighbors in the Voronoi tessellation due to the system geometry
+and the PBC. Extensive explanations on ghosts are provided in the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/#ghost-lipids">related tutorial</a>.</p>
+
+<p>During a normal use of ML-LPA, ghosts are automatically generated if needed by the <a href="/mllpa/documentation/api/common/dovoro/">doVoro()</a> function. The function summonGhosts() is only used if one wants to extract the ghosts to
+study them.</p>
+
+<h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
+
+<h3 id="inputs--arguments">Input(s) / Argument(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flag</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Systems</td>
+      <td> </td>
+      <td>list of classes System</td>
+      <td>Instances of the System classes containing the molecules to save in a file.</td>
+    </tr>
+    <tr>
+      <td>Geometry</td>
+      <td>geometry=</td>
+      <td> str</td>
+      <td>(Opt.) Geometry of the system to perform the tessellations on. Complete list is given in the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/#the-membrane-geometry">related tutorial</a>. By default, the geometry is set to a (2D) bilayer.</td>
+    </tr>
+    <tr>
+      <td>Exclude Ghosts</td>
+      <td>exclude_ghosts=</td>
+      <td>list of int</td>
+      <td>(Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation. Default is None.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="outputs">Output(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ghosts</td>
+      <td>np.ndarray</td>
+      <td>Position array of all the molecule ghosts generated for the Voronoi tessellation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="tessellate-1-system-with-a-2d-bilayer-geometry">Tessellate 1 system with a 2D bilayer geometry</h3>
+
+<p>The following example will generate the ghosts using one instance of the System class, <em>system_A</em>,
+based on the given geometry <em>bilayer</em> and return the ghost positions in the array <em>ghost_array</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">ghost_array</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">summonGhosts</span><span class="p">(</span><span class="n">system_A</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="tessellate-2-systems-with-a-2d-vesicle-geometry-and-exclude-one-system-from-the-ghost-generation">Tessellate 2 systems with a 2D vesicle geometry and exclude one system from the ghost generation</h3>
+
+<p>The following example will generate the ghosts using two instances of the System class, <em>system_A</em> and <em>system_B</em>,
+based on the given geometry <em>vesicle</em> and return the ghost positions in the array <em>ghost_array</em>. The first system of the list (<em>0</em>), <em>system_A</em>, will be excluded from the lipid ghost generation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ghost_array</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">summonGhosts</span><span class="p">([</span><span class="n">system_A</span><span class="p">,</span> <span class="n">system_B</span><span class="p">],</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'vesicle'</span><span class="p">,</span> <span class="n">exclude_ghosts</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></div>
