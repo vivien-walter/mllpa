@@ -26,9 +26,6 @@ the process.</p>
 12
 13
 14
-15
-16
-17
 </pre></td><td class="code"><pre><span class="kn">import</span> <span class="nn">mllpa</span>
 
 <span class="c1"># Load the simulation files and extract the three systems of interest
@@ -37,15 +34,12 @@ the process.</p>
 <span class="n">unknown_system_chol</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'unknown.gro'</span><span class="p">,</span> <span class="s">'unknown.tpr'</span><span class="p">,</span> <span class="s">'CHL1'</span><span class="p">)</span>
 
 <span class="c1"># Assign manually the label of the molecules
-</span><span class="n">unknown_system_dlpc</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="s">"saturated"</span><span class="p">)</span>
-<span class="n">unknown_system_dopc</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="s">"unsaturated"</span><span class="p">)</span>
-<span class="n">unknown_system_chol</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="s">"cholesterol"</span><span class="p">)</span>
+</span><span class="n">unknown_system_dlpc</span><span class="p">.</span><span class="n">setPhases</span><span class="p">(</span><span class="s">"saturated"</span><span class="p">)</span>
+<span class="n">unknown_system_dopc</span><span class="p">.</span><span class="n">setPhases</span><span class="p">(</span><span class="s">"unsaturated"</span><span class="p">)</span>
+<span class="n">unknown_system_chol</span><span class="p">.</span><span class="n">setPhases</span><span class="p">(</span><span class="s">"cholesterol"</span><span class="p">)</span>
 
 <span class="c1"># Do the tessellation of the bilayer in 3D - we exclude the cholesterol from the ghost generation
 </span><span class="n">unknown_tessellation</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">([</span><span class="n">unknown_system_dlpc</span><span class="p">,</span> <span class="n">unknown_system_dopc</span><span class="p">,</span> <span class="n">unknown_system_chol</span><span class="p">],</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer_3d'</span><span class="p">,</span> <span class="n">exclude_ghost</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-
-<span class="c1"># Measure the local environment
-</span><span class="n">mllpa</span><span class="p">.</span><span class="n">readNeighbors</span><span class="p">(</span><span class="n">unknown_tessellation</span><span class="p">)</span>
 </pre></td></tr></tbody></table></code></pre></figure>
 
 <p>All the results have been saved in the instance of the Tessellation class named <em>unknown_tessellation</em> here.
@@ -55,7 +49,7 @@ More details can be found in a <a href="/mllpa/documentation/tutorials/tessellat
 
 <ul>
   <li>Now that the local environment has been mapped, the last step is to
-<a href="">save all the results</a> in a file.</li>
+<a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">save all the results</a> in a file.</li>
 </ul>
 
 <h2 id="check-the-api">Check the API</h2>
@@ -64,12 +58,12 @@ More details can be found in a <a href="/mllpa/documentation/tutorials/tessellat
 
 <ul>
   <li>
-    <p>setStates</p>
+    <p><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></p>
   </li>
   <li>
-    <p>doVoro</p>
+    <p><a href="/mllpa/documentation/api/common/setphases/">setPhases()</a></p>
   </li>
   <li>
-    <p>readNeighbors</p>
+    <p><a href="/mllpa/documentation/api/common/dovoro/">doVoro()</a></p>
   </li>
 </ul>

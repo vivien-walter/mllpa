@@ -11,7 +11,7 @@ in the water (&gt; 0C). The problem of these molecules is that ML-LPA <strong>ca
 <h3 id="single-assignment">Single assignment</h3>
 
 <p>To assign the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.
-Then, we can use the class method <em>.setStates()</em> to assign the phases. This method only takes as an argument the string with
+Then, we can use the class method <em>.setPhases()</em> to assign the phases. This method only takes as an argument the string with
 the name of the phase.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
@@ -20,7 +20,7 @@ the name of the phase.</p>
 </span><span class="n">unknown_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'unknown.gro'</span><span class="p">,</span> <span class="s">'unknown.tpr'</span><span class="p">,</span> <span class="s">'DOPC'</span><span class="p">)</span>
 
 <span class="c1"># Assign the phases
-</span><span class="n">unknown_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="s">"fluid"</span><span class="p">)</span>
+</span><span class="n">unknown_system</span><span class="p">.</span><span class="n">setPhases</span><span class="p">(</span><span class="s">"fluid"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>ML-LPA will then process all the lipids in the system and assign to each of them <strong>the given phase</strong>.
@@ -29,26 +29,26 @@ The final result can be accessed through the <em>.states</em> attribute of the i
 
 <h3 id="molecule-by-molecule-assignment">Molecule-by-molecule assignment</h3>
 
-<p>The method <em>.setStates()</em> can also be used to <strong>assign a whole NumPy string array</strong> to the molecules
+<p>The method <em>.setPhases()</em> can also be used to <strong>assign a whole NumPy string array</strong> to the molecules
 stored in the instance.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unknown_system</span><span class="p">.</span><span class="n">setStates</span><span class="p">(</span><span class="n">lipid_phases</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unknown_system</span><span class="p">.</span><span class="n">setPhases</span><span class="p">(</span><span class="n">lipid_phases</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p class="notice--info">In this example, we call a NumPy array named <em>lipid_phases</em> which have been generated
 outside of the example script.</p>
 
-<p>The NumPy string array used as input shoudl have the dimension <code class="language-plaintext highlighter-rouge">(# frames, # molecules)</code>.</p>
+<p>The NumPy string array used as input should have the dimension <code class="language-plaintext highlighter-rouge">(# frames, # molecules)</code>.</p>
 
 <h2 id="what-is-next">What is next?</h2>
 
 <ul>
   <li>
-    <p>Now you know how the phases of your unknown systems can been assigned, you can
-start to analyse the <a href="">local environment of the lipids</a>.</p>
+    <p>Now you know how the phases of your unknown systems can been predicted, you can
+start to analyse the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">local environment of the lipids</a>.</p>
   </li>
   <li>
-    <p>You can also <a href="">store the results</a> in a file.</p>
+    <p>You can also <a href="/mllpa/documentation/tutorials/outputs/2-save-system/">store the results</a> in a file.</p>
   </li>
 </ul>
 
@@ -57,5 +57,5 @@ start to analyse the <a href="">local environment of the lipids</a>.</p>
 <p>The following elements have been used in this tutorial:</p>
 
 <ul>
-  <li>System class</li>
+  <li><a href="/mllpa/documentation/api/classes/system/">System class</a></li>
 </ul>

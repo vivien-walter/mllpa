@@ -23,7 +23,7 @@ shows how to proceed.
 ### From an *.lpm file
 
 To predict the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.
-Then, we can use the class method *.getStates()* to run the prediction. This method only takes as an argument the
+Then, we can use the class method *.getPhases()* to run the prediction. This method only takes as an argument the
 **path to the .lpm file**.
 
 ```python
@@ -33,7 +33,7 @@ import mllpa
 unknown_system = mllpa.openSystem('unknown.gro', 'unknown.tpr', 'DPPC')
 
 # Predict the phases
-unknown_system.getStates("new_model.lpm")
+unknown_system.getPhases("new_model.lpm")
 ```
 
 In this example, we call a model file named *new_model.lpm* which have been generated
@@ -46,11 +46,11 @@ Since the models should be specific to the type of simulation run (*e.g.* temper
 {: .notice--warning}
 
 ML-LPA will then process all the lipids in the system **and assign each of them a phase**
-based on their configurations. The results can be accessed through the *.states* attribute of
+based on their configurations. The results can be accessed through the *.phases* attribute of
 the instance of the System class:
 
 ```python
-lipid_phases = unknown_system.states
+lipid_phases = unknown_system.phases
 ```
 
 This will output a NumPy string array with the dimension ```(# frames, # molecules)```.
@@ -58,10 +58,10 @@ This will output a NumPy string array with the dimension ```(# frames, # molecul
 ### From a variable
 
 It is possible to use directly a **model variable** generated using the function *generateModel()*.
-To do so, just replace the argument in the *.getStates()* method by the variable itself.
+To do so, just replace the argument in the *.getPhases()* method by the variable itself.
 
 ```python
-unknown_system.getStates(models)
+unknown_system.getPhases(models)
 ```
 
 In this example, we call a model variable named *models* which have been generated
@@ -114,7 +114,7 @@ gel_system = mllpa.openSystem('gel.gro', 'gel.tpr', 'DPPC')
 fluid_system = mllpa.openSystem('fluid.gro', 'fluid.tpr', 'DPPC')
 
 # Train the model on the systems - do not save the model files
-models = mllpa.generateModel([gel_system, fluid_system], states=['gel', 'fluid'], save_model=False)
+models = mllpa.generateModel([gel_system, fluid_system], phases=['gel', 'fluid'], save_model=False)
 
 # Extract the CART model from the dictionary
 cart_model = models['ClassificationTree']
@@ -129,12 +129,12 @@ The classification tree should be directly displayed when the script is run.
 ## What is next?
 
 * Now you know how the phases of your unknown systems can been predicted, you can
-start to analyse the [local environment of the lipids]().
+start to analyse the [local environment of the lipids](/mllpa/documentation/tutorials/tessellations/1-voronoi/).
 
-* You can also [store the results]() in a file.
+* You can also [store the results](/mllpa/documentation/tutorials/outputs/2-save-system/) in a file.
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* System class
+* [System class](/mllpa/documentation/api/classes/system/)

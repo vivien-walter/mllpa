@@ -65,19 +65,19 @@ geometry of the membrane. This page will be updated once the detection has been 
 
 <p>The <strong>ghost generation</strong> and the <strong>Voronoi tessellation</strong> are both performed by the same
 function in ML-LPA, <em>doVoro()</em>. Similarly to the function <em>generateModel()</em>, <em>doVoro()</em> takes
-as an input a list of instances of the System class. As explained above, we also need to
-specify the</p>
+as an input a list of instances of the System class. However, if only one instance is
+given, <em>doVoro()</em> will automatically read it as a list of Systems. As explained above, we also need to
+specify the geometry of the membrane.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
 
-<span class="n">tessellation</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">([</span><span class="n">unknown_system</span><span class="p">],</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">)</span>
+<span class="n">tessellation</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">(</span><span class="n">unknown_system</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>In this example, we only wanted to analyse one instance of the System class, <em>unknown_system</em>. However,
-since <em>doVoro()</em> only takes a list of systems as an input, we had to enclose it in a list.</p>
-
-<p>All the relevant information on the systems and their tessellations have been stored in the variable <em>tessellation</em> as
-an instance of the <strong>Tessellation</strong> class. More information on the Tessellation class are given in the <a href="/mllpa/documentation/tutorials/system-class/1-description/">related tutorial</a> and in the <a href="">API</a>.</p>
+<p>In this example, we only wanted to analyse one instance of the System class, <em>unknown_system</em>.
+All the relevant information on the systems and their tessellations have been stored in the variable <em>tessellation</em> as
+an instance of the <strong>Tessellation</strong> class. More information on the Tessellation class are given in the
+<a href="/mllpa/documentation/api/classes/tessellation/">API</a>.</p>
 
 <p class="notice--warning">Since <em>doVoro()</em> needs to calculate the center of mass of the whole membrane, it is
 essential to include all the systems containing all the molecules making the membrane.</p>
@@ -94,6 +94,12 @@ respective input list.</p>
 
 <p class="notice--info">In this example, we exclude the 3rd system ([2]), corresponding to <em>unknown_cholesterol</em> from the ghost
 generation.</p>
+
+<p><em>doVoro()</em> has been programed to automatically analyse the local environment and map it.
+This can be disabled by using the keyword argument <em>read_neighbors=</em> and set it to False.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tessellation</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">(</span><span class="n">unknown_system</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">,</span> <span class="n">read_neighbors</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h2 id="advanced-notions">Advanced notions</h2>
 
@@ -125,13 +131,13 @@ of the value extracted depends on the geometry selected in the <em>doVoro()</em>
 
 <ul>
   <li>
-    <p>Now that the system has been tessellated, you can use the tiling of the space to <a href="">map the local environment</a>.</p>
+    <p>Now that the system has been tessellated, you can use the tiling of the space to <a href="/mllpa/documentation/tutorials/tessellations/2-local-environment/">map the local environment</a>.</p>
   </li>
   <li>
-    <p>You can check how to analyse the local environment in a membrane <a href="">in terms of molecule types</a> and not of phases.</p>
+    <p>You can check how to analyse the local environment in a membrane <a href="/mllpa/documentation/tutorials/tessellations/3-no-phases/">in terms of molecule types</a> and not of phases.</p>
   </li>
   <li>
-    <p>You can also save the <a href="">results in a file</a>.</p>
+    <p>You can also save the <a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">results in a file</a>.</p>
   </li>
 </ul>
 
@@ -141,9 +147,9 @@ of the value extracted depends on the geometry selected in the <em>doVoro()</em>
 
 <ul>
   <li>
-    <p>doVoro</p>
+    <p><a href="/mllpa/documentation/api/common/dovoro/">doVoro()</a></p>
   </li>
   <li>
-    <p>Tessellation class</p>
+    <p><a href="/mllpa/documentation/api/classes/tessellation/">Tessellation class</a></p>
   </li>
 </ul>

@@ -37,15 +37,12 @@ unknown_system_dopc = mllpa.openSystem('unknown.gro', 'unknown.tpr', 'DOPC')
 unknown_system_chol = mllpa.openSystem('unknown.gro', 'unknown.tpr', 'CHL1')
 
 # Assign manually the label of the molecules
-unknown_system_dlpc.setStates("saturated")
-unknown_system_dopc.setStates("unsaturated")
-unknown_system_chol.setStates("cholesterol")
+unknown_system_dlpc.setPhases("saturated")
+unknown_system_dopc.setPhases("unsaturated")
+unknown_system_chol.setPhases("cholesterol")
 
 # Do the tessellation of the bilayer in 3D - we exclude the cholesterol from the ghost generation
 unknown_tessellation = mllpa.doVoro([unknown_system_dlpc, unknown_system_dopc, unknown_system_chol], geometry='bilayer_3d', exclude_ghost=[2])
-
-# Measure the local environment
-mllpa.readNeighbors(unknown_tessellation)
 {% endhighlight %}
 
 All the results have been saved in the instance of the Tessellation class named *unknown_tessellation* here.
@@ -54,14 +51,14 @@ More details can be found in a [previous tutorial](/mllpa/documentation/tutorial
 ## What is next?
 
 * Now that the local environment has been mapped, the last step is to
-[save all the results]() in a file.
+[save all the results](/mllpa/documentation/tutorials/outputs/3-save-voronoi/) in a file.
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* setStates
+* [openSystem()](/mllpa/documentation/api/common/opensystem/)
 
-* doVoro
+* [setPhases()](/mllpa/documentation/api/common/setphases/)
 
-* readNeighbors
+* [doVoro()](/mllpa/documentation/api/common/dovoro/)

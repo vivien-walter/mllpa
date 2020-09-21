@@ -7,7 +7,7 @@ shows how to proceed.</p>
 <h3 id="from-an-lpm-file">From an *.lpm file</h3>
 
 <p>To predict the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.
-Then, we can use the class method <em>.getStates()</em> to run the prediction. This method only takes as an argument the
+Then, we can use the class method <em>.getPhases()</em> to run the prediction. This method only takes as an argument the
 <strong>path to the .lpm file</strong>.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
@@ -16,7 +16,7 @@ Then, we can use the class method <em>.getStates()</em> to run the prediction. T
 </span><span class="n">unknown_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'unknown.gro'</span><span class="p">,</span> <span class="s">'unknown.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
 
 <span class="c1"># Predict the phases
-</span><span class="n">unknown_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="s">"new_model.lpm"</span><span class="p">)</span>
+</span><span class="n">unknown_system</span><span class="p">.</span><span class="n">getPhases</span><span class="p">(</span><span class="s">"new_model.lpm"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p class="notice--info">In this example, we call a model file named <em>new_model.lpm</em> which have been generated
@@ -27,10 +27,10 @@ in a <a href="/mllpa/documentation/tutorials/phase-prediction/1-training/#genera
   model files.</p>
 
 <p>ML-LPA will then process all the lipids in the system <strong>and assign each of them a phase</strong>
-based on their configurations. The results can be accessed through the <em>.states</em> attribute of
+based on their configurations. The results can be accessed through the <em>.phases</em> attribute of
 the instance of the System class:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lipid_phases</span> <span class="o">=</span> <span class="n">unknown_system</span><span class="p">.</span><span class="n">states</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lipid_phases</span> <span class="o">=</span> <span class="n">unknown_system</span><span class="p">.</span><span class="n">phases</span>
 </code></pre></div></div>
 
 <p>This will output a NumPy string array with the dimension <code class="language-plaintext highlighter-rouge">(# frames, # molecules)</code>.</p>
@@ -38,9 +38,9 @@ the instance of the System class:</p>
 <h3 id="from-a-variable">From a variable</h3>
 
 <p>It is possible to use directly a <strong>model variable</strong> generated using the function <em>generateModel()</em>.
-To do so, just replace the argument in the <em>.getStates()</em> method by the variable itself.</p>
+To do so, just replace the argument in the <em>.getPhases()</em> method by the variable itself.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unknown_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unknown_system</span><span class="p">.</span><span class="n">getPhases</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p class="notice--info">In this example, we call a model variable named <em>models</em> which have been generated
@@ -120,7 +120,7 @@ the typical following command.</p>
 <span class="n">fluid_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'fluid.gro'</span><span class="p">,</span> <span class="s">'fluid.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
 
 <span class="c1"># Train the model on the systems - do not save the model files
-</span><span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</span><span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="c1"># Extract the CART model from the dictionary
 </span><span class="n">cart_model</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="s">'ClassificationTree'</span><span class="p">]</span>
@@ -137,10 +137,10 @@ the typical following command.</p>
 <ul>
   <li>
     <p>Now you know how the phases of your unknown systems can been predicted, you can
-start to analyse the <a href="">local environment of the lipids</a>.</p>
+start to analyse the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">local environment of the lipids</a>.</p>
   </li>
   <li>
-    <p>You can also <a href="">store the results</a> in a file.</p>
+    <p>You can also <a href="/mllpa/documentation/tutorials/outputs/2-save-system/">store the results</a> in a file.</p>
   </li>
 </ul>
 
@@ -149,5 +149,5 @@ start to analyse the <a href="">local environment of the lipids</a>.</p>
 <p>The following elements have been used in this tutorial:</p>
 
 <ul>
-  <li>System class</li>
+  <li><a href="/mllpa/documentation/api/classes/system/">System class</a></li>
 </ul>

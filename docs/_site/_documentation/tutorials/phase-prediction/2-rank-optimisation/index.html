@@ -71,7 +71,7 @@ NumPy library to analyse the data.</p>
   <span class="n">fluid_system</span><span class="p">.</span><span class="n">getDistances</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">)</span>
 
   <span class="c1"># Train the model on the systems - save the model files
-</span>  <span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s">'dppc_rank='</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span><span class="o">+</span><span class="s">'.lpm'</span><span class="p">)</span>
+</span>  <span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s">'dppc_rank='</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span><span class="o">+</span><span class="s">'.lpm'</span><span class="p">)</span>
 
   <span class="c1"># Get the final total score with the given rank
 </span>  <span class="n">all_scores</span><span class="p">.</span><span class="n">append</span><span class="p">(</span> <span class="n">models</span><span class="p">[</span><span class="s">'scores'</span><span class="p">][</span><span class="s">'final'</span><span class="p">][</span><span class="s">'total'</span><span class="p">]</span> <span class="p">)</span>
@@ -97,7 +97,7 @@ coarse-grain models (<em>e.g.</em> Martini) won’t even have any pair at rank 1
 <h2 id="what-is-next">What is next?</h2>
 
 <ul>
-  <li>Once you have found the optimal rank for your system, you can now <a href="">prepare and train a model</a> for
+  <li>Once you have found the optimal rank for your system, you can now <a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">prepare and train a model</a> for
   machine learning analysis.</li>
 </ul>
 
@@ -107,12 +107,12 @@ coarse-grain models (<em>e.g.</em> Martini) won’t even have any pair at rank 1
 
 <ul>
   <li>
-    <p>openSystem</p>
+    <p><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></p>
   </li>
   <li>
-    <p>generateModel</p>
+    <p><a href="/mllpa/documentation/api/common/generatemodel/">generateModel()</a></p>
   </li>
   <li>
-    <p>System class</p>
+    <p><a href="/mllpa/documentation/api/classes/system/">System class</a></p>
   </li>
 </ul>

@@ -80,8 +80,54 @@ number of molecules).</p>
   </li>
 </ul>
 
+<h2 id="reading-the-lpm-file">Reading the .lpm file</h2>
+
+<p>ML-LPA can directly read the model file, either to extract and/or display the content,
+or to load it into a model dictionary.</p>
+
+<h3 id="extract-and-display">Extract and display</h3>
+
+<p>To extract the contents of the .lpm file, the function <em>readModelFile()</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">,</span> <span class="n">distances</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">,</span> <span class="n">train_sets</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="notice--info">The function <em>readModelFile()</em> will return the dictionary of the training metadata
+(<em>metadata_dict</em>), but also the three arrays used to train the models:
+<em>coordinates</em>, <em>distances</em> and <em>phases</em>.</p>
+
+<p>You can also directly display the metadata in the Terminal, by using the
+keyword argument <em>display=</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">readModelFile</span><span class="p">(</span><span class="s">'test_model.lpm'</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="load-from-file">Load from file</h3>
+
+<p>The file can be loaded in a dictionary using the function <em>loadModels()</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trained_models</span><span class="p">,</span> <span class="n">training_params</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">loadModels</span><span class="p">(</span><span class="s">'test_file.lpm'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="notice--info">The function <em>loadModels()</em> will return the trained models in a dictionary
+(<em>trained_models</em>), but also another dictionary containing all the parameters used
+to train the models (<em>training_params</em>).</p>
+
 <h2 id="what-is-next">What is next?</h2>
 
 <ul>
-  <li>Now that you know how what is inside a .lpm file, you can use it to <a href="">predict the phases</a> in an unknown system.</li>
+  <li>Now that you know how what is inside a .lpm file, you can use it to <a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">predict the phases</a> in an unknown system.</li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>
+    <p><a href="/mllpa/documentation/api/advanced/readmodelfile/">readModelFile()</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/api/advanced/loadmodels/">loadModels()</a></p>
+  </li>
 </ul>

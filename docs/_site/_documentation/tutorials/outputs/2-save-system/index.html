@@ -1,5 +1,5 @@
-<p>Once the phases of the system have been <a href="">predicted by ML-LPA</a> -
-or <a href="">assigned manually</a> -
+<p>Once the phases of the system have been <a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">predicted by ML-LPA</a> -
+or <a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">assigned manually</a> -
 it can be essential to store and save the results in a file on your computer.
 This tutorial will explain how it can be easily done.</p>
 
@@ -198,17 +198,18 @@ The name and IDs of the molecules will also be added to the resulting array.</p>
 <h4 id="xml-files">.xml files</h4>
 
 <p>In an .xml file, the representation of <strong>each frame</strong> of the simulation <strong>is saved in a different branch</strong> of the .xml tree.
+Each frame branch also carries the <strong>dimension of the simulation box</strong>.
 Inside the frame branch, <strong>each molecule is defined in its own sub-branch</strong>. The sub-branch of the molecule will contain:
 (i) its ID, (ii) its name, (iii) its phase and (iv) the X, Y and Z coordinates of its COM.</p>
 
 <p>The typical .xml tree will look like</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── frame 0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── frame 0, box x, box y, box z
 │   ├── 0, Mol. A, phase, x, y, z
 │   ├── 1, Mol. B, phase, x, y, z
 │   ...
 │   └── N, Mol. C, phase, x, y, z
-├── frame 1
+├── frame 1, box x, box y, box z
 │   ├── 0, Mol. A, phase, x, y, z
 │   ├── 1, Mol. B, phase, x, y, z
 │   ...
@@ -239,11 +240,8 @@ can save the instances of the System class using the function <em>saveSystems()<
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
 
-<span class="n">mllpa</span><span class="p">.</span><span class="n">saveSystems</span><span class="p">([</span><span class="n">unknown_system</span><span class="p">],</span> <span class="n">file_path</span><span class="o">=</span><span class="s">"processed_system.h5"</span><span class="p">)</span>
+<span class="n">mllpa</span><span class="p">.</span><span class="n">saveSystems</span><span class="p">(</span><span class="n">unknown_system</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s">"processed_system.h5"</span><span class="p">)</span>
 </code></pre></div></div>
-
-<p class="notice--warning">Similarly to the function <em>generateModel()</em> and <em>doVoro()</em>, the only input data taken by <em>saveSystems()</em> is a list of instances.
-If you only want to save one instance, please convert it into a list first.</p>
 
 <p>ML-LPA automatically detect the extension given in the <em>file_path=</em> keyword-argument to determine
 the format to use. If no extension is found, ML-LPA will automatically use the <strong>default .csv format</strong>. The default format
@@ -252,14 +250,14 @@ can be selected by using the keyword-argument <em>format=</em>.</p>
 <p>ML-LPA can also be set to generate automatically the file name. This is done by not including the <em>file_path=</em> keyword argument.
 In this case, the name generated will be the date and time of the generation, in the format <em>YYMMDD_HHMMSS</em>.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">saveSystems</span><span class="p">([</span><span class="n">unknown_system</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s">".xml"</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">saveSystems</span><span class="p">(</span><span class="n">unknown_system</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">".xml"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="what-is-next">What is next?</h2>
 
 <ul>
   <li>Now that you know how to save the instances of the System class, you can check how to save the instance
-of the <a href="">Tessellation class</a>.</li>
+of the <a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">Tessellation class</a>.</li>
 </ul>
 
 <h2 id="check-the-api">Check the API</h2>
@@ -267,5 +265,5 @@ of the <a href="">Tessellation class</a>.</li>
 <p>The following elements have been used in this tutorial:</p>
 
 <ul>
-  <li>saveSystems</li>
+  <li><a href="/mllpa/documentation/api/common/savesystems/">saveSystems()</a></li>
 </ul>

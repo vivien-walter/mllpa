@@ -75,20 +75,20 @@ geometry of the membrane. This page will be updated once the detection has been 
 
 The **ghost generation** and the **Voronoi tessellation** are both performed by the same
 function in ML-LPA, *doVoro()*. Similarly to the function *generateModel()*, *doVoro()* takes
-as an input a list of instances of the System class. As explained above, we also need to
-specify the
+as an input a list of instances of the System class. However, if only one instance is
+given, *doVoro()* will automatically read it as a list of Systems. As explained above, we also need to
+specify the geometry of the membrane.
 
 ```python
 import mllpa
 
-tessellation = mllpa.doVoro([unknown_system], geometry='bilayer')
+tessellation = mllpa.doVoro(unknown_system, geometry='bilayer')
 ```
 
-In this example, we only wanted to analyse one instance of the System class, *unknown_system*. However,
-since *doVoro()* only takes a list of systems as an input, we had to enclose it in a list.
-
+In this example, we only wanted to analyse one instance of the System class, *unknown_system*.
 All the relevant information on the systems and their tessellations have been stored in the variable *tessellation* as
-an instance of the **Tessellation** class. More information on the Tessellation class are given in the [related tutorial](/mllpa/documentation/tutorials/system-class/1-description/) and in the [API]().
+an instance of the **Tessellation** class. More information on the Tessellation class are given in the
+[API](/mllpa/documentation/api/classes/tessellation/).
 
 Since *doVoro()* needs to calculate the center of mass of the whole membrane, it is
 essential to include all the systems containing all the molecules making the membrane.
@@ -108,6 +108,13 @@ ternary_tessellation = mllpa.doVoro([unknown_dppc, unknown_dopc, unknown_cholest
 In this example, we exclude the 3rd system ([2]), corresponding to *unknown_cholesterol* from the ghost
 generation.
 {: .notice--info}
+
+*doVoro()* has been programed to automatically analyse the local environment and map it.
+This can be disabled by using the keyword argument *read_neighbors=* and set it to False.
+
+```python
+tessellation = mllpa.doVoro(unknown_system, geometry='bilayer', read_neighbors=False)
+```
 
 ## Advanced notions
 
@@ -139,16 +146,16 @@ of the value extracted depends on the geometry selected in the *doVoro()* keywor
 
 ## What is next?
 
-* Now that the system has been tessellated, you can use the tiling of the space to [map the local environment]().
+* Now that the system has been tessellated, you can use the tiling of the space to [map the local environment](/mllpa/documentation/tutorials/tessellations/2-local-environment/).
 
-* You can check how to analyse the local environment in a membrane [in terms of molecule types]() and not of phases.
+* You can check how to analyse the local environment in a membrane [in terms of molecule types](/mllpa/documentation/tutorials/tessellations/3-no-phases/) and not of phases.
 
-* You can also save the [results in a file]().
+* You can also save the [results in a file](/mllpa/documentation/tutorials/outputs/3-save-voronoi/).
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* doVoro
+* [doVoro()](/mllpa/documentation/api/common/dovoro/)
 
-* Tessellation class
+* [Tessellation class](/mllpa/documentation/api/classes/tessellation/)

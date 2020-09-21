@@ -59,7 +59,7 @@ for rank in all_ranks:
   fluid_system.getDistances(rank=rank)
 
   # Train the model on the systems - save the model files
-  models = mllpa.generateModel([gel_system, fluid_system], states=['gel', 'fluid'], save_model=True, file_path='dppc_rank='+str(rank)+'.lpm')
+  models = mllpa.generateModel([gel_system, fluid_system], phases=['gel', 'fluid'], save_model=True, file_path='dppc_rank='+str(rank)+'.lpm')
 
   # Get the final total score with the given rank
   all_scores.append( models['scores']['final']['total'] )
@@ -86,15 +86,15 @@ coarse-grain models (*e.g.* Martini) won't even have any pair at rank 10 or abov
 
 ## What is next?
 
-* Once you have found the optimal rank for your system, you can now [prepare and train a model]() for
+* Once you have found the optimal rank for your system, you can now [prepare and train a model](/mllpa/documentation/tutorials/phase-prediction/1-training/) for
     machine learning analysis.
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* openSystem
+* [openSystem()](/mllpa/documentation/api/common/opensystem/)
 
-* generateModel
+* [generateModel()](/mllpa/documentation/api/common/generatemodel/)
 
-* System class
+* [System class](/mllpa/documentation/api/classes/system/)

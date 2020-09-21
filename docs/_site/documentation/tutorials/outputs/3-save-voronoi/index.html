@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Save the Tessellation class - ML-LPA</title>
-<meta name="description" content="Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done.  (TO BE COMPLETED)  Check the API  The following elements have been used in this tutorial:     saveVoro">
+<meta name="description" content="Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done.  All the file formats will generate files will similar contents to the ones saved from an instance of the System class. For more information, check the related tutorial.  Save the instance  Once your systems are ready to be saved and once you have selected your desired output format, you can save the instances of the Tessellation class using the function saveVoro().  import mllpa  mllpa.saveVoro(voronoi, file_path=&quot;processed_system.h5&quot;)   ML-LPA automatically detect the extension given in the file_path= keyword-argument to determine the format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default format can be selected by using the keyword-argument format=.  ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument. In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.  mllpa.saveVoro(voronoi, format=&quot;.xml&quot;)   Check the API  The following elements have been used in this tutorial:     saveVoro()">
 
 
   <meta name="author" content="Vivien WALTER, PhD">
@@ -26,7 +26,7 @@
 <meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/outputs/3-save-voronoi/">
 
 
-  <meta property="og:description" content="Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done.  (TO BE COMPLETED)  Check the API  The following elements have been used in this tutorial:     saveVoro">
+  <meta property="og:description" content="Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done.  All the file formats will generate files will similar contents to the ones saved from an instance of the System class. For more information, check the related tutorial.  Save the instance  Once your systems are ready to be saved and once you have selected your desired output format, you can save the instances of the Tessellation class using the function saveVoro().  import mllpa  mllpa.saveVoro(voronoi, file_path=&quot;processed_system.h5&quot;)   ML-LPA automatically detect the extension given in the file_path= keyword-argument to determine the format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default format can be selected by using the keyword-argument format=.  ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument. In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.  mllpa.saveVoro(voronoi, format=&quot;.xml&quot;)   Check the API  The following elements have been used in this tutorial:     saveVoro()">
 
 
 
@@ -34,7 +34,7 @@
 
   <meta name="twitter:site" content="@vwalter_rnk">
   <meta name="twitter:title" content="Save the Tessellation class">
-  <meta name="twitter:description" content="Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done.  (TO BE COMPLETED)  Check the API  The following elements have been used in this tutorial:     saveVoro">
+  <meta name="twitter:description" content="Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done.  All the file formats will generate files will similar contents to the ones saved from an instance of the System class. For more information, check the related tutorial.  Save the instance  Once your systems are ready to be saved and once you have selected your desired output format, you can save the instances of the Tessellation class using the function saveVoro().  import mllpa  mllpa.saveVoro(voronoi, file_path=&quot;processed_system.h5&quot;)   ML-LPA automatically detect the extension given in the file_path= keyword-argument to determine the format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default format can be selected by using the keyword-argument format=.  ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument. In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.  mllpa.saveVoro(voronoi, format=&quot;.xml&quot;)   Check the API  The following elements have been used in this tutorial:     saveVoro()">
   <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/outputs/3-save-voronoi/">
 
   
@@ -46,7 +46,7 @@
 
 
 
-  <meta property="article:published_time" content="2020-09-21T19:28:22+01:00">
+  <meta property="article:published_time" content="2020-09-21T21:16:52+01:00">
 
 
 
@@ -302,7 +302,7 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Save the Tessellation class">
-    <meta itemprop="description" content="Similarly to the instances of the System class, the instances of the Tessellation classcan be stored in a file, and saved in multiple formats. This tutorial develops howthis should be done.(TO BE COMPLETED)Check the APIThe following elements have been used in this tutorial:  saveVoro">
+    <meta itemprop="description" content="Similarly to the instances of the System class, the instances of the Tessellation classcan be stored in a file, and saved in multiple formats. This tutorial develops howthis should be done.All the file formats will generate files will similar contents to the ones saved froman instance of the System class. For more information, check the related tutorial.Save the instanceOnce your systems are ready to be saved and once you have selected your desired output format, youcan save the instances of the Tessellation class using the function saveVoro().import mllpamllpa.saveVoro(voronoi, file_path=&quot;processed_system.h5&quot;)ML-LPA automatically detect the extension given in the file_path= keyword-argument to determinethe format to use. If no extension is found, ML-LPA will automatically use the default .csv format. The default formatcan be selected by using the keyword-argument format=.ML-LPA can also be set to generate automatically the file name. This is done by not including the file_path= keyword argument.In this case, the name generated will be the date and time of the generation, in the format YYMMDD_HHMMSS.mllpa.saveVoro(voronoi, format=&quot;.xml&quot;)Check the APIThe following elements have been used in this tutorial:  saveVoro()">
     
     
 
@@ -323,6 +323,7 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
               <ul class="toc__menu">
+  <li><a href="#save-the-instance">Save the instance</a></li>
   <li><a href="#check-the-api">Check the API</a></li>
 </ul>
 
@@ -333,14 +334,35 @@
 can be stored in a file, and saved in <strong>multiple formats</strong>. This tutorial develops how
 this should be done.</p>
 
-<p>(TO BE COMPLETED)</p>
+<p>All the file formats will generate files will similar contents to the ones saved from
+an instance of the System class. For more information, check the <a href="/mllpa/documentation/tutorials/outputs/2-save-system/#pick-the-file-format">related tutorial</a>.</p>
+
+<h2 id="save-the-instance">Save the instance</h2>
+
+<p>Once your systems are ready to be saved and once you have selected your desired output format, you
+can save the instances of the Tessellation class using the function <em>saveVoro()</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">mllpa</span><span class="p">.</span><span class="n">saveVoro</span><span class="p">(</span><span class="n">voronoi</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s">"processed_system.h5"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>ML-LPA automatically detect the extension given in the <em>file_path=</em> keyword-argument to determine
+the format to use. If no extension is found, ML-LPA will automatically use the <strong>default .csv format</strong>. The default format
+can be selected by using the keyword-argument <em>format=</em>.</p>
+
+<p>ML-LPA can also be set to generate automatically the file name. This is done by not including the <em>file_path=</em> keyword argument.
+In this case, the name generated will be the date and time of the generation, in the format <em>YYMMDD_HHMMSS</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">saveVoro</span><span class="p">(</span><span class="n">voronoi</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">".xml"</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h2 id="check-the-api">Check the API</h2>
 
 <p>The following elements have been used in this tutorial:</p>
 
 <ul>
-  <li>saveVoro</li>
+  <li><a href="/mllpa/documentation/api/common/savevoro/">saveVoro()</a></li>
 </ul>
 
         

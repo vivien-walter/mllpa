@@ -168,7 +168,7 @@ var store = [{
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "Save the Tessellation class",
-        "excerpt":"Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done.   (TO BE COMPLETED)   Check the API   The following elements have been used in this tutorial:      saveVoro  ","categories": ["tutorial"],
+        "excerpt":"Similarly to the instances of the System class, the instances of the Tessellation class can be stored in a file, and saved in multiple formats. This tutorial develops how this should be done. All the file formats will generate files will similar contents to the ones saved from an instance...","categories": ["tutorial"],
         "tags": ["file access","system","output"],
         "url": "http://localhost:4000/mllpa/documentation/tutorials/outputs/3-save-voronoi/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
@@ -222,7 +222,7 @@ var store = [{
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"
       },{
         "title": "Map the environment",
-        "excerpt":"Once the tessellation has been processed on the system and the instance of the Tessellation class generated, ML-LPA is ready to map the local environment of the lipids. Local environment Inside a membrane, a lipid A is always surrounded by N lipids Bi. Each of these Bi belongs to a...","categories": ["tutorial"],
+        "excerpt":"The function doVoro() seen in the previous tutorial is automatically mapping the environment - unless told otherwise. While the codelines shown in this tutorial could be therefore seen as useless, this tutorial develops the concept of local environment. Once the tessellation has been processed on the system and the instance...","categories": ["tutorial"],
         "tags": ["voronoi","tessellations","neighbors"],
         "url": "http://localhost:4000/mllpa/documentation/tutorials/tessellations/2-local-environment/",
         "teaser": "http://localhost:4000/mllpa/assets/images/logo.png"

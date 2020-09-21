@@ -43,7 +43,7 @@ at least 500 molecules per instances for the training.
     {: .notice--info}
 
     The number of frames can only be selected while loading the molecules from the simulation files with the
-    *openSystem()* function. For more details, see the [API]().
+    *openSystem()* function. For more details, see the [API](/mllpa/documentation/api/common/opensystem/).
     {: .notice--info}
 
 * The total number of molecules being used for the training **should be the same in all instances**.
@@ -58,7 +58,7 @@ at least 500 molecules per instances for the training.
 
 ML-LPA relies on a **2-steps** prediction system involving a total of **4 different ML algorithms** defined
 in scikit-learn. More detailed information on the prediction system and the ML algorithms used can be found
-in a [later tutorial](/mllpa/documentation/tutorials/phase-prediction/4-ml-prediction/).
+in a [later tutorial](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/).
 
 ### Generate the model files
 
@@ -74,7 +74,7 @@ gel_system = mllpa.openSystem('gel.gro', 'gel.tpr', 'DPPC')
 fluid_system = mllpa.openSystem('fluid.gro', 'fluid.tpr', 'DPPC')
 
 # Train the models and saved them in a file
-mllpa.generateModel([gel_system, fluid_system], states=['gel', 'fluid'], file_path='new_model.lpm')
+mllpa.generateModel([gel_system, fluid_system], phases=['gel', 'fluid'], file_path='new_model.lpm')
 ```
 
 In this example, the coordinates and structure files of the gel and fluid phases
@@ -85,7 +85,7 @@ the simulation files. Check the [related tutorial](/mllpa/documentation/tutorial
 
 Once the training has been completed, the models are stored in a **.lpm** (<ins>L</ins>ipid <ins>P</ins>hase <ins>M</ins>odel) file at the given location.
 This file can be used anytime to predict the phases in a simulation of unknown composition. More details on the
-.lpm files are given in the [corresponding tutorial](/mllpa/documentation/tutorials/phase-prediction/2-model-file/).
+.lpm files are given in the [corresponding tutorial](/mllpa/documentation/tutorials/outputs/1-model-file/).
 
 ### Extract directly the models in variables
 
@@ -93,12 +93,12 @@ For many reasons, one can decide to **not save the models in a file**, and just 
 straight. This can be done by disabling the *save_model=* keyword-argument:
 
 ```python
-models = mllpa.generateModel([gel_system, fluid_system], states=['gel', 'fluid'], save_model=False)
+models = mllpa.generateModel([gel_system, fluid_system], phases=['gel', 'fluid'], save_model=False)
 ```
 
 The models are returned in a dictionary of instances of **specific scikit-learn classes**.
 
-You can find the description of all the keyword-arguments of the *generateModel()* function in the [API]().
+You can find the description of all the keyword-arguments of the *generateModel()* function in the [API](/mllpa/documentation/api/common/generatemodel/).
 
 ## Assessing reproducibility and scoring
 
@@ -120,13 +120,13 @@ calculated from the **K repetitions of the resampling and training**.
 ## What is next?
 
 * Now that you know how to generate a model in ML-LPA, the next obvious step would be to
-use it to [predict the phases]() in an unknown system.
+use it to [predict the phases](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/) in an unknown system.
 
-* You can also check how to [read the scores in the .lpm files](/mllpa/documentation/tutorials/phase-prediction/2-model-file/)
-or [optimise the neighbour rank](/mllpa/documentation/tutorials/phase-prediction/3-rank-optimisation/).
+* You can also check how to [read the scores in the .lpm files](/mllpa/documentation/tutorials/outputs/1-model-file/)
+or [optimise the neighbour rank](/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/).
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* generateModel
+* [generateModel()](/mllpa/documentation/tutorials/phase-prediction/2-model-file/)

@@ -27,7 +27,7 @@ To avoid these problem, **phases can be assigned manually** in ML-LPA to an inst
 ### Single assignment
 
 To assign the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.
-Then, we can use the class method *.setStates()* to assign the phases. This method only takes as an argument the string with
+Then, we can use the class method *.setPhases()* to assign the phases. This method only takes as an argument the string with
 the name of the phase.
 
 ```python
@@ -37,7 +37,7 @@ import mllpa
 unknown_system = mllpa.openSystem('unknown.gro', 'unknown.tpr', 'DOPC')
 
 # Assign the phases
-unknown_system.setStates("fluid")
+unknown_system.setPhases("fluid")
 ```
 
 ML-LPA will then process all the lipids in the system and assign to each of them **the given phase**.
@@ -46,28 +46,28 @@ The final result can be accessed through the *.states* attribute of the instance
 
 ### Molecule-by-molecule assignment
 
-The method *.setStates()* can also be used to **assign a whole NumPy string array** to the molecules
+The method *.setPhases()* can also be used to **assign a whole NumPy string array** to the molecules
 stored in the instance.
 
 ```python
-unknown_system.setStates(lipid_phases)
+unknown_system.setPhases(lipid_phases)
 ```
 
 In this example, we call a NumPy array named *lipid_phases* which have been generated
 outside of the example script.
 {: .notice--info}
 
-The NumPy string array used as input shoudl have the dimension ```(# frames, # molecules)```.
+The NumPy string array used as input should have the dimension ```(# frames, # molecules)```.
 
 ## What is next?
 
-* Now you know how the phases of your unknown systems can been assigned, you can
-start to analyse the [local environment of the lipids]().
+* Now you know how the phases of your unknown systems can been predicted, you can
+start to analyse the [local environment of the lipids](/mllpa/documentation/tutorials/tessellations/1-voronoi/).
 
-* You can also [store the results]() in a file.
+* You can also [store the results](/mllpa/documentation/tutorials/outputs/2-save-system/) in a file.
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* System class
+* [System class](/mllpa/documentation/api/classes/system/)

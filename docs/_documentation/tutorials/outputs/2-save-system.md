@@ -14,8 +14,8 @@ sidebar:
   nav: "sidebar-tutorials"
 ---
 
-Once the phases of the system have been [predicted by ML-LPA]() -
-or [assigned manually]() -
+Once the phases of the system have been [predicted by ML-LPA](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/) -
+or [assigned manually](/mllpa/documentation/tutorials/phase-prediction/4-set-phases/) -
 it can be essential to store and save the results in a file on your computer.
 This tutorial will explain how it can be easily done.
 
@@ -82,18 +82,19 @@ The typical array of N molecules saved in a .csv file is based on the following 
 #### .xml files
 
 In an .xml file, the representation of **each frame** of the simulation **is saved in a different branch** of the .xml tree.
+Each frame branch also carries the **dimension of the simulation box**.
 Inside the frame branch, **each molecule is defined in its own sub-branch**. The sub-branch of the molecule will contain:
 (i) its ID, (ii) its name, (iii) its phase and (iv) the X, Y and Z coordinates of its COM.
 
 The typical .xml tree will look like
 
 ```bash
-├── frame 0
+├── frame 0, box x, box y, box z
 │   ├── 0, Mol. A, phase, x, y, z
 │   ├── 1, Mol. B, phase, x, y, z
 │   ...
 │   └── N, Mol. C, phase, x, y, z
-├── frame 1
+├── frame 1, box x, box y, box z
 │   ├── 0, Mol. A, phase, x, y, z
 │   ├── 1, Mol. B, phase, x, y, z
 │   ...
@@ -126,12 +127,8 @@ can save the instances of the System class using the function *saveSystems()*.
 ```python
 import mllpa
 
-mllpa.saveSystems([unknown_system], file_path="processed_system.h5")
+mllpa.saveSystems(unknown_system, file_path="processed_system.h5")
 ```
-
-Similarly to the function *generateModel()* and *doVoro()*, the only input data taken by *saveSystems()* is a list of instances.
-If you only want to save one instance, please convert it into a list first.
-{: .notice--warning}
 
 ML-LPA automatically detect the extension given in the *file_path=* keyword-argument to determine
 the format to use. If no extension is found, ML-LPA will automatically use the **default .csv format**. The default format
@@ -141,16 +138,16 @@ ML-LPA can also be set to generate automatically the file name. This is done by 
 In this case, the name generated will be the date and time of the generation, in the format *YYMMDD_HHMMSS*.
 
 ```python
-mllpa.saveSystems([unknown_system], format=".xml")
+mllpa.saveSystems(unknown_system, format=".xml")
 ```
 
 ## What is next?
 
 * Now that you know how to save the instances of the System class, you can check how to save the instance
-of the [Tessellation class]().
+of the [Tessellation class](/mllpa/documentation/tutorials/outputs/3-save-voronoi/).
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* saveSystems
+* [saveSystems()](/mllpa/documentation/api/common/savesystems/)

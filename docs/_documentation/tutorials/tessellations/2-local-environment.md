@@ -14,8 +14,14 @@ sidebar:
   nav: "sidebar-tutorials"
 ---
 
+The function *doVoro()* seen in the previous tutorial is automatically mapping the
+environment - unless told otherwise. While the codelines shown in this tutorial
+could be therefore seen as useless, this tutorial develops the concept of
+local environment.
+{: .notice--info}
+
 Once the tessellation has been processed on the system and the instance of the **Tessellation** class generated,
-ML-LPA is ready to map the local environment of the lipids.
+the local environment of the molecules can still be mapped, as seen in this tutorial.
 
 ## Local environment
 
@@ -60,23 +66,23 @@ However, it outputs in the same time the **total phase composition of each lipid
 These values can be stored in variable, such as
 
 ```python
-neighbor_phases, states_list = mllpa.readNeighbors(tessellation)
+neighbor_phases, phases_list = mllpa.readNeighbors(tessellation)
 ```
 
 *neighbor_phases* is a NumPy array of dimensions ```(# frames, # molecules, # phases)```. The last axis
 reads the number of neighbors found for each of the phases found in the system, e.g. ```[3, 0, 1]``` in a system with three phases.
-The respective name of the phases corresponding to each index of the list are returned in the variable *states_list*
+The respective name of the phases corresponding to each index of the list are returned in the variable *phases_list*
 
 ## What is next?
 
 * Now that the local environment has been mapped, the last step is to
-[save all the results]() in a file.
+[save all the results](/mllpa/documentation/tutorials/outputs/3-save-voronoi/) in a file.
 
 * You can also check how to analyse the local environment in a membrane
-[in terms of molecule types]() and not of phases.
+[in terms of molecule types](/mllpa/documentation/tutorials/tessellations/3-no-phases/) and not of phases.
 
 ## Check the API
 
 The following elements have been used in this tutorial:
 
-* generateModel
+* [readNeighbors()](/mllpa/documentation/api/advanced/readneighbors/)

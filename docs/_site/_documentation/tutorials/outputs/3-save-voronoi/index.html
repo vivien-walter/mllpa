@@ -2,12 +2,33 @@
 can be stored in a file, and saved in <strong>multiple formats</strong>. This tutorial develops how
 this should be done.</p>
 
-<p>(TO BE COMPLETED)</p>
+<p>All the file formats will generate files will similar contents to the ones saved from
+an instance of the System class. For more information, check the <a href="/mllpa/documentation/tutorials/outputs/2-save-system/#pick-the-file-format">related tutorial</a>.</p>
+
+<h2 id="save-the-instance">Save the instance</h2>
+
+<p>Once your systems are ready to be saved and once you have selected your desired output format, you
+can save the instances of the Tessellation class using the function <em>saveVoro()</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">mllpa</span><span class="p">.</span><span class="n">saveVoro</span><span class="p">(</span><span class="n">voronoi</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s">"processed_system.h5"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>ML-LPA automatically detect the extension given in the <em>file_path=</em> keyword-argument to determine
+the format to use. If no extension is found, ML-LPA will automatically use the <strong>default .csv format</strong>. The default format
+can be selected by using the keyword-argument <em>format=</em>.</p>
+
+<p>ML-LPA can also be set to generate automatically the file name. This is done by not including the <em>file_path=</em> keyword argument.
+In this case, the name generated will be the date and time of the generation, in the format <em>YYMMDD_HHMMSS</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mllpa</span><span class="p">.</span><span class="n">saveVoro</span><span class="p">(</span><span class="n">voronoi</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">".xml"</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h2 id="check-the-api">Check the API</h2>
 
 <p>The following elements have been used in this tutorial:</p>
 
 <ul>
-  <li>saveVoro</li>
+  <li><a href="/mllpa/documentation/api/common/savevoro/">saveVoro()</a></li>
 </ul>

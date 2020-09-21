@@ -30,7 +30,7 @@ at least 500 molecules per instances for the training.</p>
   For example, if the instaces have 50 molecules, the training should be done on 10 frames at least.</p>
 
     <p class="notice--info">The number of frames can only be selected while loading the molecules from the simulation files with the
-  <em>openSystem()</em> function. For more details, see the <a href="">API</a>.</p>
+  <em>openSystem()</em> function. For more details, see the <a href="/mllpa/documentation/api/common/opensystem/">API</a>.</p>
   </li>
   <li>
     <p>The total number of molecules being used for the training <strong>should be the same in all instances</strong>.</p>
@@ -46,7 +46,7 @@ at least 500 molecules per instances for the training.</p>
 
 <p>ML-LPA relies on a <strong>2-steps</strong> prediction system involving a total of <strong>4 different ML algorithms</strong> defined
 in scikit-learn. More detailed information on the prediction system and the ML algorithms used can be found
-in a <a href="/mllpa/documentation/tutorials/phase-prediction/4-ml-prediction/">later tutorial</a>.</p>
+in a <a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">later tutorial</a>.</p>
 
 <h3 id="generate-the-model-files">Generate the model files</h3>
 
@@ -61,7 +61,7 @@ to be trained on, and (2) one list with their <strong>respective labels</strong>
 <span class="n">fluid_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'fluid.gro'</span><span class="p">,</span> <span class="s">'fluid.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
 
 <span class="c1"># Train the models and saved them in a file
-</span><span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">file_path</span><span class="o">=</span><span class="s">'new_model.lpm'</span><span class="p">)</span>
+</span><span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">file_path</span><span class="o">=</span><span class="s">'new_model.lpm'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p class="notice--info">In this example, the coordinates and structure files of the gel and fluid phases
@@ -71,19 +71,19 @@ the simulation files. Check the <a href="/mllpa/documentation/tutorials/loading-
 
 <p>Once the training has been completed, the models are stored in a <strong>.lpm</strong> (<ins>L</ins>ipid <ins>P</ins>hase <ins>M</ins>odel) file at the given location.
 This file can be used anytime to predict the phases in a simulation of unknown composition. More details on the
-.lpm files are given in the <a href="/mllpa/documentation/tutorials/phase-prediction/2-model-file/">corresponding tutorial</a>.</p>
+.lpm files are given in the <a href="/mllpa/documentation/tutorials/outputs/1-model-file/">corresponding tutorial</a>.</p>
 
 <h3 id="extract-directly-the-models-in-variables">Extract directly the models in variables</h3>
 
 <p>For many reasons, one can decide to <strong>not save the models in a file</strong>, and just extract them directly in variables to use them
 straight. This can be done by disabling the <em>save_model=</em> keyword-argument:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>The models are returned in a dictionary of instances of <strong>specific scikit-learn classes</strong>.</p>
 
-<p>You can find the description of all the keyword-arguments of the <em>generateModel()</em> function in the <a href="">API</a>.</p>
+<p>You can find the description of all the keyword-arguments of the <em>generateModel()</em> function in the <a href="/mllpa/documentation/api/common/generatemodel/">API</a>.</p>
 
 <h2 id="assessing-reproducibility-and-scoring">Assessing reproducibility and scoring</h2>
 
@@ -108,11 +108,11 @@ calculated from the <strong>K repetitions of the resampling and training</strong
 <ul>
   <li>
     <p>Now that you know how to generate a model in ML-LPA, the next obvious step would be to
-use it to <a href="">predict the phases</a> in an unknown system.</p>
+use it to <a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">predict the phases</a> in an unknown system.</p>
   </li>
   <li>
-    <p>You can also check how to <a href="/mllpa/documentation/tutorials/phase-prediction/2-model-file/">read the scores in the .lpm files</a>
-or <a href="/mllpa/documentation/tutorials/phase-prediction/3-rank-optimisation/">optimise the neighbour rank</a>.</p>
+    <p>You can also check how to <a href="/mllpa/documentation/tutorials/outputs/1-model-file/">read the scores in the .lpm files</a>
+or <a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/">optimise the neighbour rank</a>.</p>
   </li>
 </ul>
 
@@ -121,5 +121,5 @@ or <a href="/mllpa/documentation/tutorials/phase-prediction/3-rank-optimisation/
 <p>The following elements have been used in this tutorial:</p>
 
 <ul>
-  <li>generateModel</li>
+  <li><a href="/mllpa/documentation/tutorials/phase-prediction/2-model-file/">generateModel()</a></li>
 </ul>

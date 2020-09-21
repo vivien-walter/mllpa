@@ -80,6 +80,52 @@ In this files are stored several types of information collected during the train
 
 * Other general metadata (*e.g.* ML-LPA and scikit-learn versions, date and time)
 
+## Reading the .lpm file
+
+ML-LPA can directly read the model file, either to extract and/or display the content,
+or to load it into a model dictionary.
+
+### Extract and display
+
+To extract the contents of the .lpm file, the function *readModelFile()*
+
+```python
+metadata_dict, coordinates, distances, phases = mllpa.readModelFile('test_model.lpm', train_sets=True)
+```
+
+The function *readModelFile()* will return the dictionary of the training metadata
+(*metadata_dict*), but also the three arrays used to train the models:
+*coordinates*, *distances* and *phases*.
+{: .notice--info}
+
+You can also directly display the metadata in the Terminal, by using the
+keyword argument *display=*
+
+```python
+mllpa.readModelFile('test_model.lpm', display=True)
+```
+
+### Load from file
+
+The file can be loaded in a dictionary using the function *loadModels()*.
+
+```python
+trained_models, training_params = mllpa.loadModels('test_file.lpm')
+```
+
+The function *loadModels()* will return the trained models in a dictionary
+(*trained_models*), but also another dictionary containing all the parameters used
+to train the models (*training_params*).
+{: .notice--info}
+
 ## What is next?
 
-* Now that you know how what is inside a .lpm file, you can use it to [predict the phases]() in an unknown system.
+* Now that you know how what is inside a .lpm file, you can use it to [predict the phases](/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/) in an unknown system.
+
+## Check the API
+
+The following elements have been used in this tutorial:
+
+* [readModelFile()](/mllpa/documentation/api/advanced/readmodelfile/)
+
+* [loadModels()](/mllpa/documentation/api/advanced/loadmodels/)
