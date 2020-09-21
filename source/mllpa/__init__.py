@@ -1,0 +1,580 @@
+import numpy as np
+import os
+from sklearn import model_selection
+
+from mllpa.input_output import generateModelFile, _generate_file_type, saveRepresentation, openModelFile, _display_metadata
+from mllpa.interface_communication import _is_boolean, _is_array, _is_system, _is_tessellation, _is_list, _is_list_of, _error_system_merged, _error_input_type
+from mllpa.model_generation import _format_training_set, trainModel, load_models_file, _get_models_from_source, _format_input, _prediction_array, _final_decision
+from mllpa.neighbour_analysis import generateGhosts
+from mllpa.read_simulation import _get_positions, _get_type_info, _list_types
+from mllpa.system_class import System, _system_to_tessellation, _coms_to_tessellation
+from mllpa.configurations.coordinates import rotateMolecules, cartesian2Polar
+from mllpa.configurations.distances import computeDistances, listPairs
+
+####================================####
+#### <-<-<< COMMON FUNCTIONS >>->-> ####
+####                                ####
+#### Basic functions to call to     ####
+#### operate the module MLLPA and   ####
+#### analyse the simulation files.  ####
+####                                ####
+####================================####
+
+# ----------------------------
+# Load the system into a class
+def openSystem(coordinates_file, structure_file, type, **kwargs):
+
+    """Extract all the informations from the simulations files and return a class with the system
+    Argument(s):
+        coordinates_file {str} -- Relative path to the coordinates file of the system (e.g. .gro file).
+        structure_file {str} -- Relative path to the structure file of the system (e.g. .tpr file).
+        type {str} -- Name of the molecule type to extract the information from. The type should be similar as the one listed in getTypes().
+        trj {str} -- (Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file).
+                                 If not provided, the function will only read the positions from the coordinates file.
+        heavy {bool} -- (Opt.) Only extract the positions of the non-hydrogen atoms.
+                        Default is True.
+        begin {int} -- (Opt.) First frame to read in the trajectory. Cannot be lower than 0 or higher or equal than the final frame to read.
+                       Default is 0 (first frame of the trajectory).
+        end {int} -- (Opt.)Last frame to read in the trajectory. Cannot be higher or equal to the length of the trajectory or lower or equal to the first frame to read.
+                     Default is the last frame of the trajectory.
+        step {int} -- (Opt.)Step between frame to read. Cannot be lower or equal to 0.
+                      Default is 1.
+        up {bool} -- (Opt.)Check that the molecules are always orientated facing "up"
+                     Default is True.
+        rank {int} -- (Opt.) Number of atoms (-1) between two neighbours along the same line used for distance calculations. At rank 1, the neighbours of an atom are all atom sharing a direct bond with it.
+                      Default is 6.
+    Output(s):
+        system {class System} -- Instance of the system classes containing all the informations on the system as well as the positions and configurations.
+    """
+
+    # Get the information on the molecules
+    if kwargs.get('type_info', None) is None:
+        kwargs['type_info'] = getMolInfos(structure_file, type)
+
+    # Load the positions
+    positions, boxes = extractPositions(coordinates_file, type, **kwargs)
+
+    # Initialise the class with the informations
+    system_class = System(type, positions, kwargs['type_info'], boxes)
+
+    # Get the configurations
+    system_class.getCoordinates(**kwargs)
+    system_class.getDistances(**kwargs)
+
+    return system_class
+
+# -----------------------------------------
+# Generate the model for the given molecule
+def generateModel(systems, phases=['gel', 'fluid'], file_path=None, validationSize=0.20, seed=7, nSplits = 10, save_model=True):
+
+    """Generate a model for N phases based on the input systems and save it in a file
+    Argument(s):
+        system {list of class System} -- List of each instances of the System class that should be used for the training. Systems can be generated using the function openSystem().
+                                         Provide one system only per phase. The types, number of molecules and neighbor ranking should be the same in each system.
+                                         By default, the first system of the list should be the gel one, and the second one the fluid one.
+        phases {list of str} -- (Opt.) Names of the phases of each system submitted above. The order should be the same.
+                                Default is gel/fluid.
+        file_path {str} -- (Opt.) Path and name of the file to generate. File extension should be .lpm
+                           By default, the name is autogenerated as "date_moltype.lpm" (e.g. 20201201_DPPC.lpm)
+        validationSize {float} -- (Opt.) Proportion of molecules from the systems kept aside for the validation set.
+                                  Default is 0.20 (20%).
+        seed {int} -- (Opt.) Seed for random shuffle of the input systems.
+                      Default is 7.
+        nSplits {int} -- (Opt.) Number of time the training should be repeated on the training set with random shuffling.
+                         Default is 10.
+        save_model {bool} -- (Opt.) Save the model in a file.
+                             Default is True.
+    Output(s):
+        models {dict of models} -- Scikit-learn models trained on the input systems for molecule classification.
+    """
+
+    # ---------------------
+    # CHECK THE USER INPUTS
+
+    # Check that the systems can be merged
+    _error_system_merged(systems)
+
+    # Check that the number of system matches the number of phases
+    if len(systems) != len(phases):
+        raise IndexError("The number of systems ("+str(len(systems))+") does not match the number of phases ("+str(len(phases))+")")
+
+    # ----------------
+    # RUN THE FUNCTION
+
+    # Format the systems for running in the machine learning algorithms
+    coordinates, distances, phases_array = _format_training_set(systems, phases=phases)
+
+    # Train the models
+    models, training_scores, training_errors = trainModel(coordinates, distances, phases_array, validationSize=validationSize, seed=seed, nSplits = nSplits)
+
+    # Save the model
+    if save_model:
+
+        # Gather data for metadata file
+        general_info = {
+        'type' : systems[0].type,
+        'phases' : phases
+        }
+
+        system_info = {
+        'n_molecules': str(systems[0].infos['n_molecules']),
+        'n_atoms_per_molecule': str(systems[0].infos['heavy_atoms']['number']),
+        'n_distances_per_molecule': str(distances.shape[1]),
+        'rank': str(systems[0].rank),
+        }
+
+        training_info = {
+        'validation_size' : str(validationSize),
+        'seed' : str(seed),
+        'n_splits' : str(nSplits),
+        }
+
+        # Generate the model file
+        generateModelFile(coordinates, distances, phases_array, general_info, system_info, training_info, training_scores, training_errors, file_path=file_path)
+
+    # Merge the scores in the models
+    models['scores'] = training_scores
+    models['errors'] = training_errors
+
+    return models
+
+# ---------------------------------------------------------------
+# Use a model to predict the phase of the molecules in the system
+def getPhases(system, models):
+
+    """Predict the phases of the molecules in a system based on the ML models trained previously
+    Argument(s):
+        system {class System} -- Instance of the system classes containing all the informations on the system as well as the positions and configurations.
+        models {str or dict of models} -- Path to the model file to load or dictionary of the Scikit-Learn models to use to predict the states of the molecules.
+    Output(s):
+        phases {np.ndarray} -- Array of all the molecule phases predicted in the system. Dimension(s) are in (n_frames, n_molecules).
+    """
+
+    # Check the input
+    if not _is_system(system):
+        _error_input_type("System","instance of the System class")
+
+    # Predict the phase of the molecules
+    phases = system.getPhases(models)
+
+    return phases
+
+# -------------------------------------
+# Set the states of the system manually
+def setPhases(system, phases):
+
+    """Set manually the phases of the molecules in a system
+    Argument(s):
+        system {class System} -- Instance of the system classes containing all the informations on the system as well as the positions and configurations.
+        phases {str or np.ndarray} -- Phases to assign manually to the molecules.
+    Output(s):
+        phases {np.ndarray} -- Array of all the molecule phases predicted in the system. Dimension(s) are in (n_frames, n_molecules).
+    """
+
+    # Check the input
+    if not _is_system(system):
+        _error_input_type("System","instance of the System class")
+
+    # Predict the phase of the molecules
+    assigned_phases = system.setPhases(phases)
+
+    return assigned_phases
+
+# --------------------------------------------
+# Save system(s) into a .csv, .xml or .h5 file
+def saveSystems(systems, file_path=None, format='.csv'):
+
+    """Save one or more system(s) in a file
+    Argument(s):
+        systems {class System or list of class System} -- Instances of the system classes containing the molecules to save in a file.
+        file_path {str} -- (Opt.) Path and name of the file to generate. File extension should be .xml, .h5 or .csv
+                           By default, the name is autogenerated as "date_hour.csv" (e.g. 20201201_012345.csv)
+        format {str} -- (Opt.) File extension and format to use for the output file. Should be ".xml", ".h5" or ".csv"
+                        Default is .csv
+    """
+
+    # Extract the information from the system(s)
+    representation = _system_to_tessellation(systems)
+
+    # Save the system in file
+    saveRepresentation(representation, file_path=file_path, format=format)
+
+# -------------------------------------------
+# Process the system to perform tessellations
+def doVoro(systems, geometry='bilayer', threshold=0.01, exclude_ghosts=None, read_neighbors=True):
+
+    """Compute the tessellations of the system for neighbour analysis.
+    Argument(s):
+        systems {list of class System} -- Instances of the System classes containing the molecules to save in a file.
+        geometry {str} -- (Opt.) Geometry of the system to perform the tessellations on. The current geometries available are:
+                            *) bilayer - Analyse the 2D tesselations of a lipid bilayer on each leaflets.
+                            *) bilayer_3d - Analyse the 3D tessellations of a lipid bilayer. Requires ghosts to have been generated first.
+                            *) vesicle - Analyse the "2D" tessellations of a lipid vesicle by only keeping neighbours within the leaflet.
+                                         Requires ghosts to have been generated first.
+                            *) vesicle_3d - Analyse the 3D tessellations of a lipid vesicle. Requires ghosts to have been generated first.
+                            *) solution - Analyse the 3D tessellations of a solution of molecules.
+                          By default, the geometry is set to a (2D) bilayer.
+        threshold {float} -- (Opt.) Relative area/volume threshold at which neighbours starts to be considered. Value is given as a percentage of the total area/volume.
+                             Default is 0.01 (1%).
+        exclude_ghosts {list of int} -- (Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation.
+                                        Default is None.
+        read_neighbors (bool) -- (Opt.) Automatically map the local environment during the tessellation.
+                                 Default is True
+    Output(s):
+        representation {class Tessellation} -- Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.
+    """
+
+    # Convert single system in list
+    if _is_system(systems):
+        systems = [ systems ]
+
+    # Check and convert input
+    if not _is_list_of(systems, type='system', check_array=True, recursive=False):
+        _error_input_type('Systems', 'List of System (or single System)')
+
+    if exclude_ghosts is not None:
+        if not _is_list(exclude_ghosts):
+            exclude_ghosts = [exclude_ghosts]
+        if not _is_list_of(exclude_ghosts, type='int', check_array=True, recursive=False):
+            _error_input_type('Ghost exclusions', "List of integers")
+
+    if not _is_boolean(read_neighbors):
+        _error_input_type('Read neighbors', "Boolean")
+
+    # Extract the information from the system(s)
+    representation = _system_to_tessellation(systems)
+
+    # Assign the molecules to membrane leaflets if needed
+    if geometry != "solution":
+
+        # Get the leaflets
+        representation.getLeaflets(geometry=geometry)
+
+        # Generate the ghosts for all the systems
+        all_ghosts = []
+        for system_ID, mol_type in enumerate(systems):
+
+            # Check if the ghosts should be calculated
+            process_ghosts = True
+            if exclude_ghosts is not None:
+                if system_ID in exclude_ghosts:
+                    process_ghosts = False
+
+            # Process the system if allowed
+            if process_ghosts:
+
+                # Create the ghosts
+                mol_ghosts = generateGhosts(representation.positions, mol_type.positions, mol_type.infos['resids'], representation.leaflets, geometry=geometry)
+
+                # Append the ghosts to the list
+                all_ghosts.append(np.copy(mol_ghosts))
+
+        # Concatenate the ghosts
+        all_ghosts = np.concatenate(all_ghosts, axis=1)
+
+        # Save the ghosts in the representation
+        representation.ghosts = np.copy(all_ghosts)
+
+    # Make the tessellation to find the neighbors
+    representation.doVoronoi(geometry=geometry, threshold=threshold)
+
+    # Read the local environment if needed
+    if read_neighbors:
+        representation.checkNeighbors()
+
+    return representation
+
+# ------------------------------------------------
+# Read the composition of the molecules neighbours
+def readNeighbors(representation):
+
+    """Compute the tessellations of the system for neighbour analysis.
+    Argument(s):
+        representation {class Tessellation} -- Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.
+    Output(s):
+        neighbors_phases {np.ndarray} -- Array of the phase of the neighbors of each molecule. Dimension(s) are in (n_frames, n_molecules, n_states).
+        phases_list {np.ndarray} -- Array listing the phases analysed and the order used for the neighbors_phases array.
+    """
+
+    # Check that the input is a Tessellation
+    if not _is_tessellation(representation):
+        _error_input_type('Tessellation', "instance of Tessellation class")
+
+    # Read the composition
+    neighbors_phases, phases_list = representation.checkNeighbors()
+
+    return neighbors_phases, phases_list
+
+# -------------------------------------------------------------
+# Save the tessellations and all related informations in a file
+def saveVoro(representation, file_path=None, format='.csv'):
+
+    """Save a representation in a file
+    Argument(s):
+        representation {class Tessellation} -- Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.
+        file_path {str} -- (Opt.) Path and name of the file to generate. File extension should be .xml, .h5 or .csv
+                           By default, the name is autogenerated as "date_hour.csv" (e.g. 20201201_012345.csv)
+        format {str} -- (Opt.) File extension and format to use for the output file. Should be ".xml", ".h5" or ".csv"
+                        Default is .csv
+    """
+
+    # Check that the input is a Tessellation
+    if not _is_tessellation(representation):
+        _error_input_type('Tessellation', "instance of Tessellation class")
+
+    # Save the system in file
+    saveRepresentation(representation, file_path=file_path, format=format)
+
+####==================================####
+#### <-<-<< ADVANCED FUNCTIONS >>->-> ####
+####                                  ####
+#### Advanced functions to analyse    ####
+#### the different parts and steps of ####
+#### the module.                      ####
+####                                  ####
+####==================================####
+
+##-\-\-\-\-\-\-\-\-\-\-\
+## READ SIMULATION FILES
+##-/-/-/-/-/-/-/-/-/-/-/
+
+# ----------------------------------
+# Display the list of molecule types
+def getTypes(coordinates_file):
+
+    """Extract and display the list of all the molecule types found in the system
+    Argument(s):
+        coordinates_file {str} -- Relative path to the coordinates file of the system (e.g. .gro file).
+    Output(s):
+        molecule_types {np.ndarray} -- Array of all the molecule types names found in the system. Dimension(s) are in (n_molecule_types).
+    """
+
+    # Get the list of residue
+    residue_list = _list_types(coordinates_file)
+
+    # Display and return the list
+    return residue_list
+
+# -------------------------------------
+# Get all the information on the system
+def getMolInfos(structure_file, type):
+
+    """Extract the relevant informations on the system
+    Argument(s):
+        structure_file {str} -- Relative path to the structure file of the system (e.g. .tpr file).
+        type {str} -- Name of the molecule type to extract the information from. The type should be similar as the one listed in getTypes().
+    Output(s):
+        type_info {dict} -- Dictionary containing all the informations on the molecule type.
+    """
+
+    type_info = _get_type_info(structure_file, type)
+
+    return type_info
+
+# -----------------------------------------------
+# Extract the position of the given molecule type
+def extractPositions(coordinates_file, type, **kwargs):
+
+    """Extract the relevant informations on the system
+    Argument(s):
+        coordinates_file {str} -- Relative path to the coordinates file of the system (e.g. .gro file).
+        type {str} -- Name of the molecule type to extract the information from. The type should be similar as the one listed in getTypes().
+                      Despite being an optional argument in the function call, the type SHOULD be provided.
+        trj {str} -- (Opt.) Relative path to the trajectory file of the system (e.g. .xtc file, .trr file).
+                                 If not provided, the function will only read the positions from the coordinates file.
+        heavy {bool} -- (Opt.) Only extract the positions of the non-hydrogen atoms.
+                        Default is True.
+        type_info {dict} -- (Opt.) Dictionary containing all the informations on the molecule type. Can be extracted with read_simulation.getMolInfos().
+                            If not provided, the function will read extract the required informations from the coordinates file.
+        begin {int} -- (Opt.) First frame to read in the trajectory. Cannot be lower than 0 or higher or equal than the final frame to read.
+                       Default is 0 (first frame of the trajectory).
+        end {int} -- (Opt.) Last frame to read in the trajectory. Cannot be higher or equal to the length of the trajectory or lower or equal to the first frame to read.
+                     Default is the last frame of the trajectory.
+        step {int} -- (Opt.) Step between frame to read. Cannot be lower or equal to 0.
+                      Default is 1.
+    Output(s):
+        positions {np.ndarray} -- Array of the positions of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 3).
+        boxes {np.ndarray} -- Array of the box dimensions. Dimension(s) are in (n_frames, 3).
+    """
+
+    # Extract the kwargs
+    trj = kwargs.get('trj', None)
+    heavy = kwargs.get('heavy', True)
+    type_info = kwargs.get('type_info', None)
+    begin = kwargs.get('begin', 0)
+    end = kwargs.get('end', None)
+    step = kwargs.get('step', 1)
+
+    # Run the function
+    positions, boxes = _get_positions(coordinates_file, type=type, trj=trj, heavy=heavy, type_info=type_info, begin=begin, end=end, step=step)
+
+    return positions, boxes
+
+##-\-\-\-\-\-\-\-\-\-\-\
+## GENERATE SYSTEM CLASS
+##-/-/-/-/-/-/-/-/-/-/-/
+
+# ---------------------------------------
+# Load the system from a set of positions
+def systemFromPositions(positions, type, type_info, boxes, up=True, rank=6):
+
+    """Load a set of atom positions in a System class
+    Argument(s):
+        positions {np.ndarray} -- Array of the positions of the atoms of the molecules. Dimension(s) should be in (n_frames, n_molecules, n_atoms_per_molecule, 3).
+        type {str} -- Name of the molecule type to extract the information from. The type should be similar as the one listed in getTypes().
+        type_info {dict} -- Dictionary containing all the informations on the molecule type. Can be extracted with read_simulation.getMolInfos()
+        boxes {np.ndarray} -- Array of the simulation box dimensions. Dimension(s) should be in (n_frames, 3).
+        up {bool} -- (Opt.) Check that the molecules are always orientated facing "up"
+                     Default is True.
+        rank {int} -- (Opt.) Number of atoms (-1) between two neighbours along the same line used for distance calculations. At rank 1, the neighbours of an atom are all atom sharing a direct bond with it.
+                      Default is 6.
+    Output(s):
+        system {class System} -- Instance of the system classes containing all the informations on the system as well as the positions and configurations.
+    """
+
+    # Initialise the class with the informations
+    system_class = System(type, positions, type_info, boxes)
+
+    # Get the configurations
+    system_class.getCoordinates(up=up)
+    system_class.getDistances(rank=rank)
+
+    return system_class
+
+##-\-\-\-\-\-\-\-\-\-\-\-\-\
+## GET CONFIGURATIONS SPACES
+##-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+# -------------------------------------------------------
+# Extract the atom coordinates of the given molecule type
+def getCoordinates(positions, type_info, up=True):
+
+    """Normalise the orientation of the molecules after centering them on their COM
+    Argument(s):
+        positions {np.ndarray} -- Array of the positions of the atoms of the molecules. Dimension(s) should be in (n_frames, n_molecules, n_atoms_per_molecule, 3).
+        type_info {dict} -- Dictionary containing all the informations on the molecule type. Can be extracted with read_simulation.getMolInfos()
+        up {bool} -- (Opt.) Check that the molecules are always orientated facing "up"
+    Output(s):
+        new_positions {np.ndarray} -- Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2)
+    """
+
+    # Centre and rotate the positions
+    rotated_positions = rotateMolecules(positions, type_info, up=up)
+
+    # Convert to polar coordinates
+    coordinates = cartesian2Polar(rotated_positions)
+
+    return coordinates
+
+# -------------------------------------------------------
+# Extract the atomic distances of the given molecule type
+def getDistances(positions, type_info, rank=6):
+
+    """Create the pair of lists at the specified rank
+    Argument(s):
+        positions {np.ndarray} -- Array of the positions of the atoms of the molecules. Dimension(s) should be in (n_frames, n_molecules, n_atoms_per_molecule, 3).
+        type_info {dict} -- Dictionary containing all the informations on the molecule type. Can be extracted with read_simulation.getMolInfos()
+        rank {int} -- (Opt.) Number of atoms (-1) between two neighbours along the same line used for distance calculations. At rank 1, the neighbours of an atom are all atom sharing a direct bond with it.
+                      Default is 6.
+    Output(s):
+        distances {np.ndarray} -- Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances).
+    """
+
+    # Get the bonds indices at the given rank
+    bonds_ids = listPairs(type_info, rank=rank)
+
+    # Compute all the distances using the map
+    distances = computeDistances(positions, bonds_ids)
+
+    return distances
+
+##-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\
+## MODEL PREPARATION AND TRAINING
+##-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+# -------------------
+# Load the model file
+def readModelFile(model_file, train_sets=False, display=False):
+
+    """Open the model file and extract all relevant information on the model from it.
+    Argument(s):
+        model_file {str or dict of models} -- Path to the model file to load to predict the phases of the molecules.
+        train_sets {bool} -- (Opt.) Load the training sets (arrays) from the file too.
+                             Default is False.
+        display {bool} -- (Opt.) Print the metadata in the terminal using a custom formatting.
+    Output(s):
+        metadata {dict of int, float & str} -- Metadata used and collected during the training.
+        coordinates {np.ndarray} -- (Opt.) Array of the coordinates of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_atoms_per_molecule, 2)
+        distances {np.ndarray} -- (Opt.) Array of the distances of the atoms of the molecules. Dimension(s) are in (n_frames, n_molecules, n_distances).
+        phases {np.ndarray} -- (Opt.) phases {np.ndarray} -- Array of all the molecule phases labeled in the system. Dimension(s) are in (n_frames, n_molecules).
+    """
+
+    # Check input
+    if not _is_boolean(train_sets):
+        _error_input_type("Return training sets", "Boolean")
+
+    # Load the informations from the XML file
+    coordinates, distances, phases, metadata_content = openModelFile(model_file)
+
+    # Display the content if requested
+    if display:
+        _display_metadata(metadata_content)
+
+    # Return the required values
+    if train_sets:
+        return metadata_content, coordinates, distances, phases
+    else:
+        return metadata_content
+
+# -------------------------------------------
+# Load the model file into a model dictionary
+def loadModels(model_file):
+
+    """Extract the models from the file provided.
+    Argument(s):
+        model_file {str or dict of models} -- Path to the model file to load to predict the phases of the molecules.
+    Output(s):
+        models {dict of models} -- Scikit-learn models trained on the input systems for molecule classification.
+        training_parameters {dict of int and float} -- Parameters used for the model training.
+    """
+
+    # Load the models from the file
+    models, training_parameters = load_models_file(model_file)
+
+    return models, training_parameters
+
+# --------------------------------------------------------------
+# Get the predictions from each ML models on the molecule states
+def predictPhases(coordinates, distances, models, final=True):
+
+    """Predict the phases of the molecules based on the coordinates and distances spaces provided.
+    Argument(s):
+        coordinates {np.ndarray} -- Array of the coordinates of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in (n_frames * n_molecules, 2 * n_atoms_per_molecule).
+        distances {np.ndarray} -- Array of the distances of the atoms of the molecules, merged between all systems and all frames. Dimension(s) should be in in (n_frames * n_molecules, n_distances).
+        models {str or dict of models} -- Path to the model file to load or dictionary of the Scikit-Learn models to use to predict the phases of the molecules.
+        final {bool} -- (Opt.) Do the final prediction. Returns the predictions of the 1st 4 models if False.
+                        Default is True.
+    Output(s):
+        phases {np.ndarray} -- Array of all the molecule phases predicted in the system. Dimension(s) are in (n_frames, n_molecules).
+    """
+
+    # Check the inputs
+    if not _is_array(coordinates):
+        _error_input_type("Coordinates","NumPy array")
+    if not _is_array(distances):
+        _error_input_type("Distances","NumPy array")
+
+    # Format the array
+    fmt_coordinates, fmt_distances = _format_input(coordinates, distances)
+
+    # Check and extract the models
+    trained_models, training_parameters = _get_models_from_source(models)
+
+    # Predict the states of the lipids
+    phases = _prediction_array(fmt_coordinates, fmt_distances, trained_models)
+
+    # Do the final prediction if required
+    if final:
+        phases = _final_decision(phases, trained_models)
+
+    return phases
