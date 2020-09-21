@@ -1,0 +1,155 @@
+# main links
+main:
+  - title: "Installation"
+    url: /install/
+  - title: "Documentation"
+    url: /documentation/
+  #- title: "Results"
+  #  url: /results/
+  - title: "About ML-LPA"
+    url: /about-mllpa/
+
+# sidebar navigation list Research
+sidebar-installation:
+  - title: "Requirements"
+    url: /install/#requirements
+  - title: "From the GitHub repo"
+    url: /install/#from-the-github-repo
+    children:
+      - title: "Get the files"
+        url: /install/#get-the-files
+      - title: "Install the package"
+        url: /install/#install-the-package
+  - title: "Check the installation"
+    url: /install/#check-the-installation
+  - title: "What is next?"
+    url: /install/#what-is-next
+
+# sidebar navigation list Documentation
+sidebar-documentation:
+  - title: "Tutorials"
+    url: /documentation/#tutorials
+    children:
+      - title: "Loading simulation"
+        url: /documentation/#a---loading-simulation
+      - title: "The System class"
+        url: /documentation/#b---the-system-class
+      - title: "Predicting phases"
+        url: /documentation/#c---predicting-phases
+      - title: "Local environment analysis"
+        url: /documentation/#d---local-environment-analysis
+      - title: "Save the outputs"
+        url: /documentation/#e---save-the-outputs
+  - title: "API Reference"
+    url: /documentation/#api-reference
+    children:
+      - title: "Common functions"
+        url: /documentation/#common-functions
+      - title: "Advanced functions"
+        url: /documentation/#advanced-functions
+      - title: "Classes"
+        url: /documentation/#classes
+
+
+# sidebar navigation list Documentation - Tutorials
+sidebar-tutorials:
+  - title: "Quick & Dirty tutorial"
+    url: /documentation/tutorials/quick-and-dirty/
+  - title: "Loading simulation"
+    children:
+      - title: "Load from simulation files"
+        url: /documentation/tutorials/loading-files/1-simulation-files/
+      - title: "Load from position array"
+        url: /documentation/tutorials/loading-files/2-positions/
+  - title: "The System class"
+    children:
+      - title: "Attributes of the System class"
+        url: /documentation/tutorials/system-class/1-description/
+      - title: "Methods of the System class"
+        url: /documentation/tutorials/system-class/2-methods/
+  - title: "Predicting phases"
+    children:
+      - title: "Machine Learning algorithms training"
+        url: /documentation/tutorials/phase-prediction/1-training/
+      - title: "Optimisation of the neighbour rank"
+        url: /documentation/tutorials/phase-prediction/2-rank-optimisation/
+      - title: "Lipid phase prediction"
+        url: /documentation/tutorials/phase-prediction/3-ml-prediction/
+      - title: "Setting phases manually"
+        url: /documentation/tutorials/phase-prediction/4-set-phases/
+  - title: "Local environment analysis"
+    children:
+      - title: "Voronoi tessellations"
+        url: /documentation/tutorials/tessellations/1-voronoi/
+      - title: "Map the environment"
+        url: /documentation/tutorials/tessellations/2-local-environment/
+      - title: "Analysis without phases"
+        url: /documentation/tutorials/tessellations/3-no-phases/
+  - title: "Save the outputs"
+    children:
+      - title: "The .lpm model file"
+        url: /documentation/tutorials/outputs/1-model-file/
+      - title: "Save the System class"
+        url: /documentation/tutorials/outputs/2-save-system/
+      - title: "Save the Tessellation class"
+        url: /documentation/tutorials/outputs/3-save-voronoi/
+
+# sidebar navigation list Documentation - Tutorials
+sidebar-api:
+  - title: "Common functions"
+    children:
+      - title: "doVoro()"
+        url: /documentation/api/common/dovoro/
+      - title: "generateModel()"
+        url: /documentation/api/common/generatemodel/
+      - title: "getStates()"
+        url: /documentation/api/common/getstates/
+      - title: "openSystem()"
+        url: /documentation/api/common/opensystem/
+      - title: "readNeighbors()"
+        url: /documentation/api/common/readneighbors/
+      - title: "saveSystems()"
+        url: /documentation/api/common/savesystems/
+      - title: "saveVoro()"
+        url: /documentation/api/common/savevoro/
+      - title: "setStates()"
+        url: /documentation/api/common/setstates/
+  - title: "Advanced functions"
+    children:
+      - title: "extractPositions()"
+        url: /documentation/api/advanced/extractpositions/
+      - title: "getCoordinates()"
+        url: /documentation/api/advanced/getcoordinates/
+      - title: "getDistances()"
+        url: /documentation/api/advanced/getdistances/
+      - title: "getMolInfos()"
+        url: /documentation/api/advanced/getmolinfos/
+      - title: "getTypes()"
+        url: /documentation/api/advanced/gettypes/
+      - title: "predictStates()"
+        url: /documentation/api/advanced/predictstates/
+      - title: "systemFromPositions()"
+        url: /documentation/api/advanced/systemfrompositions/
+  - title: "Classes"
+    children:
+      - title: "System"
+        url: /documentation/api/classes/system/
+      - title: "Tessellation"
+        url: /documentation/api/classes/tessellation/
+
+# sidebar navigation list About
+sidebar-aboutme:
+  - title: "Who am I?"
+    children:
+      - title: "University Education"
+        url: /about-me/#university
+      - title: "Research Interest"
+        url: /about-me/#research
+      - title: "Hobbies and Passions"
+        url: /about-me/#hobbies
+  - title: "Resume"
+    url: /about-me/#resume
+  - title: "Contact"
+    url: /about-me/#contact
+  - title: "Outreach and Work experience"
+    url: /about-me/#outreach

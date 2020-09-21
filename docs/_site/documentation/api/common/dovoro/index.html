@@ -1,0 +1,568 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>doVoro() - ML-LPA</title>
+<meta name="description" content="Description  doVoro() is a function used to tessellate the system. The tessellations collect the volumes (areas if 2-dimensions), vertices and neighbor lists of each molecule. The result of the tessellation and all the relevant informations are stored in an instance of the Tessellation class. More informations on the System class can be found in the related API reference.  It is essential to select the correct geometry for the system to compute the relevant tessellation. Extensive explanations are given in the related tutorial.  It is possible to load directly a position array into MLLPA and generates an instance of the Tessellation class without using simulations files. Please refer to the function tessellationFromPositions().  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Systems               list of classes System       Instances of the System classes containing the molecules to save in a file.                 Geometry       geometry=        str       (Opt.) Geometry of the system to perform the tessellations on. Complete list is given in the related tutorial. By default, the geometry is set to a (2D) bilayer.                 Threshold       threshold=       float       (Opt.) Relative area/volume threshold at which neighbours starts to be considered. Value is given as a percentage of the total area/volume. Default is 0.01 (1%).                 Exclude Ghosts       exclude_ghosts=       list of int       (Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation. Default is None.           Output(s)                 Name        Type       Description                       Representation       class Tessellation       Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.           Examples  Tessellate 1 system with a 2D bilayer geometry  The following example will tessellate one instance of the System class, system_A, based on the given geometry bilayer and store the result in the instance of the Tessellation class named voronoi  import mllpa  voronoi = mllpa.doVoro([system_A], geometry=&#39;bilayer&#39;)   Tessellate 2 systems with a 3D vesicle geometry and a different threshold  The following example will tessellate two instances of the System class, system_A and system_B, based on the given geometry vesicle_3d and store the result in the instance of the Tessellation class named voronoi. Spurious neighbors will be removed with a threshold of 5% (0.05)  voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle_3d&#39;, threshold=0.05)   Tessellate 2 systems with a 2D vesicle geometry and exclude one system from the ghost generation  The following example will tessellate two instances of the System class, system_A and system_B, based on the given geometry vesicle and store the result in the instance of the Tessellation class named voronoi. The first system of the list (0), system_A, will be excluded from the lipid ghost generation.  voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle&#39;, exclude_ghosts=[0])   Related tutorials  The following tutorial(s) detail further the use of the doVoro() function:          Voronoi tessellations           Analysis without phases">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="doVoro()">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/api/common/dovoro/">
+
+
+  <meta property="og:description" content="Description  doVoro() is a function used to tessellate the system. The tessellations collect the volumes (areas if 2-dimensions), vertices and neighbor lists of each molecule. The result of the tessellation and all the relevant informations are stored in an instance of the Tessellation class. More informations on the System class can be found in the related API reference.  It is essential to select the correct geometry for the system to compute the relevant tessellation. Extensive explanations are given in the related tutorial.  It is possible to load directly a position array into MLLPA and generates an instance of the Tessellation class without using simulations files. Please refer to the function tessellationFromPositions().  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Systems               list of classes System       Instances of the System classes containing the molecules to save in a file.                 Geometry       geometry=        str       (Opt.) Geometry of the system to perform the tessellations on. Complete list is given in the related tutorial. By default, the geometry is set to a (2D) bilayer.                 Threshold       threshold=       float       (Opt.) Relative area/volume threshold at which neighbours starts to be considered. Value is given as a percentage of the total area/volume. Default is 0.01 (1%).                 Exclude Ghosts       exclude_ghosts=       list of int       (Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation. Default is None.           Output(s)                 Name        Type       Description                       Representation       class Tessellation       Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.           Examples  Tessellate 1 system with a 2D bilayer geometry  The following example will tessellate one instance of the System class, system_A, based on the given geometry bilayer and store the result in the instance of the Tessellation class named voronoi  import mllpa  voronoi = mllpa.doVoro([system_A], geometry=&#39;bilayer&#39;)   Tessellate 2 systems with a 3D vesicle geometry and a different threshold  The following example will tessellate two instances of the System class, system_A and system_B, based on the given geometry vesicle_3d and store the result in the instance of the Tessellation class named voronoi. Spurious neighbors will be removed with a threshold of 5% (0.05)  voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle_3d&#39;, threshold=0.05)   Tessellate 2 systems with a 2D vesicle geometry and exclude one system from the ghost generation  The following example will tessellate two instances of the System class, system_A and system_B, based on the given geometry vesicle and store the result in the instance of the Tessellation class named voronoi. The first system of the list (0), system_A, will be excluded from the lipid ghost generation.  voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle&#39;, exclude_ghosts=[0])   Related tutorials  The following tutorial(s) detail further the use of the doVoro() function:          Voronoi tessellations           Analysis without phases">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="doVoro()">
+  <meta name="twitter:description" content="Description  doVoro() is a function used to tessellate the system. The tessellations collect the volumes (areas if 2-dimensions), vertices and neighbor lists of each molecule. The result of the tessellation and all the relevant informations are stored in an instance of the Tessellation class. More informations on the System class can be found in the related API reference.  It is essential to select the correct geometry for the system to compute the relevant tessellation. Extensive explanations are given in the related tutorial.  It is possible to load directly a position array into MLLPA and generates an instance of the Tessellation class without using simulations files. Please refer to the function tessellationFromPositions().  Argument, keywords and outputs  Input(s) / Argument(s)                 Name       Flag        Type       Description                       Systems               list of classes System       Instances of the System classes containing the molecules to save in a file.                 Geometry       geometry=        str       (Opt.) Geometry of the system to perform the tessellations on. Complete list is given in the related tutorial. By default, the geometry is set to a (2D) bilayer.                 Threshold       threshold=       float       (Opt.) Relative area/volume threshold at which neighbours starts to be considered. Value is given as a percentage of the total area/volume. Default is 0.01 (1%).                 Exclude Ghosts       exclude_ghosts=       list of int       (Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation. Default is None.           Output(s)                 Name        Type       Description                       Representation       class Tessellation       Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.           Examples  Tessellate 1 system with a 2D bilayer geometry  The following example will tessellate one instance of the System class, system_A, based on the given geometry bilayer and store the result in the instance of the Tessellation class named voronoi  import mllpa  voronoi = mllpa.doVoro([system_A], geometry=&#39;bilayer&#39;)   Tessellate 2 systems with a 3D vesicle geometry and a different threshold  The following example will tessellate two instances of the System class, system_A and system_B, based on the given geometry vesicle_3d and store the result in the instance of the Tessellation class named voronoi. Spurious neighbors will be removed with a threshold of 5% (0.05)  voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle_3d&#39;, threshold=0.05)   Tessellate 2 systems with a 2D vesicle geometry and exclude one system from the ghost generation  The following example will tessellate two instances of the System class, system_A and system_B, based on the given geometry vesicle and store the result in the instance of the Tessellation class named voronoi. The first system of the list (0), system_A, will be excluded from the lipid ghost generation.  voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle&#39;, exclude_ghosts=[0])   Related tutorials  The following tutorial(s) detail further the use of the doVoro() function:          Voronoi tessellations           Analysis without phases">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/api/common/dovoro/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-20T12:26:40+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/api/common/dovoro/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Common functions</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/common/dovoro/" class="active">doVoro()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/generatemodel/">generateModel()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/getstates/">getStates()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/readneighbors/">readNeighbors()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/savesystems/">saveSystems()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/savevoro/">saveVoro()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/common/setstates/">setStates()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Advanced functions</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/advanced/extractpositions/">extractPositions()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getcoordinates/">getCoordinates()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getdistances/">getDistances()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/getmolinfos/">getMolInfos()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/gettypes/">getTypes()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/predictstates/">predictStates()</a></li>
+          
+            <li><a href="/mllpa/documentation/api/advanced/systemfrompositions/">systemFromPositions()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Classes</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/api/classes/system/">System</a></li>
+          
+            <li><a href="/mllpa/documentation/api/classes/tessellation/">Tessellation</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="doVoro()">
+    <meta itemprop="description" content="DescriptiondoVoro() is a function used to tessellate the system. The tessellations collect the volumes(areas if 2-dimensions), vertices and neighbor lists of each molecule. The result of the tessellationand all the relevant informations are stored in an instance of the Tessellation class.More informations on the System class can be found in the related API reference.It is essential to select the correct geometry for the system to compute the relevant tessellation.Extensive explanations are given in the related tutorial.It is possible to load directly a position array into MLLPA and generates an instance of theTessellation class without using simulations files. Please refer to the functiontessellationFromPositions().Argument, keywords and outputsInput(s) / Argument(s)            Name      Flag       Type      Description                  Systems             list of classes System      Instances of the System classes containing the molecules to save in a file.              Geometry      geometry=       str      (Opt.) Geometry of the system to perform the tessellations on. Complete list is given in the related tutorial. By default, the geometry is set to a (2D) bilayer.              Threshold      threshold=      float      (Opt.) Relative area/volume threshold at which neighbours starts to be considered. Value is given as a percentage of the total area/volume. Default is 0.01 (1%).              Exclude Ghosts      exclude_ghosts=      list of int      (Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation. Default is None.      Output(s)            Name       Type      Description                  Representation      class Tessellation      Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.      ExamplesTessellate 1 system with a 2D bilayer geometryThe following example will tessellate one instance of the System class, system_A,based on the given geometry bilayer and store the result in the instance of the Tessellation classnamed voronoiimport mllpavoronoi = mllpa.doVoro([system_A], geometry=&#39;bilayer&#39;)Tessellate 2 systems with a 3D vesicle geometry and a different thresholdThe following example will tessellate two instances of the System class, system_A and system_B,based on the given geometry vesicle_3d and store the result in the instance of the Tessellation classnamed voronoi. Spurious neighbors will be removed with a threshold of 5% (0.05)voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle_3d&#39;, threshold=0.05)Tessellate 2 systems with a 2D vesicle geometry and exclude one system from the ghost generationThe following example will tessellate two instances of the System class, system_A and system_B,based on the given geometry vesicle and store the result in the instance of the Tessellation classnamed voronoi. The first system of the list (0), system_A, will be excluded from the lipid ghostgeneration.voronoi = mllpa.doVoro([system_A, system_B], geometry=&#39;vesicle&#39;, exclude_ghosts=[0])Related tutorialsThe following tutorial(s) detail further the use of the doVoro() function:      Voronoi tessellations        Analysis without phases  ">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">doVoro()
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#description">Description</a></li>
+  <li><a href="#argument-keywords-and-outputs">Argument, keywords and outputs</a>
+    <ul>
+      <li><a href="#inputs--arguments">Input(s) / Argument(s)</a></li>
+      <li><a href="#outputs">Output(s)</a></li>
+    </ul>
+  </li>
+  <li><a href="#examples">Examples</a>
+    <ul>
+      <li><a href="#tessellate-1-system-with-a-2d-bilayer-geometry">Tessellate 1 system with a 2D bilayer geometry</a></li>
+      <li><a href="#tessellate-2-systems-with-a-3d-vesicle-geometry-and-a-different-threshold">Tessellate 2 systems with a 3D vesicle geometry and a different threshold</a></li>
+      <li><a href="#tessellate-2-systems-with-a-2d-vesicle-geometry-and-exclude-one-system-from-the-ghost-generation">Tessellate 2 systems with a 2D vesicle geometry and exclude one system from the ghost generation</a></li>
+    </ul>
+  </li>
+  <li><a href="#related-tutorials">Related tutorials</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="description">Description</h2>
+
+<p>doVoro() is a function used to tessellate the system. The tessellations collect the volumes
+(areas if 2-dimensions), vertices and neighbor lists of each molecule. The result of the tessellation
+and all the relevant informations are stored in an instance of the Tessellation class.
+More informations on the System class can be found in the <a href="">related API reference</a>.</p>
+
+<p>It is essential to select the correct geometry for the system to compute the relevant tessellation.
+Extensive explanations are given in the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/#defining-the-geometry">related tutorial</a>.</p>
+
+<p>It is possible to load directly a position array into MLLPA and generates an instance of the
+Tessellation class without using simulations files. Please refer to the function
+<a href="">tessellationFromPositions()</a>.</p>
+
+<h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
+
+<h3 id="inputs--arguments">Input(s) / Argument(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flag</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Systems</td>
+      <td> </td>
+      <td>list of classes System</td>
+      <td>Instances of the System classes containing the molecules to save in a file.</td>
+    </tr>
+    <tr>
+      <td>Geometry</td>
+      <td>geometry=</td>
+      <td> str</td>
+      <td>(Opt.) Geometry of the system to perform the tessellations on. Complete list is given in the <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/#the-membrane-geometry">related tutorial</a>. By default, the geometry is set to a (2D) bilayer.</td>
+    </tr>
+    <tr>
+      <td>Threshold</td>
+      <td>threshold=</td>
+      <td>float</td>
+      <td>(Opt.) Relative area/volume threshold at which neighbours starts to be considered. Value is given as a percentage of the total area/volume. Default is 0.01 (1%).</td>
+    </tr>
+    <tr>
+      <td>Exclude Ghosts</td>
+      <td>exclude_ghosts=</td>
+      <td>list of int</td>
+      <td>(Opt.) List of systems indices, provided with the same order than in the argument systems, that should be excluded from ghost generation. Default is None.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="outputs">Output(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th> Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Representation</td>
+      <td>class Tessellation</td>
+      <td>Instance of the class Tessellation including the representation on the system and its Voronoi tessellation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="tessellate-1-system-with-a-2d-bilayer-geometry">Tessellate 1 system with a 2D bilayer geometry</h3>
+
+<p>The following example will tessellate one instance of the System class, <em>system_A</em>,
+based on the given geometry <em>bilayer</em> and store the result in the instance of the Tessellation class
+named <em>voronoi</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">voronoi</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">([</span><span class="n">system_A</span><span class="p">],</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'bilayer'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="tessellate-2-systems-with-a-3d-vesicle-geometry-and-a-different-threshold">Tessellate 2 systems with a 3D vesicle geometry and a different threshold</h3>
+
+<p>The following example will tessellate two instances of the System class, <em>system_A</em> and <em>system_B</em>,
+based on the given geometry <em>vesicle_3d</em> and store the result in the instance of the Tessellation class
+named <em>voronoi</em>. Spurious neighbors will be removed with a threshold of 5% (<em>0.05</em>)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">voronoi</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">([</span><span class="n">system_A</span><span class="p">,</span> <span class="n">system_B</span><span class="p">],</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'vesicle_3d'</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="tessellate-2-systems-with-a-2d-vesicle-geometry-and-exclude-one-system-from-the-ghost-generation">Tessellate 2 systems with a 2D vesicle geometry and exclude one system from the ghost generation</h3>
+
+<p>The following example will tessellate two instances of the System class, <em>system_A</em> and <em>system_B</em>,
+based on the given geometry <em>vesicle</em> and store the result in the instance of the Tessellation class
+named <em>voronoi</em>. The first system of the list (<em>0</em>), <em>system_A</em>, will be excluded from the lipid ghost
+generation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">voronoi</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">doVoro</span><span class="p">([</span><span class="n">system_A</span><span class="p">,</span> <span class="n">system_B</span><span class="p">],</span> <span class="n">geometry</span><span class="o">=</span><span class="s">'vesicle'</span><span class="p">,</span> <span class="n">exclude_ghosts</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="related-tutorials">Related tutorials</h2>
+
+<p>The following tutorial(s) detail further the use of the <em>doVoro()</em> function:</p>
+
+<ul>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">Voronoi tessellations</a></p>
+  </li>
+  <li>
+    <p><a href="/mllpa/documentation/tutorials/tessellations/3-no-phases/">Analysis without phases</a></p>
+  </li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#training" class="page__taxonomy-item" rel="tag">training</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#api" class="page__taxonomy-item" rel="tag">api</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/api/classes/tessellation/" class="pagination--pager" title="Tessellation
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/api/common/generatemodel/" class="pagination--pager" title="generateModel()
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

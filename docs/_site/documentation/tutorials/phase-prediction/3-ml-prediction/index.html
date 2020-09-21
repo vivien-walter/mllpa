@@ -1,0 +1,636 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Lipid phase prediction - ML-LPA</title>
+<meta name="description" content="Once the models have been generated through ML-LPA, they can be used, either from the .lpm file or from the variable, to predict the phase of a simulation with an unknown composition. This tutorial shows how to proceed.  Predict phases  From an *.lpm file  To predict the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class. Then, we can use the class method .getStates() to run the prediction. This method only takes as an argument the path to the .lpm file.  import mllpa  # Load the unknown system unknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DPPC&#39;)  # Predict the phases unknown_system.getStates(&quot;new_model.lpm&quot;)   In this example, we call a model file named new_model.lpm which have been generated in a previous step.  Since the models should be specific to the type of simulation run (e.g. temperature range, lipid mixture,   simulation parameters), we do not provide model files on this website and we recommend you to generate your own   model files.  ML-LPA will then process all the lipids in the system and assign each of them a phase based on their configurations. The results can be accessed through the .states attribute of the instance of the System class:  lipid_phases = unknown_system.states   This will output a NumPy string array with the dimension (# frames, # molecules).  From a variable  It is possible to use directly a model variable generated using the function generateModel(). To do so, just replace the argument in the .getStates() method by the variable itself.  unknown_system.getStates(models)   In this example, we call a model variable named models which have been generated in a previous step.  Machine Learning algorithms  In order to predict the lipid phases with the highest accuracy, ML-LPA relies on a 2-steps prediction system:          In the first step, the 2 types of data collected from the simulation files, atom coordinates and intra-molecular distances, are fed into 3 different ML algorithms defined in scikit-learn. The result is a total of 4 models looking at the data and making their independent predictions.           In the second step, the independent predictions collected in the first step are analysed by a classification tree algorithm, also defined in scikit-learn, that compares the predictions to output the most accurate prediction possible.      First predictions  The four models used to analyse the input data are:          Support Vector Machine, trained on coordinates.           Support Vector Machine again, trained this time on distances.           K-Nearest Neighbors, trained on coordinates.           Gaussian Naive Bayes, trained on distances.      The scores of each of the model, total and per phase, are all stored in the .lpm model files.  Second and final prediction  The predictions of the 4 models above are classified using the Classification and Regression Trees algorithm. The scores of this model, total and per phase, is also stored in the .lpm model files. However, the CART model defined by scikit-learn can also output the classification tree determined through the training. This can be done using the typical following command.  In this example, we will need to import the Matplotlib library to plot the data.  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 import mllpa import matplotlib.pyplot as plt from sklearn import tree  # Load the simulations files to be trained on gel_system = mllpa.openSystem(&#39;gel.gro&#39;, &#39;gel.tpr&#39;, &#39;DPPC&#39;) fluid_system = mllpa.openSystem(&#39;fluid.gro&#39;, &#39;fluid.tpr&#39;, &#39;DPPC&#39;)  # Train the model on the systems - do not save the model files models = mllpa.generateModel([gel_system, fluid_system], states=[&#39;gel&#39;, &#39;fluid&#39;], save_model=False)  # Extract the CART model from the dictionary cart_model = models[&#39;ClassificationTree&#39;]  # Display the classification tree tree.plot_tree(cart_model) plt.show()   The classification tree should be directly displayed when the script is run.  What is next?          Now you know how the phases of your unknown systems can been predicted, you can start to analyse the local environment of the lipids.           You can also store the results in a file.      Check the API  The following elements have been used in this tutorial:     System class">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="Lipid phase prediction">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">
+
+
+  <meta property="og:description" content="Once the models have been generated through ML-LPA, they can be used, either from the .lpm file or from the variable, to predict the phase of a simulation with an unknown composition. This tutorial shows how to proceed.  Predict phases  From an *.lpm file  To predict the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class. Then, we can use the class method .getStates() to run the prediction. This method only takes as an argument the path to the .lpm file.  import mllpa  # Load the unknown system unknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DPPC&#39;)  # Predict the phases unknown_system.getStates(&quot;new_model.lpm&quot;)   In this example, we call a model file named new_model.lpm which have been generated in a previous step.  Since the models should be specific to the type of simulation run (e.g. temperature range, lipid mixture,   simulation parameters), we do not provide model files on this website and we recommend you to generate your own   model files.  ML-LPA will then process all the lipids in the system and assign each of them a phase based on their configurations. The results can be accessed through the .states attribute of the instance of the System class:  lipid_phases = unknown_system.states   This will output a NumPy string array with the dimension (# frames, # molecules).  From a variable  It is possible to use directly a model variable generated using the function generateModel(). To do so, just replace the argument in the .getStates() method by the variable itself.  unknown_system.getStates(models)   In this example, we call a model variable named models which have been generated in a previous step.  Machine Learning algorithms  In order to predict the lipid phases with the highest accuracy, ML-LPA relies on a 2-steps prediction system:          In the first step, the 2 types of data collected from the simulation files, atom coordinates and intra-molecular distances, are fed into 3 different ML algorithms defined in scikit-learn. The result is a total of 4 models looking at the data and making their independent predictions.           In the second step, the independent predictions collected in the first step are analysed by a classification tree algorithm, also defined in scikit-learn, that compares the predictions to output the most accurate prediction possible.      First predictions  The four models used to analyse the input data are:          Support Vector Machine, trained on coordinates.           Support Vector Machine again, trained this time on distances.           K-Nearest Neighbors, trained on coordinates.           Gaussian Naive Bayes, trained on distances.      The scores of each of the model, total and per phase, are all stored in the .lpm model files.  Second and final prediction  The predictions of the 4 models above are classified using the Classification and Regression Trees algorithm. The scores of this model, total and per phase, is also stored in the .lpm model files. However, the CART model defined by scikit-learn can also output the classification tree determined through the training. This can be done using the typical following command.  In this example, we will need to import the Matplotlib library to plot the data.  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 import mllpa import matplotlib.pyplot as plt from sklearn import tree  # Load the simulations files to be trained on gel_system = mllpa.openSystem(&#39;gel.gro&#39;, &#39;gel.tpr&#39;, &#39;DPPC&#39;) fluid_system = mllpa.openSystem(&#39;fluid.gro&#39;, &#39;fluid.tpr&#39;, &#39;DPPC&#39;)  # Train the model on the systems - do not save the model files models = mllpa.generateModel([gel_system, fluid_system], states=[&#39;gel&#39;, &#39;fluid&#39;], save_model=False)  # Extract the CART model from the dictionary cart_model = models[&#39;ClassificationTree&#39;]  # Display the classification tree tree.plot_tree(cart_model) plt.show()   The classification tree should be directly displayed when the script is run.  What is next?          Now you know how the phases of your unknown systems can been predicted, you can start to analyse the local environment of the lipids.           You can also store the results in a file.      Check the API  The following elements have been used in this tutorial:     System class">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="Lipid phase prediction">
+  <meta name="twitter:description" content="Once the models have been generated through ML-LPA, they can be used, either from the .lpm file or from the variable, to predict the phase of a simulation with an unknown composition. This tutorial shows how to proceed.  Predict phases  From an *.lpm file  To predict the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class. Then, we can use the class method .getStates() to run the prediction. This method only takes as an argument the path to the .lpm file.  import mllpa  # Load the unknown system unknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DPPC&#39;)  # Predict the phases unknown_system.getStates(&quot;new_model.lpm&quot;)   In this example, we call a model file named new_model.lpm which have been generated in a previous step.  Since the models should be specific to the type of simulation run (e.g. temperature range, lipid mixture,   simulation parameters), we do not provide model files on this website and we recommend you to generate your own   model files.  ML-LPA will then process all the lipids in the system and assign each of them a phase based on their configurations. The results can be accessed through the .states attribute of the instance of the System class:  lipid_phases = unknown_system.states   This will output a NumPy string array with the dimension (# frames, # molecules).  From a variable  It is possible to use directly a model variable generated using the function generateModel(). To do so, just replace the argument in the .getStates() method by the variable itself.  unknown_system.getStates(models)   In this example, we call a model variable named models which have been generated in a previous step.  Machine Learning algorithms  In order to predict the lipid phases with the highest accuracy, ML-LPA relies on a 2-steps prediction system:          In the first step, the 2 types of data collected from the simulation files, atom coordinates and intra-molecular distances, are fed into 3 different ML algorithms defined in scikit-learn. The result is a total of 4 models looking at the data and making their independent predictions.           In the second step, the independent predictions collected in the first step are analysed by a classification tree algorithm, also defined in scikit-learn, that compares the predictions to output the most accurate prediction possible.      First predictions  The four models used to analyse the input data are:          Support Vector Machine, trained on coordinates.           Support Vector Machine again, trained this time on distances.           K-Nearest Neighbors, trained on coordinates.           Gaussian Naive Bayes, trained on distances.      The scores of each of the model, total and per phase, are all stored in the .lpm model files.  Second and final prediction  The predictions of the 4 models above are classified using the Classification and Regression Trees algorithm. The scores of this model, total and per phase, is also stored in the .lpm model files. However, the CART model defined by scikit-learn can also output the classification tree determined through the training. This can be done using the typical following command.  In this example, we will need to import the Matplotlib library to plot the data.  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 import mllpa import matplotlib.pyplot as plt from sklearn import tree  # Load the simulations files to be trained on gel_system = mllpa.openSystem(&#39;gel.gro&#39;, &#39;gel.tpr&#39;, &#39;DPPC&#39;) fluid_system = mllpa.openSystem(&#39;fluid.gro&#39;, &#39;fluid.tpr&#39;, &#39;DPPC&#39;)  # Train the model on the systems - do not save the model files models = mllpa.generateModel([gel_system, fluid_system], states=[&#39;gel&#39;, &#39;fluid&#39;], save_model=False)  # Extract the CART model from the dictionary cart_model = models[&#39;ClassificationTree&#39;]  # Display the classification tree tree.plot_tree(cart_model) plt.show()   The classification tree should be directly displayed when the script is run.  What is next?          Now you know how the phases of your unknown systems can been predicted, you can start to analyse the local environment of the lipids.           You can also store the results in a file.      Check the API  The following elements have been used in this tutorial:     System class">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-20T12:26:40+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <a href="/mllpa/documentation/tutorials/quick-and-dirty/"><span class="nav__sub-title">Quick & Dirty tutorial</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Loading simulation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">The System class</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/1-description/">Attributes of the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/2-methods/">Methods of the System class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Predicting phases</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">Machine Learning algorithms training</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/">Optimisation of the neighbour rank</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/" class="active">Lipid phase prediction</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">Setting phases manually</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Local environment analysis</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">Voronoi tessellations</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/2-local-environment/">Map the environment</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/3-no-phases/">Analysis without phases</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Save the outputs</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/1-model-file/">The .lpm model file</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/2-save-system/">Save the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">Save the Tessellation class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Lipid phase prediction">
+    <meta itemprop="description" content="Once the models have been generated through ML-LPA, they can be used, either from the .lpm fileor from the variable, to predict the phase of a simulation with an unknown composition. This tutorialshows how to proceed.Predict phasesFrom an *.lpm fileTo predict the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.Then, we can use the class method .getStates() to run the prediction. This method only takes as an argument thepath to the .lpm file.import mllpa# Load the unknown systemunknown_system = mllpa.openSystem(&#39;unknown.gro&#39;, &#39;unknown.tpr&#39;, &#39;DPPC&#39;)# Predict the phasesunknown_system.getStates(&quot;new_model.lpm&quot;)In this example, we call a model file named new_model.lpm which have been generatedin a previous step.Since the models should be specific to the type of simulation run (e.g. temperature range, lipid mixture,  simulation parameters), we do not provide model files on this website and we recommend you to generate your own  model files.ML-LPA will then process all the lipids in the system and assign each of them a phasebased on their configurations. The results can be accessed through the .states attribute ofthe instance of the System class:lipid_phases = unknown_system.statesThis will output a NumPy string array with the dimension (# frames, # molecules).From a variableIt is possible to use directly a model variable generated using the function generateModel().To do so, just replace the argument in the .getStates() method by the variable itself.unknown_system.getStates(models)In this example, we call a model variable named models which have been generatedin a previous step.Machine Learning algorithmsIn order to predict the lipid phases with the highest accuracy, ML-LPA relies on a2-steps prediction system:      In the first step, the 2 types of data collected from the simulation files, atom coordinatesand intra-molecular distances, are fed into 3 different ML algorithms defined in scikit-learn.The result is a total of 4 models looking at the data and making their independent predictions.        In the second step, the independent predictions collected in the first step are analysedby a classification tree algorithm, also defined in scikit-learn, that compares the predictionsto output the most accurate prediction possible.  First predictionsThe four models used to analyse the input data are:      Support Vector Machine, trained on coordinates.        Support Vector Machine again, trained this time on distances.        K-Nearest Neighbors, trained on coordinates.        Gaussian Naive Bayes, trained on distances.  The scores of each of the model, total and per phase, are all stored in the .lpm model files.Second and final predictionThe predictions of the 4 models above are classified using the Classification and Regression Trees algorithm.The scores of this model, total and per phase, is also stored in the .lpm model files.However, the CART model defined by scikit-learn can also output the classification tree determined through the training. This can be done usingthe typical following command.In this example, we will need to import the Matplotlib library to plot the data.1234567891011121314151617import mllpaimport matplotlib.pyplot as pltfrom sklearn import tree# Load the simulations files to be trained ongel_system = mllpa.openSystem(&#39;gel.gro&#39;, &#39;gel.tpr&#39;, &#39;DPPC&#39;)fluid_system = mllpa.openSystem(&#39;fluid.gro&#39;, &#39;fluid.tpr&#39;, &#39;DPPC&#39;)# Train the model on the systems - do not save the model filesmodels = mllpa.generateModel([gel_system, fluid_system], states=[&#39;gel&#39;, &#39;fluid&#39;], save_model=False)# Extract the CART model from the dictionarycart_model = models[&#39;ClassificationTree&#39;]# Display the classification treetree.plot_tree(cart_model)plt.show()The classification tree should be directly displayed when the script is run.What is next?      Now you know how the phases of your unknown systems can been predicted, you canstart to analyse the local environment of the lipids.        You can also store the results in a file.  Check the APIThe following elements have been used in this tutorial:  System class">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Lipid phase prediction
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#predict-phases">Predict phases</a>
+    <ul>
+      <li><a href="#from-an-lpm-file">From an *.lpm file</a></li>
+      <li><a href="#from-a-variable">From a variable</a></li>
+    </ul>
+  </li>
+  <li><a href="#machine-learning-algorithms">Machine Learning algorithms</a>
+    <ul>
+      <li><a href="#first-predictions">First predictions</a></li>
+      <li><a href="#second-and-final-prediction">Second and final prediction</a></li>
+    </ul>
+  </li>
+  <li><a href="#what-is-next">What is next?</a></li>
+  <li><a href="#check-the-api">Check the API</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Once the models have been generated through ML-LPA, they can be used, either from the <strong>.lpm file</strong>
+or from the <strong>variable</strong>, to predict the phase of a simulation with an unknown composition. This tutorial
+shows how to proceed.</p>
+
+<h2 id="predict-phases">Predict phases</h2>
+
+<h3 id="from-an-lpm-file">From an *.lpm file</h3>
+
+<p>To predict the lipid phases in a simulation, we need to first load the simulation files in an instance of the System class.
+Then, we can use the class method <em>.getStates()</em> to run the prediction. This method only takes as an argument the
+<strong>path to the .lpm file</strong>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="c1"># Load the unknown system
+</span><span class="n">unknown_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'unknown.gro'</span><span class="p">,</span> <span class="s">'unknown.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+
+<span class="c1"># Predict the phases
+</span><span class="n">unknown_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="s">"new_model.lpm"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="notice--info">In this example, we call a model file named <em>new_model.lpm</em> which have been generated
+in a <a href="/mllpa/documentation/tutorials/phase-prediction/1-training/#generate-the-model-files">previous step</a>.</p>
+
+<p class="notice--warning">Since the models should be specific to the type of simulation run (<em>e.g.</em> temperature range, lipid mixture,
+  simulation parameters), <strong>we do not provide model files</strong> on this website and we recommend you to generate your own
+  model files.</p>
+
+<p>ML-LPA will then process all the lipids in the system <strong>and assign each of them a phase</strong>
+based on their configurations. The results can be accessed through the <em>.states</em> attribute of
+the instance of the System class:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lipid_phases</span> <span class="o">=</span> <span class="n">unknown_system</span><span class="p">.</span><span class="n">states</span>
+</code></pre></div></div>
+
+<p>This will output a NumPy string array with the dimension <code class="language-plaintext highlighter-rouge">(# frames, # molecules)</code>.</p>
+
+<h3 id="from-a-variable">From a variable</h3>
+
+<p>It is possible to use directly a <strong>model variable</strong> generated using the function <em>generateModel()</em>.
+To do so, just replace the argument in the <em>.getStates()</em> method by the variable itself.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unknown_system</span><span class="p">.</span><span class="n">getStates</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="notice--info">In this example, we call a model variable named <em>models</em> which have been generated
+in a <a href="/mllpa/documentation/tutorials/phase-prediction/1-training/#extract-directly-the-models-in-variables">previous step</a>.</p>
+
+<h2 id="machine-learning-algorithms">Machine Learning algorithms</h2>
+
+<p>In order to predict the lipid phases with the highest accuracy, ML-LPA relies on a
+2-steps prediction system:</p>
+
+<ul>
+  <li>
+    <p>In the first step, the 2 types of data collected from the simulation files, <em>atom coordinates</em>
+and <em>intra-molecular distances</em>, are fed into 3 different ML algorithms defined in <strong>scikit-learn</strong>.
+The result is a total of 4 models looking at the data and making their independent predictions.</p>
+  </li>
+  <li>
+    <p>In the second step, the <em>independent predictions</em> collected in the first step are analysed
+by a <strong>classification tree algorithm</strong>, also defined in scikit-learn, that compares the predictions
+to output the most accurate prediction possible.</p>
+  </li>
+</ul>
+
+<h3 id="first-predictions">First predictions</h3>
+
+<p>The four models used to analyse the input data are:</p>
+
+<ul>
+  <li>
+    <p><a href="https://scikit-learn.org/stable/modules/svm.html#support-vector-machines">Support Vector Machine</a>, trained on coordinates.</p>
+  </li>
+  <li>
+    <p>Support Vector Machine again, trained this time on distances.</p>
+  </li>
+  <li>
+    <p><a href="https://scikit-learn.org/stable/modules/neighbors.html#nearest-neighbors-classification">K-Nearest Neighbors</a>, trained on coordinates.</p>
+  </li>
+  <li>
+    <p><a href="https://scikit-learn.org/stable/modules/naive_bayes.html#gaussian-naive-bayes">Gaussian Naive Bayes</a>, trained on distances.</p>
+  </li>
+</ul>
+
+<p>The scores of each of the model, total and per phase, are all stored in the .lpm model files.</p>
+
+<h3 id="second-and-final-prediction">Second and final prediction</h3>
+
+<p>The predictions of the 4 models above are classified using the <a href="https://scikit-learn.org/stable/modules/tree.html#classification">Classification and Regression Trees</a> algorithm.
+The scores of this model, total and per phase, is also stored in the .lpm model files.
+However, the CART model defined by scikit-learn can also <strong>output the classification tree determined through the training</strong>. This can be done using
+the typical following command.</p>
+
+<p>In this example, we will need to import the Matplotlib library to plot the data.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="kn">import</span> <span class="nn">mllpa</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+
+<span class="c1"># Load the simulations files to be trained on
+</span><span class="n">gel_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'gel.gro'</span><span class="p">,</span> <span class="s">'gel.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+<span class="n">fluid_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'fluid.gro'</span><span class="p">,</span> <span class="s">'fluid.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+
+<span class="c1"># Train the model on the systems - do not save the model files
+</span><span class="n">models</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">generateModel</span><span class="p">([</span><span class="n">gel_system</span><span class="p">,</span> <span class="n">fluid_system</span><span class="p">],</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="s">'gel'</span><span class="p">,</span> <span class="s">'fluid'</span><span class="p">],</span> <span class="n">save_model</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Extract the CART model from the dictionary
+</span><span class="n">cart_model</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="s">'ClassificationTree'</span><span class="p">]</span>
+
+<span class="c1"># Display the classification tree
+</span><span class="n">tree</span><span class="p">.</span><span class="n">plot_tree</span><span class="p">(</span><span class="n">cart_model</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>The classification tree should be directly displayed when the script is run.</p>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>
+    <p>Now you know how the phases of your unknown systems can been predicted, you can
+start to analyse the <a href="">local environment of the lipids</a>.</p>
+  </li>
+  <li>
+    <p>You can also <a href="">store the results</a> in a file.</p>
+  </li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>System class</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#machine-learning" class="page__taxonomy-item" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/mllpa/tags/#prediction" class="page__taxonomy-item" rel="tag">prediction</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/mllpa/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/" class="pagination--pager" title="Optimisation of the neighbour rank
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/" class="pagination--pager" title="Setting phases manually
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,534 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Methods of the System class - ML-LPA</title>
+<meta name="description" content="Similarly, to the attributes, the methods of an instance of the System class does not bear too much interest in a standard quick and dirty use of ML-LPA. We describe in this tutorial some of the most useful methods of the class.  If you are only interested in getting ML-LPA to work quickly, we recommend to directly move to the tutorials on phase prediction.  Re-generate the coordinates and distances  The coordinates and distances contained in the instance of the class were computed when the instance was first created. As a result, an update of the positions held in the instance will not be automatically reflected on the coordinates and distances. To compute the arrays again, two methods can be called.  Atom coordinates  To re-generate the coordinates of the atom in the cylindrical system of coordinates, the method .getCoordinates() can be used.  import mllpa  # We first load a system for our exemple loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)  # We replace the positions array in the instance of the class with one generated previously loaded_system.positions = new_position_array  # We finally regenerate the coordinates to the new positions loaded_system.getCoordinates()   In this example, we use the openSystem() function to load the information from the simulation files. Check the related tutorial for more details.  Please be aware that we have not defined the array new_position_array in the example above. The dimensions of the new array should be exactly the same as the ones of the previous one.  Intra-molecular atomic distances  To re-generate the intra-molecular distances from the new position array, the method .getDistances() can be used.  loaded_system.getDistances(rank=6)   This method can also be used to simply update the neighbour rank used in the computation without reloading the whole instance from the simulation files. A detailed example is shown in the dedicated tutorial.  The value of the neihbor rank should be optimised by the user, based on the systems being used to train the Machine Learning algorithms. The rank equals to 6 here is an example.  What is next?     Now that you know how what exactly is the System class, you can either use it to prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the system.   Check the API  The following elements have been used in this tutorial:     System class">
+
+
+  <meta name="author" content="Vivien WALTER, PhD">
+  
+  <meta property="article:author" content="Vivien WALTER, PhD">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="ML-LPA">
+<meta property="og:title" content="Methods of the System class">
+<meta property="og:url" content="http://localhost:4000/mllpa/documentation/tutorials/system-class/2-methods/">
+
+
+  <meta property="og:description" content="Similarly, to the attributes, the methods of an instance of the System class does not bear too much interest in a standard quick and dirty use of ML-LPA. We describe in this tutorial some of the most useful methods of the class.  If you are only interested in getting ML-LPA to work quickly, we recommend to directly move to the tutorials on phase prediction.  Re-generate the coordinates and distances  The coordinates and distances contained in the instance of the class were computed when the instance was first created. As a result, an update of the positions held in the instance will not be automatically reflected on the coordinates and distances. To compute the arrays again, two methods can be called.  Atom coordinates  To re-generate the coordinates of the atom in the cylindrical system of coordinates, the method .getCoordinates() can be used.  import mllpa  # We first load a system for our exemple loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)  # We replace the positions array in the instance of the class with one generated previously loaded_system.positions = new_position_array  # We finally regenerate the coordinates to the new positions loaded_system.getCoordinates()   In this example, we use the openSystem() function to load the information from the simulation files. Check the related tutorial for more details.  Please be aware that we have not defined the array new_position_array in the example above. The dimensions of the new array should be exactly the same as the ones of the previous one.  Intra-molecular atomic distances  To re-generate the intra-molecular distances from the new position array, the method .getDistances() can be used.  loaded_system.getDistances(rank=6)   This method can also be used to simply update the neighbour rank used in the computation without reloading the whole instance from the simulation files. A detailed example is shown in the dedicated tutorial.  The value of the neihbor rank should be optimised by the user, based on the systems being used to train the Machine Learning algorithms. The rank equals to 6 here is an example.  What is next?     Now that you know how what exactly is the System class, you can either use it to prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the system.   Check the API  The following elements have been used in this tutorial:     System class">
+
+
+
+
+
+  <meta name="twitter:site" content="@vwalter_rnk">
+  <meta name="twitter:title" content="Methods of the System class">
+  <meta name="twitter:description" content="Similarly, to the attributes, the methods of an instance of the System class does not bear too much interest in a standard quick and dirty use of ML-LPA. We describe in this tutorial some of the most useful methods of the class.  If you are only interested in getting ML-LPA to work quickly, we recommend to directly move to the tutorials on phase prediction.  Re-generate the coordinates and distances  The coordinates and distances contained in the instance of the class were computed when the instance was first created. As a result, an update of the positions held in the instance will not be automatically reflected on the coordinates and distances. To compute the arrays again, two methods can be called.  Atom coordinates  To re-generate the coordinates of the atom in the cylindrical system of coordinates, the method .getCoordinates() can be used.  import mllpa  # We first load a system for our exemple loaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)  # We replace the positions array in the instance of the class with one generated previously loaded_system.positions = new_position_array  # We finally regenerate the coordinates to the new positions loaded_system.getCoordinates()   In this example, we use the openSystem() function to load the information from the simulation files. Check the related tutorial for more details.  Please be aware that we have not defined the array new_position_array in the example above. The dimensions of the new array should be exactly the same as the ones of the previous one.  Intra-molecular atomic distances  To re-generate the intra-molecular distances from the new position array, the method .getDistances() can be used.  loaded_system.getDistances(rank=6)   This method can also be used to simply update the neighbour rank used in the computation without reloading the whole instance from the simulation files. A detailed example is shown in the dedicated tutorial.  The value of the neihbor rank should be optimised by the user, based on the systems being used to train the Machine Learning algorithms. The rank equals to 6 here is an example.  What is next?     Now that you know how what exactly is the System class, you can either use it to prepare and train a model for   machine learning analysis, or use an existing model to predict the phases in the system.   Check the API  The following elements have been used in this tutorial:     System class">
+  <meta name="twitter:url" content="http://localhost:4000/mllpa/documentation/tutorials/system-class/2-methods/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-09-20T12:26:40+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/mllpa/documentation/tutorials/system-class/2-methods/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "ML-LPA",
+      "url": "http://localhost:4000/mllpa/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/mllpa/feed.xml" type="application/atom+xml" rel="alternate" title="ML-LPA Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/mllpa/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/mllpa/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/mllpa/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/mllpa/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/mllpa/assets/images/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/mllpa/"><img src="/mllpa/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/mllpa/">
+          ML-LPA
+          <span class="site-subtitle">Machine-Learning assisted Lipid Phase Analysis</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/mllpa/install/">Installation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/documentation/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mllpa/about-mllpa/">About ML-LPA</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <a href="/mllpa/documentation/tutorials/quick-and-dirty/"><span class="nav__sub-title">Quick & Dirty tutorial</span></a>
+        
+
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Loading simulation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">Load from simulation files</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">The System class</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/1-description/">Attributes of the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/system-class/2-methods/" class="active">Methods of the System class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Predicting phases</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/1-training/">Machine Learning algorithms training</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/2-rank-optimisation/">Optimisation of the neighbour rank</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/3-ml-prediction/">Lipid phase prediction</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/phase-prediction/4-set-phases/">Setting phases manually</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Local environment analysis</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/">Voronoi tessellations</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/2-local-environment/">Map the environment</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/tessellations/3-no-phases/">Analysis without phases</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Save the outputs</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/1-model-file/">The .lpm model file</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/2-save-system/">Save the System class</a></li>
+          
+            <li><a href="/mllpa/documentation/tutorials/outputs/3-save-voronoi/">Save the Tessellation class</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Methods of the System class">
+    <meta itemprop="description" content="Similarly, to the attributes, the methods of an instance of the System class does not bear too much interestin a standard quick and dirty use of ML-LPA. We describe in this tutorial some of the most useful methods of the class.If you are only interested in getting ML-LPA to work quickly, we recommend to directlymove to the tutorials on phase prediction.Re-generate the coordinates and distancesThe coordinates and distances contained in the instance of the class were computed when theinstance was first created. As a result, an update of the positions held in the instance will not beautomatically reflected on the coordinates and distances. To compute the arrays again, two methodscan be called.Atom coordinatesTo re-generate the coordinates of the atom in the cylindrical system of coordinates, themethod .getCoordinates() can be used.import mllpa# We first load a system for our exempleloaded_system = mllpa.openSystem(&#39;test.gro&#39;, &#39;test.tpr&#39;, &#39;DPPC&#39;)# We replace the positions array in the instance of the class with one generated previouslyloaded_system.positions = new_position_array# We finally regenerate the coordinates to the new positionsloaded_system.getCoordinates()In this example, we use the openSystem() function to load the information fromthe simulation files. Check the related tutorial for more details.Please be aware that we have not defined the array new_position_array in the example above.The dimensions of the new array should be exactly the same as the ones of the previous one.Intra-molecular atomic distancesTo re-generate the intra-molecular distances from the new position array, themethod .getDistances() can be used.loaded_system.getDistances(rank=6)This method can also be used to simply update the neighbour rank used in the computation withoutreloading the whole instance from the simulation files. A detailed example is shown in the dedicated tutorial.The value of the neihbor rank should be optimised by the user, based on the systemsbeing used to train the Machine Learning algorithms. The rank equals to 6 here isan example.What is next?  Now that you know how what exactly is the System class, you can either use it to prepare and train a model for  machine learning analysis, or use an existing model to predict the phases in the system.Check the APIThe following elements have been used in this tutorial:  System class">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Methods of the System class
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#re-generate-the-coordinates-and-distances">Re-generate the coordinates and distances</a>
+    <ul>
+      <li><a href="#atom-coordinates">Atom coordinates</a></li>
+      <li><a href="#intra-molecular-atomic-distances">Intra-molecular atomic distances</a></li>
+    </ul>
+  </li>
+  <li><a href="#what-is-next">What is next?</a></li>
+  <li><a href="#check-the-api">Check the API</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>Similarly, to the attributes, the <strong>methods of an instance of the System class</strong> does not bear too much interest
+in a standard quick and dirty use of ML-LPA. We describe in this tutorial some of the most useful methods of the class.</p>
+
+<p class="notice--info">If you are only interested in getting ML-LPA to work quickly, we recommend to directly
+move to the tutorials on <a href="">phase prediction</a>.</p>
+
+<h2 id="re-generate-the-coordinates-and-distances">Re-generate the coordinates and distances</h2>
+
+<p>The <strong>coordinates</strong> and <strong>distances</strong> contained in the instance of the class were computed when the
+instance was first created. As a result, an update of the <strong>positions</strong> held in the instance will not be
+automatically reflected on the coordinates and distances. To compute the arrays again, two methods
+can be called.</p>
+
+<h3 id="atom-coordinates">Atom coordinates</h3>
+
+<p>To re-generate the coordinates of the atom in the <strong>cylindrical system of coordinates</strong>, the
+method <em>.getCoordinates()</em> can be used.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="c1"># We first load a system for our exemple
+</span><span class="n">loaded_system</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">openSystem</span><span class="p">(</span><span class="s">'test.gro'</span><span class="p">,</span> <span class="s">'test.tpr'</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">)</span>
+
+<span class="c1"># We replace the positions array in the instance of the class with one generated previously
+</span><span class="n">loaded_system</span><span class="p">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">new_position_array</span>
+
+<span class="c1"># We finally regenerate the coordinates to the new positions
+</span><span class="n">loaded_system</span><span class="p">.</span><span class="n">getCoordinates</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p class="notice--info">In this example, we use the <em>openSystem()</em> function to load the information from
+the simulation files. Check the <a href="/mllpa/documentation/tutorials/loading-files/1-simulation-files/">related tutorial</a> for more details.</p>
+
+<p class="notice--warning">Please be aware that we have not defined the array <em>new_position_array</em> in the example above.
+The dimensions of the new array should be exactly the same as the ones of the previous one.</p>
+
+<h3 id="intra-molecular-atomic-distances">Intra-molecular atomic distances</h3>
+
+<p>To re-generate the <strong>intra-molecular distances</strong> from the new position array, the
+method <em>.getDistances()</em> can be used.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loaded_system</span><span class="p">.</span><span class="n">getDistances</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This method can also be used to simply update the neighbour rank used in the computation without
+reloading the whole instance from the simulation files. A detailed example is shown in the <a href="">dedicated tutorial</a>.</p>
+
+<p class="notice--warning">The value of the neihbor rank should be optimised by the user, based on the systems
+being used to train the Machine Learning algorithms. The rank equals to 6 here is
+an example.</p>
+
+<h2 id="what-is-next">What is next?</h2>
+
+<ul>
+  <li>Now that you know how what exactly is the System class, you can either use it to <a href="">prepare and train a model</a> for
+  machine learning analysis, or use an existing model to predict the <a href="">phases in the system</a>.</li>
+</ul>
+
+<h2 id="check-the-api">Check the API</h2>
+
+<p>The following elements have been used in this tutorial:</p>
+
+<ul>
+  <li>System class</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/tags/#system" class="page__taxonomy-item" rel="tag">system</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/mllpa/categories/#tutorial" class="page__taxonomy-item" rel="tag">tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mllpa/documentation/tutorials/system-class/1-description/" class="pagination--pager" title="Attributes of the System class
+">Previous</a>
+    
+    
+      <a href="/mllpa/documentation/tutorials/tessellations/1-voronoi/" class="pagination--pager" title="Voronoi tessellations
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <!--Disable the FOLLOW icons in the footer
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/mllpa/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+
+  </ul>
+</div>
+-->
+
+<div class="page__footer-copyright">&copy; 2020 ML-LPA. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/mllpa/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

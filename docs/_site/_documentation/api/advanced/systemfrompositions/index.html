@@ -1,0 +1,113 @@
+<h2 id="description">Description</h2>
+
+<p>systemFromPositions() is a function similar to <a href="/mllpa/documentation/api/common/opensystem/">openSystem()</a> used to load the simulation
+files to be analysed. The function will use position arrays instead of simulation files.
+More informations on the System class can be found in the <a href="">related API reference</a>.</p>
+
+<p>Similarly to the <em>openSystem()</em> function, systemFromPositions() can only load one molecule type at a time.</p>
+
+<p>The position and simulation box arrays can be obtained using the function <a href="/mllpa/documentation/api/advanced/extractpositions/">extractPositions()</a>.
+The molecule type information dictionary can be obtained using the function <a href="/mllpa/documentation/api/advanced/getmolinfos/">getMolInfos</a>.</p>
+
+<h2 id="argument-keywords-and-outputs">Argument, keywords and outputs</h2>
+
+<h3 id="inputs--arguments">Input(s) / Argument(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Positions</td>
+      <td> </td>
+      <td>np.ndarray</td>
+      <td>Array of the positions of the atoms of the molecules. Dimension(s) should be in (N frames, N molecules,  N atoms per molecule, 3).</td>
+    </tr>
+    <tr>
+      <td>Type</td>
+      <td> </td>
+      <td> str</td>
+      <td> Molecule type to load from the simulation file.</td>
+    </tr>
+    <tr>
+      <td>Type infos</td>
+      <td> </td>
+      <td>dict</td>
+      <td>Dictionary containing all the informations on the molecule type. Can be extracted with getMolInfos()</td>
+    </tr>
+    <tr>
+      <td>Boxes</td>
+      <td> </td>
+      <td>np.ndarray</td>
+      <td>Array of the box dimensions. Dimension(s) are in (N frames, 3).</td>
+    </tr>
+    <tr>
+      <td> Up</td>
+      <td>up=</td>
+      <td>bool</td>
+      <td>(Opt.) Check that the molecules are always orientated pointing “up”. Default is True.</td>
+    </tr>
+    <tr>
+      <td>Rank</td>
+      <td>rank=</td>
+      <td>int</td>
+      <td> (Opt.) Number of atoms (-1) between two neighbours along the same line used for distance calculations. At rank 1, the neighbours of an atom are all atom sharing a direct bond with it. Default is 6.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="outputs">Output(s)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>System</td>
+      <td> class System</td>
+      <td>Instance of the system classes containing all the informations on the system as well as the positions and configurations.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="load-the-position-in-the-system-class">Load the position in the System class</h3>
+
+<p>The following example will load for the given molecule type <em>DPPC</em> a position array,
+<em>atom_positions</em>, a dictionary of type information, <em>mol_infos</em>, and the array of dimensions
+of the simulation boxes, <em>simulation_boxes</em>, into an instance of the System class named here <em>loaded_system</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mllpa</span>
+
+<span class="n">types_list</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">systemFromPositions</span><span class="p">(</span><span class="n">atom_positions</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">mol_infos</span><span class="p">,</span> <span class="n">simulation_boxes</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="select-the-neighbor-rank">Select the neighbor rank</h3>
+
+<p>The following example will load for the given molecule type <em>DPPC</em> a position array,
+<em>atom_positions</em>, a dictionary of type information, <em>mol_infos</em>, and the array of dimensions
+of the simulation boxes, <em>simulation_boxes</em>, into an instance of the System class named here <em>loaded_system</em>.
+Here, a neighbor rank of 4 instead of 6 for the generation of the intra-molecular distances will be used.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">types_list</span> <span class="o">=</span> <span class="n">mllpa</span><span class="p">.</span><span class="n">systemFromPositions</span><span class="p">(</span><span class="n">atom_positions</span><span class="p">,</span> <span class="s">'DPPC'</span><span class="p">,</span> <span class="n">mol_infos</span><span class="p">,</span> <span class="n">simulation_boxes</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="related-tutorials">Related tutorials</h2>
+
+<p>The following tutorial(s) detail further the use of the <em>getTypes()</em> function:</p>
+
+<ul>
+  <li><a href="/mllpa/documentation/tutorials/loading-files/2-positions/">Load from position array</a></li>
+</ul>
