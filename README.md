@@ -2,16 +2,19 @@
 
 Machine Learning-assisted Lipid Phase Analysis
 
+![Version](https://img.shields.io/badge/version-1.0-f39f37)
+
 ## General informations
 
 **Version:** 1.0
 
-**Date:** 09/2020
+**Date:** 21/09/2020
 
 **Author(s), Contact & Affiliation(s):**
 - Vivien WALTER (<walter.vivien@gmail.com>) *(1)*
 - Olivier BENZERARA *(2)*
 - Celine RUSCHER *(2)*
+- Fabrice THALMANN *(2)*
 
 *(1)* Department of Chemistry, King's College London (UK)
 
@@ -38,3 +41,27 @@ The module is based on other Python modules that have also been published, namel
 - **MDAnalysis**, to open and read the simulation files (Michaud-Agrawal et al. *MDAnalysis: A Toolkit for the Analysis of Molecular Dynamics Simulations.* J. Comput. Chem. 32 (2011), 2319-2327).
 - **Scikit-Learn**, to perform the Machine Learning training and predictions on the systems (Pedregosa et al., *Scikit-learn: Machine Learning in Python*, Journal of Machine Learning Research 12 (2011), 2825-2830).
 - Tess, which is based on the C++ library **voro++**, to perform the tessellation on the systems (Chris H. Rycroft. *Voro++: A three-dimensional voronoi cell library in c++*. Chaos (2008), 19(041111)).
+
+## Documentation
+
+### Installation
+
+#### **Using the GitHub repo**
+
+ML-LPA can be installed directly from the source files available on our GitHub repo. The detailed process to install from these files is described below:
+
+1. Get the files, by clicking on **Code > Download ZIP**.
+
+2. Unzip the folder, open it in the Terminal and navigate inside the *source/*.
+
+3. Run the installation
+
+    ```sh
+    > python3 setup.py install
+    ```
+
+Detailed instructions can be found on the [website of the project](https://vivien-walter.github.io/mllpa/).
+
+### Tutorials and API
+
+All the documentation on ML-LPA can be found on the [website of the project](https://vivien-walter.github.io/mllpa/).
