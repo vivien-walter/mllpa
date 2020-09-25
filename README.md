@@ -74,6 +74,33 @@ ML-LPA can be installed directly from the source files available on our GitHub r
 
 Detailed instructions can be found on the [website of the project](https://vivien-walter.github.io/mllpa/).
 
+### Command-Line Interface
+
+In addition to the function in Python, ML-LPA is shipped with some CLI commands to be directly used in the terminal.
+The commands currently implemented in ML-LPA as CLI are listed below.
+
+#### Model training
+
+The CLI of ML-LPA can be used to train a series of Machine Learning models and generate a
+model file that can be used later to predict the phases in unknown systems.
+
+The command takes as arguments a set of coordinates (*-c*) and structure file (*-s*) for each of the
+phases provided (*-p*). Optionaly, trajectory files can also be loaded (*-t*). The
+name of the molecule type to read should be specified (*-mol*). The path to the output file
+to create can be specified with the argument *-o*.
+
+```sh
+> mllpa train_model -c gel.gro fluid.gro -s gel.tpr fluid.tpr -mol DPPC -p gel fluid -o model_file.lpm
+```
+
+More details on the argument can be obtained with the *-h* or *--help* flags.
+
+#### Lipid phase prediction
+
+#### Local environment analysis
+
+#### Reading model file
+
 ### Tutorials and API
 
 All the documentation on ML-LPA can be found on the [website of the project](https://vivien-walter.github.io/mllpa/).
