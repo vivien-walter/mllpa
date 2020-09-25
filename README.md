@@ -81,7 +81,7 @@ The commands currently implemented in ML-LPA as CLI are listed below.
 
 #### Model training
 
-The CLI of ML-LPA can be used to train a series of Machine Learning models and generate a
+The CLI of ML-LPA *mllpa train_model* can be used to train a series of Machine Learning models and generate a
 model file that can be used later to predict the phases in unknown systems.
 
 The command takes as arguments a set of coordinates (*-c*) and structure file (*-s*) for each of the
@@ -97,9 +97,52 @@ More details on the argument can be obtained with the *-h* or *--help* flags.
 
 #### Lipid phase prediction
 
+The command *mllpa read_phases* can be used to find the phases of the
+molecules in simulation file(s), based on a pre-trained Machine Learning model.
+The results are returned inside a file containing the centers of mass of all
+the particles in the system.
+
+The command takes as arguments a coordinates (*-c*) and structure file (*-s*).
+Optionaly, trajectory files can also be loaded (*-t*). Each molecule type to process should
+be listed with *-mol* and each have their model or label specified with *-m*. The path to the output file
+to create can be specified with the argument *-o*.
+
+```sh
+> mllpa read_phases -c unknown.gro -s unknown.tpr -mol DPPC DOPC -m model_file.lpm fluid -o system_contents.csv
+```
+
+More details on the argument can be obtained with the *-h* or *--help* flags.
+
 #### Local environment analysis
 
+The command *mllpa do_voronoi* can be used to analyse the local
+environment of the molecules using a Voronoi tessellations to map the neighbors.
+The results are returned inside a file containing the centers of mass of all
+the particles in the system.
+
+The command takes as arguments a coordinates (*-c*) and structure file (*-s*).
+Optionaly, trajectory files can also be loaded (*-t*). Each molecule type to process should
+be listed with *-mol* and each have their model or label specified with *-m*. The path to the output file
+to create can be specified with the argument *-o*. The geometry of the system should
+be specified with *-geo*.
+
+```sh
+> mllpa do_voronoi -c unknown.gro -s unknown.tpr -mol DPPC DOPC -m model_file.lpm fluid -o system_contents.csv -geo bilayer
+```
+
+More details on the argument can be obtained with the *-h* or *--help* flags.
+
 #### Reading model file
+
+The command *mllpa read_model* can be used to read the content of
+a model file and display all the values stored inside it. The
+path of the model file should be specified with *-m*.
+
+```sh
+> mllpa read_model -m model_file.lpm
+```
+
+More details on the argument can be obtained with the *-h* or *--help* flags.
 
 ### Tutorials and API
 
