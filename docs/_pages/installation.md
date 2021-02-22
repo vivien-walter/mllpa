@@ -24,7 +24,7 @@ ML-LPA requires a **Python 3** version to be installed on the computer, as well 
 
 During the installation, ML-LPA should automatically install all missing libraries from the list.
 
-## From PyPi
+## From PyPi
 
 ML-LPA can be installed by simply using the *pip* command. Just open a terminal and type the following line
 
