@@ -13,6 +13,8 @@ main:
 sidebar-installation:
   - title: "Requirements"
     url: /install/#requirements
+  - title: "From PyPi"
+    url: /install/#from-pypi
   - title: "From the GitHub repo"
     url: /install/#from-the-github-repo
     children:
