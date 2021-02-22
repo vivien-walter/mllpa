@@ -58,6 +58,16 @@ Applications of the module can be found in the literature:
 
 ### Installation
 
+#### **Using PyPi**
+
+To install ML-LPA using a terminal and PyPi, simply use the following command
+
+```sh
+> pip install mllpa
+```
+
+The PyPi repo can be found on this [https://pypi.org/project/mllpa/](link).
+
 #### **Using the GitHub repo**
 
 ML-LPA can be installed directly from the source files available on our GitHub repo. The detailed process to install from these files is described below:
