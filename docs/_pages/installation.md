@@ -32,7 +32,7 @@ ML-LPA can be installed by simply using the *pip* command. Just open a terminal 
 > pip install mllpa
 ```
 
-The page for ML-LPA on PyPi can be visited using [pypi.org/project/mllpa/](this link).
+The page for ML-LPA on PyPi can be visited using [this link](pypi.org/project/mllpa/).
 
 ## From the GitHub repo
 
