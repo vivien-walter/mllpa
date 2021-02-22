@@ -24,9 +24,15 @@ ML-LPA requires a **Python 3** version to be installed on the computer, as well 
 
 During the installation, ML-LPA should automatically install all missing libraries from the list.
 
-**Warning:** Because of a problem with the MDAnalysis library, MDAnalysis should be installed manually first.
-This can be done by using the command ```> pip3 install MDAnalysis```
-{: .notice--warning}
+## From PyPi
+
+ML-LPA can be installed by simply using the *pip* command. Just open a terminal and type the following line
+
+```sh
+> pip install mllpa
+```
+
+The page for ML-LPA on PyPi can be visited using [pypi.org/project/mllpa/](this link).
 
 ## From the GitHub repo
 
