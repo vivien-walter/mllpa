@@ -12,7 +12,7 @@ Machine Learning-assisted Lipid Phase Analysis
 
 **Author(s), Contact & Affiliation(s):**
 - Vivien WALTER (<walter.vivien@gmail.com>) *(1)*
-- Olivier BENZERARA *(2)*
+- Olivier BENZERARA (<olivier.benzerara@ics-cnrs.unistra.fr>) *(2)*
 - Celine RUSCHER *(2)*
 - Fabrice THALMANN *(2)*
 
