@@ -16,6 +16,11 @@ ML-LPA have been designed and is maintained by the following persons:
 
 You can cite ML-LPA by citing the following article
 
+> Walter Vivien, Ruscher Celine, Benzerara Olivier and Thalmann Fabrice, MLLPA: A Machine Learning‐assisted Python module to study phase‐specific events in lipid membranes,
+J. Comp. Chem. (2021)
+
+Moreover, the authors kindly ask you to cite their initial work in which the method was initially published
+
 > Walter Vivien, Ruscher Celine, Benzerara Olivier, Marques Carlos M and Thalmann Fabrice, A machine learning study of the two states model for lipid bilayer phase transitions,
 Phys. Chem. Chem. Phys. (2020), **22**, 19147-19154
 
